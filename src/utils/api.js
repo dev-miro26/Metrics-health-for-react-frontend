@@ -24,6 +24,8 @@ const api = axios.create({
  logout the user if the token has expired
 */
 
+// api interceptors
+
 api.interceptors.response.use(
   (res) => res,
   (err) => {
