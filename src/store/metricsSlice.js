@@ -10,12 +10,17 @@ export const metricsSlice = createSlice({
   initialState: initialState,
   reducers: {
     addMetric: (state, action) => {
-      state.isAuthenticate = true;
       state.loading = false;
-      state.user = action.payload;
+      state.metrics = [...state.metrics, action.payload];
     },
-    getMetrics: (state, action) => {
+    getUserMetrics: (state, action) => {
       state.metrics = action.payload;
+      state.loading = false;
+    },
+    deleteMetric: (state, action) => {
+      state.metrics = state.metrics.filter(
+        (metric) => metric._id !== action.payload._id
+      );
       state.loading = false;
     },
     metricsError: (state) => {
@@ -25,6 +30,7 @@ export const metricsSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { addMetric, getMetrics, metricsError } = metricsSlice.actions;
+export const { addMetric, getUserMetrics, metricsError, deleteMetric } =
+  metricsSlice.actions;
 
 export default metricsSlice.reducer;

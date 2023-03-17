@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import React from "react";
 import PropTypes from "prop-types";
 import { Layout as DashboardLayout } from "../layouts/dashboard/layout";
 import { logout } from "../actions/auth";
@@ -10,15 +9,16 @@ import { Box, Container, Unstable_Grid2 as Grid } from "@mui/material";
 import { OverviewBudget } from "../sections/overview/overview-budget";
 import { OverviewLatestOrders } from "../sections/overview/overview-latest-orders";
 import { OverviewLatestProducts } from "../sections/overview/overview-latest-products";
-import { OverviewSales } from "../sections/overview/overview-sales";
+// import { OverviewSales } from "../sections/overview/overview-sales";
 import { OverviewTasksProgress } from "../sections/overview/overview-tasks-progress";
 import { OverviewTotalCustomers } from "../sections/overview/overview-total-customers";
 import { OverviewTotalProfit } from "../sections/overview/overview-total-profit";
-import { OverviewTraffic } from "../sections/overview/overview-traffic";
+// import { OverviewTraffic } from "../sections/overview/overview-traffic";
 
 const now = new Date();
 
 const Dashboard = ({ logout }) => {
+  console.log("-----------");
   return (
     <DashboardLayout onAction={logout}>
       <Box
@@ -52,7 +52,7 @@ const Dashboard = ({ logout }) => {
             <Grid xs={12} sm={6} lg={3}>
               <OverviewTotalProfit sx={{ height: "100%" }} value="160/s" />
             </Grid>
-            <Grid xs={12} lg={8}>
+            {/* <Grid xs={12} lg={8}>
               <OverviewSales
                 chartSeries={[
                   {
@@ -66,14 +66,14 @@ const Dashboard = ({ logout }) => {
                 ]}
                 sx={{ height: "100%" }}
               />
-            </Grid>
-            <Grid xs={12} md={6} lg={4}>
+            </Grid> */}
+            {/* <Grid xs={12} md={6} lg={4}>
               <OverviewTraffic
                 chartSeries={[63, 15, 22]}
                 labels={["Desktop", "Tablet", "Phone"]}
                 sx={{ height: "100%" }}
               />
-            </Grid>
+            </Grid> */}
             <Grid xs={12} md={6} lg={4}>
               <OverviewLatestProducts
                 products={[

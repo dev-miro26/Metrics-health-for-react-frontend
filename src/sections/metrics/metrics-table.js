@@ -1,19 +1,26 @@
+import React from "react";
 import PropTypes from "prop-types";
 import {
   Box,
   Card,
   Checkbox,
+  IconButton,
   Stack,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
+  SvgIcon,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import { Scrollbar } from "../../components/scrollbar";
 import { SeverityPill } from "../../components/severity-pill";
-
+import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
+import ConfirmDialog from "../../components/ConfirmModal";
+import { deleteMetricById } from "../../actions/metrics";
+import { useDispatch } from "react-redux";
 const statusMap = {
   active: "success",
   inactive: "warning",
@@ -28,12 +35,23 @@ export const MetricsTable = (props) => {
     onSelectAll,
     onSelectOne,
     selected = [],
+    selectedMetric,
+    setSelectedMetric,
   } = props;
-
-  console.log("@@#$@", metrics);
-
+  const dispatch = useDispatch();
+  const [openDialog, setOpenDialog] = React.useState(false);
   const selectedSome = selected.length > 0 && selected.length < metrics.length;
   const selectedAll = metrics.length > 0 && selected.length === metrics.length;
+
+  const onOK = () => {
+    console.log(selectedMetric);
+    // selectedMetric && deleteMetric(selectedMetric);
+    selectedMetric && dispatch(deleteMetricById(selectedMetric));
+    setOpenDialog(false);
+  };
+  const onCancel = () => {
+    setOpenDialog(false);
+  };
 
   return (
     <Card>
@@ -55,15 +73,17 @@ export const MetricsTable = (props) => {
                     }}
                   />
                 </TableCell>
+                <TableCell>No</TableCell>
                 <TableCell>Name</TableCell>
                 <TableCell>Description</TableCell>
                 <TableCell>Chart Type</TableCell>
                 <TableCell>Timing</TableCell>
                 <TableCell>Status</TableCell>
+                <TableCell></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {metrics.map((metric) => {
+              {metrics.map((metric, index) => {
                 const isSelected = selected.includes(metric._id);
 
                 return (
@@ -80,6 +100,7 @@ export const MetricsTable = (props) => {
                         }}
                       />
                     </TableCell>
+                    <TableCell>{index + 1}</TableCell>
                     <TableCell>
                       <Stack alignItems="center" direction="row" spacing={2}>
                         <Typography variant="subtitle2">
@@ -95,6 +116,27 @@ export const MetricsTable = (props) => {
                         {metric.status}
                       </SeverityPill>
                     </TableCell>
+                    <TableCell>
+                      <Tooltip title="edit">
+                        <IconButton>
+                          <SvgIcon fontSize="small" color="primary">
+                            <PencilIcon />
+                          </SvgIcon>
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title="delete">
+                        <IconButton
+                          onClick={(e) => {
+                            setSelectedMetric(metric._id);
+                            setOpenDialog(true);
+                          }}
+                        >
+                          <SvgIcon fontSize="small">
+                            <TrashIcon />
+                          </SvgIcon>
+                        </IconButton>
+                      </Tooltip>
+                    </TableCell>
                   </TableRow>
                 );
               })}
@@ -102,6 +144,13 @@ export const MetricsTable = (props) => {
           </Table>
         </Box>
       </Scrollbar>
+      <ConfirmDialog
+        onOK={onOK}
+        openDialog={openDialog}
+        onCancel={onCancel}
+        title="Confirm"
+        content="Are you sure you want to delete this metric?"
+      />
     </Card>
   );
 };

@@ -2,7 +2,7 @@ import {
   userAuthError,
   userLogined,
   userLoginSuccess,
-  userLogout,
+  userLogOut,
   userRegister,
 } from "../store/authSlice";
 import { api, toast } from "../utils";
@@ -59,4 +59,4 @@ export const login = (formData) => async (dispatch) => {
 };
 
 // Logout
-export const logout = (dispatch) => dispatch(userLogout());
+export const logout = () => userLogOut();
