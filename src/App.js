@@ -16,7 +16,7 @@ import { setAuthToken } from "./utils";
 import "./styles/custom/index.scss";
 import "react-toastify/dist/ReactToastify.css";
 import "simplebar-react/dist/simplebar.min.css";
-import { userLogout } from "./store/authSlice";
+import { userLogOut } from "./store/authSlice";
 
 const App = () => {
   const theme = createTheme();
@@ -33,7 +33,7 @@ const App = () => {
 
     // log user out from all tabs if they log out in one tab
     window.addEventListener("storage", () => {
-      if (!localStorage.token) store.dispatch(userLogout());
+      if (!localStorage.token) store.dispatch(userLogOut());
     });
   }, []);
 

@@ -1,33 +1,52 @@
-import { addMetric, metricsError } from "../store/metricsSlice";
+import {
+  addMetric,
+  metricsError,
+  getUserMetrics,
+  deleteMetric,
+} from "../store/metricsSlice";
 import { api, toast } from "../utils";
 
 export const addMetrics = (formData) => async (dispatch) => {
   console.log("@@@", formData);
-  try {
-    const res = await api.put("metrics/addMetrics", formData);
 
-    dispatch(addMetric(res.data.doc));
+  try {
+    const res = await api.put("metrics", formData);
+
     toast.success("New metrics is added!");
+    return dispatch(addMetric(res.data.doc));
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
       errors.forEach((error) => toast.error(error.msg));
-      dispatch(metricsError());
+      return dispatch(metricsError());
     }
   }
 };
 
-export const getMetrics = () => async (dispatch) => {
+export const getUserMetricsById = () => async (dispatch) => {
   try {
-    const res = await api.get("metrics/getMetrics");
-    console.log("%%", res);
+    const res = await api.get("metrics");
 
-    dispatch(getMetrics(res.data.docs));
+    return dispatch(getUserMetrics(res.data.docs));
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
       errors.forEach((error) => toast.error(error.msg));
-      dispatch(metricsError());
+      return dispatch(metricsError());
+    }
+  }
+};
+
+export const deleteMetricById = (_id) => async (dispatch) => {
+  try {
+    const res = await api.delete(`metrics?_id=${_id}`);
+    toast.success("The metric has been successfully deleted.");
+    return dispatch(deleteMetric({ _id: _id }));
+  } catch (err) {
+    const errors = err.response.data.errors;
+    if (errors) {
+      errors.forEach((error) => toast.error(error.msg));
+      // return dispatch(metricsError());
     }
   }
 };

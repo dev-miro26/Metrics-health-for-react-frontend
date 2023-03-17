@@ -19,11 +19,12 @@ export const authReducer = createSlice({
       state.isAuthenticated = true;
       state.loading = false;
     },
-    userLoginSuccess: (state) => {
+    userLoginSuccess: (state, action) => {
       state.isAuthenticated = true;
       state.loading = false;
+      state.token = action.payload;
     },
-    userLogout: (state) => {
+    userLogOut: (state) => {
       state.token = null;
       state.isAuthenticated = false;
       state.loading = false;
@@ -37,7 +38,7 @@ export const authReducer = createSlice({
 export const {
   userLogined,
   userLoginSuccess,
-  userLogout,
+  userLogOut,
   userRegister,
   userAuthError,
 } = authReducer.actions;

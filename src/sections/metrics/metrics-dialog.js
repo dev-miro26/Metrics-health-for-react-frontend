@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-import { useCallback, useState } from "react";
 import { useFormik } from "formik";
 import {
   Box,
@@ -92,22 +91,23 @@ const timings = [
 
 export const MetricsDialog = (props) => {
   const { onClose, open } = props;
-
+  const initialValues = {
+    name: "",
+    description: "",
+    fieldType: fieldTypes[0].value,
+    prefix: "",
+    postfix: "",
+    chartType: chartTypes[0].value,
+    status: statuses[0].value,
+    order: "",
+    timing: timings[0].value,
+  };
   const formik = useFormik({
-    initialValues: {
-      name: "",
-      description: "",
-      fieldType: fieldTypes[0].value,
-      prefix: "",
-      postfix: "",
-      chartType: chartTypes[0].value,
-      status: statuses[0].value,
-      order: "",
-      timing: timings[0].value,
-    },
+    initialValues: initialValues,
 
     onSubmit: (values) => {
       props.onAddMetrics(values);
+      values = initialValues;
     },
   });
 

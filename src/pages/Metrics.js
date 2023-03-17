@@ -1,5 +1,4 @@
-import { useCallback, useMemo, useEffect } from "react";
-import { Navigate } from "react-router-dom";
+import React, { useMemo, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
@@ -17,7 +16,7 @@ import { MetricsTable } from "../sections/metrics/metrics-table";
 import { MetricsSearch } from "../sections/metrics/metrics-search";
 import { usePopover } from "../hooks/use-popover";
 import { MetricsDialog } from "../sections/metrics/metrics-dialog";
-import { addMetrics, getMetrics } from "../actions/metrics";
+import { addMetrics, getUserMetricsById } from "../actions/metrics";
 import { logout } from "../actions/auth";
 
 // const data = [
@@ -53,14 +52,20 @@ const useMetricsIds = (metrics) => {
   }, [metrics]);
 };
 
-const Metrics = ({ metrics: { metrics }, addMetrics, getMetrics, logout }) => {
+const Metrics = ({
+  metrics: { metrics },
+  addMetrics,
+  getUserMetricsById,
+  logout,
+}) => {
   const metricsIds = useMetricsIds(metrics);
   const metricsSelection = useSelection(metricsIds);
   const metricsPopover = usePopover();
+  const [selectedMetric, setSelectedMetric] = React.useState("");
 
   useEffect(() => {
-    getMetrics();
-  }, [getMetrics]);
+    getUserMetricsById();
+  }, [getUserMetricsById]);
 
   return (
     <DashboardLayout onAction={logout}>
@@ -100,6 +105,8 @@ const Metrics = ({ metrics: { metrics }, addMetrics, getMetrics, logout }) => {
               onSelectAll={metricsSelection.handleSelectAll}
               onSelectOne={metricsSelection.handleSelectOne}
               selected={metricsSelection.selected}
+              setSelectedMetric={setSelectedMetric}
+              selectedMetric={selectedMetric}
             />
           </Stack>
         </Container>
@@ -115,7 +122,7 @@ const Metrics = ({ metrics: { metrics }, addMetrics, getMetrics, logout }) => {
 
 Metrics.propTypes = {
   addMetrics: PropTypes.func.isRequired,
-  getMetrics: PropTypes.func.isRequired,
+  getUserMetricsById: PropTypes.func.isRequired,
   logout: PropTypes.func.isRequired,
   metrics: PropTypes.object.isRequired,
 };
@@ -124,6 +131,8 @@ const mapStateToProps = (state) => ({
   metrics: state.metrics,
 });
 
-export default connect(mapStateToProps, { addMetrics, getMetrics, logout })(
-  Metrics
-);
+export default connect(mapStateToProps, {
+  addMetrics,
+  getUserMetricsById,
+  logout,
+})(Metrics);
