@@ -6,4 +6,4 @@ const ApexChart = lazy(() => import("react-apexcharts"), {
   loading: () => null,
 });
 
-export const Chart = styled(ApexChart)``;
+export const Chart = styled(ApexChart);
