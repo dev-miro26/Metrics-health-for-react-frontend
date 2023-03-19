@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Layout as DashboardLayout } from "../layouts/dashboard/layout";
-import { logout } from "../actions/auth";
+import { apiLogout } from "../actions/auth";
 import { connect } from "react-redux";
 
 import { subDays, subHours } from "date-fns";
@@ -17,10 +17,10 @@ import { OverviewTotalProfit } from "../sections/overview/overview-total-profit"
 
 const now = new Date();
 
-const Dashboard = ({ logout }) => {
+const Dashboard = ({ apiLogout }) => {
   console.log("-----------");
   return (
-    <DashboardLayout onAction={logout}>
+    <DashboardLayout onAction={apiLogout}>
       <Box
         component="main"
         sx={{
@@ -174,7 +174,7 @@ const Dashboard = ({ logout }) => {
 };
 
 Dashboard.propTypes = {
-  logout: PropTypes.func.isRequired,
+  apiLogout: PropTypes.func.isRequired,
 };
 
-export default connect(null, { logout })(Dashboard);
+export default connect(null, { apiLogout })(Dashboard);

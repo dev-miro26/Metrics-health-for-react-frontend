@@ -9,7 +9,7 @@ import { Provider } from "react-redux";
 import store from "./store/index";
 import MainRoutes from "./components/routing/MainRoutes";
 import { ThemeProvider } from "@mui/material/styles";
-import { loadUser } from "./actions/auth";
+import { apiLoadUser } from "./actions/auth";
 import { setAuthToken } from "./utils";
 
 //Style
@@ -29,7 +29,7 @@ const App = () => {
     }
     // try to fetch a user, if no token or invalid token we
     // will get a 401 response from our API
-    store.dispatch(loadUser());
+    store.dispatch(apiLoadUser());
 
     // log user out from all tabs if they log out in one tab
     window.addEventListener("storage", () => {

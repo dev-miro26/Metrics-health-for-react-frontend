@@ -13,6 +13,12 @@ export const metricsSlice = createSlice({
       state.loading = false;
       state.metrics = [...state.metrics, action.payload];
     },
+    updateMetric: (state, action) => {
+      state.loading = false;
+      state.metrics = state.metrics.map((metric) =>
+        metric._id === action.payload._id ? action.payload : metric
+      );
+    },
     getUserMetrics: (state, action) => {
       state.metrics = action.payload;
       state.loading = false;
@@ -30,7 +36,12 @@ export const metricsSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { addMetric, getUserMetrics, metricsError, deleteMetric } =
-  metricsSlice.actions;
+export const {
+  addMetric,
+  getUserMetrics,
+  metricsError,
+  deleteMetric,
+  updateMetric,
+} = metricsSlice.actions;
 
 export default metricsSlice.reducer;
