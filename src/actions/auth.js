@@ -8,7 +8,7 @@ import {
 import { api, toast } from "../utils";
 
 // Load User
-export const loadUser = () => async (dispatch) => {
+export const apiLoadUser = () => async (dispatch) => {
   try {
     const res = await api.get("auth/loadUser");
     console.log(res);
@@ -24,13 +24,13 @@ export const loadUser = () => async (dispatch) => {
 };
 
 // Register User
-export const register = (formData) => async (dispatch) => {
+export const apiRegister = (formData) => async (dispatch) => {
   try {
     const res = await api.post("auth/register", formData);
 
     dispatch(userRegister(res.data.doc));
     toast.success("You are successfully registered!");
-    dispatch(loadUser());
+    dispatch(apiLoadUser());
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
@@ -42,13 +42,13 @@ export const register = (formData) => async (dispatch) => {
 };
 
 // Login User
-export const login = (formData) => async (dispatch) => {
+export const apiLogin = (formData) => async (dispatch) => {
   try {
     const res = await api.post("auth/login", formData);
 
     dispatch(userLoginSuccess(res.data.doc));
 
-    dispatch(loadUser());
+    dispatch(apiLoadUser());
   } catch (err) {
     const errors = err.response.data.errors;
 
@@ -59,4 +59,4 @@ export const login = (formData) => async (dispatch) => {
 };
 
 // Logout
-export const logout = () => userLogOut();
+export const apiLogout = () => userLogOut();

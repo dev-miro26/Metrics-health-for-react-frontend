@@ -9,7 +9,7 @@ import { Layout as AuthLayout } from "../../layouts/auth/layout";
 
 // import PropTypes from "prop-types";
 
-import { register } from "../../actions/auth";
+import { apiRegister } from "../../actions/auth";
 
 const Register = ({ register, isAuthenticated }) => {
   const formik = useFormik({
@@ -28,7 +28,7 @@ const Register = ({ register, isAuthenticated }) => {
       password: Yup.string().max(255).required("Password is required"),
     }),
     onSubmit: (values) => {
-      register({
+      apiRegister({
         name: values.name,
         email: values.email,
         password: values.password,
@@ -139,4 +139,4 @@ const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
 });
 
-export default connect(mapStateToProps, { register })(Register);
+export default connect(mapStateToProps, { apiRegister })(Register);

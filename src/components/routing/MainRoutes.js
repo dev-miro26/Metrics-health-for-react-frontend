@@ -4,7 +4,7 @@ import PrivateRoute from "./PrivateRoute";
 import Login from "../../pages/auth/Login.js";
 import Register from "../../pages/auth/Register.js";
 import Dashboard from "../../pages/Dashboard";
-import Metrics from "../../pages/Metrics";
+import Metrics from "../../pages/Metrics/Metrics";
 import NotFound from "../../pages/NotFound.js";
 
 const MainRoutes = () => {

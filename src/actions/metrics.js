@@ -3,14 +3,15 @@ import {
   metricsError,
   getUserMetrics,
   deleteMetric,
+  updateMetric,
 } from "../store/metricsSlice";
 import { api, toast } from "../utils";
 
-export const addMetrics = (formData) => async (dispatch) => {
+export const apiAddMetric = (formData) => async (dispatch) => {
   console.log("@@@", formData);
 
   try {
-    const res = await api.put("metrics", formData);
+    const res = await api.post("metrics", formData);
 
     toast.success("New metrics is added!");
     return dispatch(addMetric(res.data.doc));
@@ -22,8 +23,22 @@ export const addMetrics = (formData) => async (dispatch) => {
     }
   }
 };
+export const apiUpdateMetric = (formData) => async (dispatch) => {
+  console.log(formData);
+  try {
+    const res = await api.put("metrics", formData);
 
-export const getUserMetricsById = () => async (dispatch) => {
+    toast.success(" Metrics is updated!");
+    return dispatch(updateMetric(res.data.doc));
+  } catch (err) {
+    const errors = err.response.data.errors;
+    if (errors) {
+      errors.forEach((error) => toast.error(error.msg));
+      return dispatch(metricsError());
+    }
+  }
+};
+export const apiGetMetricsByUserId = () => async (dispatch) => {
   try {
     const res = await api.get("metrics");
 
@@ -37,9 +52,9 @@ export const getUserMetricsById = () => async (dispatch) => {
   }
 };
 
-export const deleteMetricById = (_id) => async (dispatch) => {
+export const apiDeleteMetricById = (_id) => async (dispatch) => {
   try {
-    const res = await api.delete(`metrics?_id=${_id}`);
+    await api.delete(`metrics?_id=${_id}`);
     toast.success("The metric has been successfully deleted.");
     return dispatch(deleteMetric({ _id: _id }));
   } catch (err) {

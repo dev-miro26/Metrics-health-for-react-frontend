@@ -19,7 +19,7 @@ import { Scrollbar } from "../../components/scrollbar";
 import { SeverityPill } from "../../components/severity-pill";
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
 import ConfirmDialog from "../../components/ConfirmModal";
-import { deleteMetricById } from "../../actions/metrics";
+import { apiDeleteMetricById } from "../../actions/metrics";
 import { useDispatch } from "react-redux";
 const statusMap = {
   active: "success",
@@ -35,8 +35,10 @@ export const MetricsTable = (props) => {
     onSelectAll,
     onSelectOne,
     selected = [],
-    selectedMetric,
-    setSelectedMetric,
+    deletedId,
+    setDeletedId,
+    setEditedMetric,
+    openMetricModal,
   } = props;
   const dispatch = useDispatch();
   const [openDialog, setOpenDialog] = React.useState(false);
@@ -44,9 +46,8 @@ export const MetricsTable = (props) => {
   const selectedAll = metrics.length > 0 && selected.length === metrics.length;
 
   const onOK = () => {
-    console.log(selectedMetric);
-    // selectedMetric && deleteMetric(selectedMetric);
-    selectedMetric && dispatch(deleteMetricById(selectedMetric));
+    deletedId && dispatch(apiDeleteMetricById(deletedId));
+    setDeletedId("");
     setOpenDialog(false);
   };
   const onCancel = () => {
@@ -57,10 +58,10 @@ export const MetricsTable = (props) => {
     <Card>
       <Scrollbar>
         <Box sx={{ minWidth: 800 }}>
-          <Table>
+          <Table style={{ width: "100%" }}>
             <TableHead>
               <TableRow>
-                <TableCell padding="checkbox">
+                {/* <TableCell padding="checkbox">
                   <Checkbox
                     checked={selectedAll}
                     indeterminate={selectedSome}
@@ -72,7 +73,7 @@ export const MetricsTable = (props) => {
                       }
                     }}
                   />
-                </TableCell>
+                </TableCell> */}
                 <TableCell>No</TableCell>
                 <TableCell>Name</TableCell>
                 <TableCell>Description</TableCell>
@@ -88,7 +89,7 @@ export const MetricsTable = (props) => {
 
                 return (
                   <TableRow hover key={metric._id} selected={isSelected}>
-                    <TableCell padding="checkbox">
+                    {/* <TableCell padding="checkbox">
                       <Checkbox
                         checked={isSelected}
                         onChange={(event) => {
@@ -99,7 +100,7 @@ export const MetricsTable = (props) => {
                           }
                         }}
                       />
-                    </TableCell>
+                    </TableCell> */}
                     <TableCell>{index + 1}</TableCell>
                     <TableCell>
                       <Stack alignItems="center" direction="row" spacing={2}>
@@ -118,7 +119,12 @@ export const MetricsTable = (props) => {
                     </TableCell>
                     <TableCell>
                       <Tooltip title="edit">
-                        <IconButton>
+                        <IconButton
+                          onClick={() => {
+                            setEditedMetric(metric);
+                            openMetricModal();
+                          }}
+                        >
                           <SvgIcon fontSize="small" color="primary">
                             <PencilIcon />
                           </SvgIcon>
@@ -127,7 +133,7 @@ export const MetricsTable = (props) => {
                       <Tooltip title="delete">
                         <IconButton
                           onClick={(e) => {
-                            setSelectedMetric(metric._id);
+                            setDeletedId(metric._id);
                             setOpenDialog(true);
                           }}
                         >
