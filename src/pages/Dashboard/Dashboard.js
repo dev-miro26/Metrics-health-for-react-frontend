@@ -22,7 +22,10 @@ const Dashboard = ({ apiLogout }) => {
   const dispatch = useDispatch();
   const metrics = useSelector((state) => state.metrics.metrics);
   const toDoMetrics = metrics.filter((metric) => metric.timing === "daily");
-  const [selectedMetric, setSelectedMetric] = React.useState({ _id: "" });
+  const [selectedMetric, setSelectedMetric] = React.useState({
+    _id: "",
+    fieldType: "",
+  });
   // const [openDialog, setOpenDialog] = React.useState(false);
   const [openModal, setOpenModal] = React.useState(false);
 

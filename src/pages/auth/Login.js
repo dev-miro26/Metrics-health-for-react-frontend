@@ -5,7 +5,18 @@ import { connect } from "react-redux";
 import { apiLogin } from "../../actions/auth";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Box, Button, Stack, Link, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Stack,
+  Link,
+  TextField,
+  Typography,
+  InputAdornment,
+  SvgIcon,
+} from "@mui/material";
+import AtSymbolIcon from "@heroicons/react/24/solid/AtSymbolIcon";
+import LockClosedIcon from "@heroicons/react/24/solid/LockClosedIcon";
 import { Layout as AuthLayout } from "../../layouts/auth/layout";
 
 const Login = ({ isAuthenticated, apiLogin }) => {
@@ -80,6 +91,15 @@ const Login = ({ isAuthenticated, apiLogin }) => {
                   onChange={formik.handleChange}
                   type="email"
                   value={formik.values.email}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <SvgIcon>
+                          <AtSymbolIcon />
+                        </SvgIcon>
+                      </InputAdornment>
+                    ),
+                  }}
                 />
                 <TextField
                   error={!!(formik.touched.password && formik.errors.password)}
@@ -91,6 +111,15 @@ const Login = ({ isAuthenticated, apiLogin }) => {
                   onChange={formik.handleChange}
                   type="password"
                   value={formik.values.password}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <SvgIcon>
+                          <LockClosedIcon />
+                        </SvgIcon>
+                      </InputAdornment>
+                    ),
+                  }}
                 />
               </Stack>
               {formik.errors.submit && (
