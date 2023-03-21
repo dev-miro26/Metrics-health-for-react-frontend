@@ -173,11 +173,10 @@ export const MetricsDialog = (props) => {
             <Button variant="contained" type="submit">
               {props.initialValues._id ? "Save metrics" : "Add metrics"}
             </Button>
-            {props.initialValues._id && (
-              <Button variant="outlined" onClick={onClose}>
-                Cancel
-              </Button>
-            )}
+
+            <Button variant="outlined" onClick={onClose}>
+              Cancel
+            </Button>
           </CardActions>
         </Card>
         <ConfirmDialog

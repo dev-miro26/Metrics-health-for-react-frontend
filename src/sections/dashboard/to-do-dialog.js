@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
+import * as yup from "yup";
 import PropTypes from "prop-types";
 import { useFormik } from "formik";
+import { useDispatch } from "react-redux";
 import {
   Box,
   Button,
@@ -10,39 +12,57 @@ import {
   CardHeader,
   Divider,
   TextField,
+  InputAdornment,
   Unstable_Grid2 as Grid,
 } from "@mui/material";
 import { BootstrapDialog } from "../../components/BootstrapDialog";
 import ConfirmDialog from "../../components/ConfirmModal";
+import { apiAddMetricValue } from "../../actions/metrics";
+
 const ToDoDialog = (props) => {
+  const dispatch = useDispatch();
   const { onClose, open, selectedMetric } = props;
   const [openDialog, setOpenDialog] = React.useState(false);
-
+  const validationString = yup.object({
+    metricValue: yup
+      .string("Enter your metricValue")
+      .required("metricValue is required"),
+  });
+  const validationNumber = yup.object({
+    metricValue: yup
+      .number("Metric Vaule must be number")
+      .required("metricValue is required"),
+  });
   const formik = useFormik({
     initialValues: {
       _id: selectedMetric._id ? selectedMetric._id : "",
-      value: "",
+      metricValue: "",
     },
+    validateOnSubmit: true,
+    validationSchema:
+      selectedMetric.fieldType === "text" ? validationString : validationNumber,
 
     onSubmit: (values) => {
       if (values._id) {
         setOpenDialog(true);
       } else {
-        props.onAddMetric(values);
         props.onClose();
       }
     },
   });
 
   useEffect(() => {
-    formik.setValues({ _id: selectedMetric._id, value: "" });
+    formik.setValues({ _id: selectedMetric._id, metricValue: "" });
   }, [selectedMetric]);
+
   return (
     <BootstrapDialog
       open={open}
+      fullWidth
       onClose={onClose}
       aria-labelledby="customized-dialog-title"
       aria-describedby="customized-dialog-description"
+      maxWidth={"sm"}
     >
       <form noValidate onSubmit={formik.handleSubmit}>
         <Card>
@@ -56,11 +76,32 @@ const ToDoDialog = (props) => {
                 <Grid item md={12} sm={12} xs={12}>
                   <Box display={"flex"} justifyContent="center">
                     <TextField
-                      name="value"
+                      autoFocus
+                      name="metricValue"
                       fullWidth
-                      label="Value"
+                      label="Metric Value"
+                      type={"text"}
+                      error={
+                        formik.touched.metricValue &&
+                        Boolean(formik.errors.metricValue)
+                      }
+                      helperText={
+                        formik.touched.metricValue && formik.errors.metricValue
+                      }
                       onChange={formik.handleChange}
-                      value={formik.values.value}
+                      value={formik.values.metricValue}
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            {selectedMetric.prefix}
+                          </InputAdornment>
+                        ),
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            {selectedMetric.postfix}
+                          </InputAdornment>
+                        ),
+                      }}
                     />
                   </Box>
                 </Grid>
@@ -81,10 +122,15 @@ const ToDoDialog = (props) => {
         <ConfirmDialog
           openDialog={openDialog}
           title="Confirm"
-          content="Are you sure update this Metric?"
+          content="Are you sure save this metric value?"
           onCancel={(e) => setOpenDialog(false)}
           onOK={(e) => {
-            props.onUpdateMetric(formik.values);
+            dispatch(
+              apiAddMetricValue({
+                metricId: selectedMetric._id,
+                metricValue: formik.values.metricValue,
+              })
+            );
             setOpenDialog(false);
             props.onClose();
           }}
