@@ -3,7 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute";
 import Login from "../../pages/auth/Login.js";
 import Register from "../../pages/auth/Register.js";
-import Dashboard from "../../pages/Dashboard";
+import Dashboard from "../../pages/Dashboard/Dashboard";
 import Metrics from "../../pages/Metrics/Metrics";
 import NotFound from "../../pages/NotFound.js";
 import MetricsGroup from "../../pages/MetricsGroup/MetricsGroup";
