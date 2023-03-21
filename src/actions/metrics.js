@@ -4,10 +4,11 @@ import {
   getUserMetrics,
   deleteMetric,
   updateMetric,
-  addMetricValue,
-  deleteMetricValue,
-  getMetricsValues,
-  updateMetricsValue,
+  addMetricWage,
+  deleteMetricWage,
+  getMetricsAllWages,
+  getMetricsTodayWages,
+  updateMetricsWage,
 } from "../store/metricsSlice";
 import { api, toast } from "../utils";
 
@@ -70,12 +71,12 @@ export const apiDeleteMetricById = (_id) => async (dispatch) => {
   }
 };
 
-export const apiAddMetricValue = (metricValue) => async (dispatch) => {
+export const apiAddMetricWage = (wage) => async (dispatch) => {
   try {
-    const res = await api.post("metrics/value", metricValue);
+    const res = await api.post("metrics/wage", wage);
 
     toast.success(" Metrics Value is added!");
-    return dispatch(addMetricValue(res.data.doc));
+    return dispatch(addMetricWage(res.data.doc));
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
@@ -85,11 +86,11 @@ export const apiAddMetricValue = (metricValue) => async (dispatch) => {
   }
 };
 
-export const apiDeleteMetricValueById = (_id) => async (dispatch) => {
+export const apiDeleteMetricWageById = (_id) => async (dispatch) => {
   try {
-    await api.delete(`metrics/value?_id=${_id}`);
+    await api.delete(`metrics/wage?_id=${_id}`);
     toast.success("The metric value has been successfully deleted.");
-    return dispatch(deleteMetricValue({ _id: _id }));
+    return dispatch(deleteMetricWage({ _id: _id }));
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
@@ -99,13 +100,13 @@ export const apiDeleteMetricValueById = (_id) => async (dispatch) => {
   }
 };
 
-export const apiUpdateMetricValue = (formData) => async (dispatch) => {
+export const apiUpdateMetricWage = (formData) => async (dispatch) => {
   console.log(formData);
   try {
-    const res = await api.put("metrics/value", formData);
+    const res = await api.put("metrics/wage", formData);
 
     toast.success(" Metrics is updated!");
-    return dispatch(updateMetricsValue(res.data.doc));
+    return dispatch(updateMetricsWage(res.data.doc));
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
@@ -114,11 +115,24 @@ export const apiUpdateMetricValue = (formData) => async (dispatch) => {
     }
   }
 };
-export const apiGetMetricsValuesByUserId = () => async (dispatch) => {
+export const apiGetMetricsAllWagesByUserId = () => async (dispatch) => {
   try {
-    const res = await api.get("metrics/value");
+    const res = await api.get("metrics/wage");
 
-    return dispatch(getMetricsValues(res.data.docs));
+    return dispatch(getMetricsAllWages(res.data.docs));
+  } catch (err) {
+    const errors = err.response.data.errors;
+    if (errors) {
+      errors.forEach((error) => toast.error(error.msg));
+      return dispatch(metricsError());
+    }
+  }
+};
+export const apiGetMetricsTodayWagesByUserId = () => async (dispatch) => {
+  try {
+    const res = await api.get("metrics/wage/today");
+
+    return dispatch(getMetricsTodayWages(res.data.docs));
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {

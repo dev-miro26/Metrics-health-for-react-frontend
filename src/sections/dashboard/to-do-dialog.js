@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 import { BootstrapDialog } from "../../components/BootstrapDialog";
 import ConfirmDialog from "../../components/ConfirmModal";
-import { apiAddMetricValue } from "../../actions/metrics";
+import { apiAddMetricWage } from "../../actions/metrics";
 
 const ToDoDialog = (props) => {
   const dispatch = useDispatch();
@@ -126,7 +126,7 @@ const ToDoDialog = (props) => {
           onCancel={(e) => setOpenDialog(false)}
           onOK={(e) => {
             dispatch(
-              apiAddMetricValue({
+              apiAddMetricWage({
                 metricId: selectedMetric._id,
                 metricValue: formik.values.metricValue,
               })
