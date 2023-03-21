@@ -2,9 +2,15 @@ import { configureStore } from "@reduxjs/toolkit";
 
 import authSlice from "./authSlice";
 import metricsSlice from "./metricsSlice";
+import groupSlice from "./groupSlice";
 import { setAuthToken } from "../utils";
+// import kabanSlice from "./kabanSlice";
 const store = configureStore({
-  reducer: { auth: authSlice, metrics: metricsSlice },
+  reducer: {
+    auth: authSlice,
+    metrics: metricsSlice,
+    group: groupSlice,
+  },
 });
 
 export default store;

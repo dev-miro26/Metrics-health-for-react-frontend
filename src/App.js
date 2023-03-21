@@ -13,7 +13,7 @@ import { apiLoadUser } from "./actions/auth";
 import { setAuthToken } from "./utils";
 
 //Style
-import "./styles/custom/index.scss";
+import "./styles/index.scss";
 import "react-toastify/dist/ReactToastify.css";
 import "simplebar-react/dist/simplebar.min.css";
 import { userLogOut } from "./store/authSlice";

@@ -1,6 +1,6 @@
 import React, { useMemo, useEffect } from "react";
 import PropTypes from "prop-types";
-import { connect, useSelector } from "react-redux";
+import { connect } from "react-redux";
 import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
 import {
   Box,
@@ -40,7 +40,7 @@ const Metrics = ({
   apiAddMetric,
   apiGetMetricsByUserId,
   apiUpdateMetric,
-  logout,
+  apiLogout,
 }) => {
   const metricsIds = useMetricsIds(metrics);
   const metricsSelection = useSelection(metricsIds);
@@ -66,7 +66,7 @@ const Metrics = ({
     apiGetMetricsByUserId();
   }, [apiGetMetricsByUserId]);
   return (
-    <DashboardLayout onAction={logout}>
+    <DashboardLayout onAction={apiLogout}>
       <Box
         component="main"
         sx={{
@@ -139,7 +139,7 @@ Metrics.propTypes = {
   apiAddMetric: PropTypes.func.isRequired,
   apiGetMetricsByUserId: PropTypes.func.isRequired,
   apiUpdateMetric: PropTypes.func.isRequired,
-  logout: PropTypes.func.isRequired,
+  apiLogout: PropTypes.func.isRequired,
   metrics: PropTypes.object.isRequired,
 };
 
