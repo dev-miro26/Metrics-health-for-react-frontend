@@ -3,7 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   metrics: [],
   loading: true,
-  metricsValues: [],
+  wages: [],
+  todayWages: [],
 };
 
 export const metricsSlice = createSlice({
@@ -30,22 +31,29 @@ export const metricsSlice = createSlice({
       );
       state.loading = false;
     },
-    addMetricValue: (state, action) => {
-      state.metricsValues = [...state.metricsValues, action.payload];
+    addMetricWage: (state, action) => {
+      state.wages = [...state.wages, action.payload];
+      state.todayWages = [...state.todayWages, action.payload];
     },
-    getMetricsValues: (state, action) => {
-      state.metricsValues = action.payload;
+    getMetricsAllWages: (state, action) => {
+      state.wages = action.payload;
+    },
+    getMetricsTodayWages: (state, action) => {
+      state.todayWages = action.payload;
     },
     deleteMetricValue: (state, action) => {
-      state.metricsValues = state.metricsValues.filter(
+      state.wages = state.wages.filter(
         (value) => value._id !== action.payload._id
       );
       state.loading = false;
     },
     updateMetricsValue: (state, action) => {
       state.loading = false;
-      state.metricsValues = state.metricsValues.map((metric) =>
+      state.wages = state.wages.map((metric) =>
         metric._id === action.payload._id ? action.payload : metric
+      );
+      state.todayWages = state.todayWages.map((wage) =>
+        wage._id === action.payload._id ? action.payload : wage
       );
     },
     metricsError: (state) => {
@@ -61,10 +69,11 @@ export const {
   metricsError,
   deleteMetric,
   updateMetric,
-  addMetricValue,
-  deleteMetricValue,
-  updateMetricsValue,
-  getMetricsValues,
+  addMetricWage,
+  deleteMetricWage,
+  updateMetricsWage,
+  getMetricsAllWages,
+  getMetricsTodayWages,
 } = metricsSlice.actions;
 
 export default metricsSlice.reducer;

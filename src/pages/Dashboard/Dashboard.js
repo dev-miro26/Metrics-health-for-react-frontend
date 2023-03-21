@@ -11,14 +11,18 @@ import { OverviewLatestOrders } from "../../sections/overview/overview-latest-or
 import { OverviewLatestProducts } from "../../sections/overview/overview-latest-products";
 
 import { ToDoCard } from "../../sections/dashboard/to-do-card";
-import { apiGetMetricsByUserId } from "../../actions/metrics";
-import ConfirmDialog from "../../components/ConfirmModal";
+import {
+  apiGetMetricsByUserId,
+  apiGetMetricsAllWagesByUserId,
+} from "../../actions/metrics";
 import ToDoDialog from "../../sections/dashboard/to-do-dialog";
 // import { OverviewTraffic } from "../sections/overview/overview-traffic";
 
 const now = new Date();
 
 const Dashboard = ({ apiLogout }) => {
+  const today = new Date();
+  console.log(today.getFullYear(), today.getMonth(), today.getDay());
   const dispatch = useDispatch();
   const metrics = useSelector((state) => state.metrics.metrics);
   const toDoMetrics = metrics.filter((metric) => metric.timing === "daily");
@@ -35,6 +39,7 @@ const Dashboard = ({ apiLogout }) => {
   // };
   React.useEffect(() => {
     dispatch(apiGetMetricsByUserId());
+    dispatch(apiGetMetricsAllWagesByUserId());
   }, []);
   return (
     <DashboardLayout onAction={apiLogout}>
