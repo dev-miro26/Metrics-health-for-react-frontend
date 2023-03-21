@@ -23,7 +23,12 @@ export const MetricsDialog = (props) => {
     initialValues: props.initialValues,
 
     onSubmit: (values) => {
-      values._id ? setOpenDialog(true) : props.onAddMetric(values);
+      if (values._id) {
+        setOpenDialog(true);
+      } else {
+        props.onAddMetric(values);
+        props.onClose();
+      }
     },
   });
 

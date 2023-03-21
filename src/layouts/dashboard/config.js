@@ -29,7 +29,7 @@ export const items = [
   },
   {
     title: "Metrics Group",
-    path: "#",
+    path: "/group",
     icon: (
       <SvgIcon fontSize="small">
         <ShoppingBagIcon />

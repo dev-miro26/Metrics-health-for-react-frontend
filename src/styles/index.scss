@@ -1,0 +1,23 @@
+#root {
+  --toastify-font-family: "Poppins", sans-serif;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  font-family: '"Roboto", "Helvetica", "Arial", "sans-serif"' !important;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #0003;
+  border-radius: 6px;
+  transition: all 0.2s ease-in-out;
+}
+::-webkit-scrollbar-track {
+  border-radius: 6px;
+}

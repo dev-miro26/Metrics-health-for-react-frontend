@@ -7,7 +7,6 @@ const PrivateRoute = ({
   component: Component,
   auth: { isAuthenticated, loading },
 }) => {
-  console.log("loading", loading);
   // if (loading) return <OlsLoader />;
   if (isAuthenticated) return <Component />;
   console.log(isAuthenticated);

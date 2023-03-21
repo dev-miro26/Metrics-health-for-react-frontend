@@ -6,6 +6,7 @@ import Register from "../../pages/auth/Register.js";
 import Dashboard from "../../pages/Dashboard";
 import Metrics from "../../pages/Metrics/Metrics";
 import NotFound from "../../pages/NotFound.js";
+import MetricsGroup from "../../pages/MetricsGroup/MetricsGroup";
 
 const MainRoutes = () => {
   return (
@@ -14,6 +15,10 @@ const MainRoutes = () => {
       <Route path="/auth/login" element={<Login></Login>}></Route>
       <Route path="/auth/register" element={<Register></Register>}></Route>
       <Route path="/metrics" element={<PrivateRoute component={Metrics} />} />
+      <Route
+        path="/group"
+        element={<PrivateRoute component={MetricsGroup} />}
+      />
       <Route path="/*" element={<NotFound />} />
     </Routes>
   );
