@@ -5,6 +5,7 @@ const initialState = {
   loading: true,
   wages: [],
   todayWages: [],
+  lastestWages: [],
 };
 
 export const metricsSlice = createSlice({
@@ -34,6 +35,9 @@ export const metricsSlice = createSlice({
     addMetricWage: (state, action) => {
       state.wages = [...state.wages, action.payload];
       state.todayWages = [...state.todayWages, action.payload];
+      // state.lastestWages = [...state.lastestWages, action.payload];
+      // state.lastestWages[0].delete();
+      // state.lastest.shift(action.payload);
     },
     getMetricsAllWages: (state, action) => {
       state.wages = action.payload;
@@ -41,13 +45,22 @@ export const metricsSlice = createSlice({
     getMetricsTodayWages: (state, action) => {
       state.todayWages = action.payload;
     },
-    deleteMetricValue: (state, action) => {
+    getMetricsLastestWages: (state, action) => {
+      state.lastestWages = action.payload;
+    },
+    deleteMetricWage: (state, action) => {
       state.wages = state.wages.filter(
+        (value) => value._id !== action.payload._id
+      );
+      state.todayWages = state.todayWages.filter(
+        (value) => value._id !== action.payload._id
+      );
+      state.lastestWages = state.lastestWages.filter(
         (value) => value._id !== action.payload._id
       );
       state.loading = false;
     },
-    updateMetricsValue: (state, action) => {
+    updateMetricsWage: (state, action) => {
       state.loading = false;
       state.wages = state.wages.map((metric) =>
         metric._id === action.payload._id ? action.payload : metric
@@ -74,6 +87,7 @@ export const {
   updateMetricsWage,
   getMetricsAllWages,
   getMetricsTodayWages,
+  getMetricsLastestWages,
 } = metricsSlice.actions;
 
 export default metricsSlice.reducer;

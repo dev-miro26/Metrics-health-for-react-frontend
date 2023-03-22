@@ -60,13 +60,13 @@ const GroupCard = ({ group, handleClickEdit, setDeletedId, setOpenDialog }) => {
             handleMenuClose();
           }}
         >
-          <Tooltip title="delete">
+          {/* <Tooltip title="delete">
             <IconButton>
               <SvgIcon fontSize="small">
                 <PencilIcon />
               </SvgIcon>
             </IconButton>
-          </Tooltip>
+          </Tooltip> */}
           <span>Edit</span>
         </MenuItem>
         <MenuItem
@@ -76,13 +76,13 @@ const GroupCard = ({ group, handleClickEdit, setDeletedId, setOpenDialog }) => {
             setOpenDialog(true);
           }}
         >
-          <Tooltip title="delete">
+          {/* <Tooltip title="delete">
             <IconButton>
               <SvgIcon fontSize="small">
                 <TrashIcon />
               </SvgIcon>
             </IconButton>
-          </Tooltip>
+          </Tooltip> */}
           <span>Delete</span>
         </MenuItem>
       </Menu>
