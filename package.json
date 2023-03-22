@@ -19,6 +19,7 @@
     "clsx": "^1.2.1",
     "date-fns": "^2.29.3",
     "formik": "^2.2.9",
+    "moment": "^2.29.4",
     "notistack": "^3.0.1",
     "nprogress": "^0.2.0",
     "prop-types": "^15.8.1",

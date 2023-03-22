@@ -1,10 +1,10 @@
 import MagnifyingGlassIcon from "@heroicons/react/24/solid/MagnifyingGlassIcon";
 import PropTypes from "prop-types";
 
-import { Card, InputAdornment, OutlinedInput, SvgIcon } from "@mui/material";
+import { InputAdornment, OutlinedInput, SvgIcon } from "@mui/material";
 
 export const MetricsSearch = ({ search, setSearch }) => (
-  <Card sx={{ p: 2 }}>
+  <div sx={{ p: 2 }}>
     <OutlinedInput
       fullWidth
       placeholder="Search metrics"
@@ -21,7 +21,7 @@ export const MetricsSearch = ({ search, setSearch }) => (
       }
       sx={{ maxWidth: 500 }}
     />
-  </Card>
+  </div>
 );
 MetricsSearch.prototype = {
   search: PropTypes.object.isRequired,
