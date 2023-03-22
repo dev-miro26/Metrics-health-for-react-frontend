@@ -9,6 +9,7 @@ import {
   getMetricsAllWages,
   getMetricsTodayWages,
   updateMetricsWage,
+  getMetricsLastestWages,
 } from "../store/metricsSlice";
 import { api, toast } from "../utils";
 
@@ -76,6 +77,7 @@ export const apiAddMetricWage = (wage) => async (dispatch) => {
     const res = await api.post("metrics/wage", wage);
 
     toast.success(" Metrics Value is added!");
+    dispatch(apiGetMetricsLastestWagesByUserId());
     return dispatch(addMetricWage(res.data.doc));
   } catch (err) {
     const errors = err.response.data.errors;
@@ -133,6 +135,19 @@ export const apiGetMetricsTodayWagesByUserId = () => async (dispatch) => {
     const res = await api.get("metrics/wage/today");
 
     return dispatch(getMetricsTodayWages(res.data.docs));
+  } catch (err) {
+    const errors = err.response.data.errors;
+    if (errors) {
+      errors.forEach((error) => toast.error(error.msg));
+      return dispatch(metricsError());
+    }
+  }
+};
+export const apiGetMetricsLastestWagesByUserId = () => async (dispatch) => {
+  try {
+    const res = await api.get("metrics/wage/lastest");
+
+    return dispatch(getMetricsLastestWages(res.data.docs));
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {

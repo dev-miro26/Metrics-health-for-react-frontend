@@ -8,12 +8,14 @@ import { subDays, subHours } from "date-fns";
 import { Box, Container, Unstable_Grid2 as Grid } from "@mui/material";
 
 import { OverviewLatestOrders } from "../../sections/overview/overview-latest-orders";
-import { OverviewLatestProducts } from "../../sections/overview/overview-latest-products";
+import { OverviewLatestMetricsValue } from "../../sections/overview/overview-latest-metrics-value";
 
 import { ToDoCard } from "../../sections/dashboard/to-do-card";
 import {
   apiGetMetricsByUserId,
   apiGetMetricsAllWagesByUserId,
+  apiGetMetricsTodayWagesByUserId,
+  apiGetMetricsLastestWagesByUserId,
 } from "../../actions/metrics";
 import ToDoDialog from "../../sections/dashboard/to-do-dialog";
 // import { OverviewTraffic } from "../sections/overview/overview-traffic";
@@ -22,10 +24,13 @@ const now = new Date();
 
 const Dashboard = ({ apiLogout }) => {
   const today = new Date();
-  console.log(today.getFullYear(), today.getMonth(), today.getDay());
+  console.log(today.getFullYear(), today.getMonth(), today.getDate());
   const dispatch = useDispatch();
   const metrics = useSelector((state) => state.metrics.metrics);
-  const toDoMetrics = metrics.filter((metric) => metric.timing === "daily");
+  const todayMetrics = metrics.filter((metric) => metric.timing === "daily");
+  const todayWages = useSelector((state) => state.metrics.todayWages);
+  const lastestWages = useSelector((state) => state.metrics.lastestWages);
+  // console.log(today.getFullYear(), todayWages[0].created_at.getFullYear());
   const [selectedMetric, setSelectedMetric] = React.useState({
     _id: "",
     fieldType: "",
@@ -40,7 +45,10 @@ const Dashboard = ({ apiLogout }) => {
   React.useEffect(() => {
     dispatch(apiGetMetricsByUserId());
     dispatch(apiGetMetricsAllWagesByUserId());
+    dispatch(apiGetMetricsTodayWagesByUserId());
+    dispatch(apiGetMetricsLastestWagesByUserId());
   }, []);
+
   return (
     <DashboardLayout onAction={apiLogout}>
       <Box
@@ -52,43 +60,31 @@ const Dashboard = ({ apiLogout }) => {
       >
         <Container maxWidth="xl">
           <Grid container spacing={3}>
-            {toDoMetrics.map((metric, index) => (
-              <Grid xs={12} sm={6} lg={3} key={index}>
-                <ToDoCard
+            {todayMetrics
+              .filter(
+                (metric) =>
+                  !todayWages.map((wage) => wage.metricsId).includes(metric._id)
+              )
+              .map((metric, index) => (
+                <Grid xs={12} sm={6} lg={3} key={index}>
+                  <ToDoCard
+                    sx={{ height: "100%" }}
+                    metric={metric}
+                    // setOpenDialog={setOpenDialog}
+                    setSelectedMetric={setSelectedMetric}
+                    setOpenModal={setOpenModal}
+                  />
+                </Grid>
+              ))}
+            <Box style={{ width: "100%" }}>
+              <Grid xs={12} md={6} lg={4}>
+                <OverviewLatestMetricsValue
+                  lastestWages={lastestWages}
                   sx={{ height: "100%" }}
-                  metric={metric}
-                  // setOpenDialog={setOpenDialog}
-                  setSelectedMetric={setSelectedMetric}
-                  setOpenModal={setOpenModal}
+                  metrics={metrics}
                 />
               </Grid>
-            ))}
-
-            <Grid xs={12} md={6} lg={4}>
-              <OverviewLatestProducts
-                products={[
-                  {
-                    id: "5ece2c077e39da27658aa8a9",
-                    image: "/assets/products/product-1.png",
-                    name: "Blood pressure",
-                    updatedAt: subHours(now, 6).getTime(),
-                  },
-                  {
-                    id: "5ece2c0d16f70bff2cf86cd8",
-                    image: "/assets/products/product-2.png",
-                    name: "Running",
-                    updatedAt: subDays(subHours(now, 8), 2).getTime(),
-                  },
-                  {
-                    id: "b393ce1b09c1254c3a92c827",
-                    image: "/assets/products/product-5.png",
-                    name: "Pushups",
-                    updatedAt: subDays(subHours(now, 1), 1).getTime(),
-                  },
-                ]}
-                sx={{ height: "100%" }}
-              />
-            </Grid>
+            </Box>
             <Grid xs={12} md={12} lg={8}>
               <OverviewLatestOrders
                 orders={[
