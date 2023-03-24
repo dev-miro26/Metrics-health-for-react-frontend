@@ -37,6 +37,7 @@ const TotalMetricsValues = () => {
   console.log(startDate, endDate);
   React.useEffect(() => {
     dispatch(apiGetMetricsAllWagesByUserId);
+    // eslint-disable-next-line
   }, []);
   const [search, setSearch] = React.useState("");
 
@@ -86,7 +87,13 @@ const TotalMetricsValues = () => {
         }}
       >
         <Container maxWidth="xl">
-          <Paper style={{ padding: "8px", marginBottom: "16px" }}>
+          <Paper
+            style={{
+              padding: "8px",
+              marginBottom: "16px",
+              border: "solid 1px #e2e2e2",
+            }}
+          >
             <Box>
               <Tooltip title={"back"}>
                 <IconButton onClick={(e) => navigate("/")}>

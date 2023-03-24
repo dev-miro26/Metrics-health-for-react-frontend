@@ -4,7 +4,7 @@ import { Layout as DashboardLayout } from "../../layouts/dashboard/layout";
 import { apiLogout } from "../../actions/auth";
 import { connect, useDispatch, useSelector } from "react-redux";
 
-import { subDays, subHours } from "date-fns";
+// import { subDays, subHours } from "date-fns";
 import { Box, Container, Unstable_Grid2 as Grid } from "@mui/material";
 
 import { OverviewLatestOrders } from "../../sections/overview/overview-latest-orders";
@@ -20,11 +20,7 @@ import {
 import ToDoDialog from "../../sections/dashboard/to-do-dialog";
 // import { OverviewTraffic } from "../sections/overview/overview-traffic";
 
-const now = new Date();
-
 const Dashboard = ({ apiLogout }) => {
-  const today = new Date();
-  console.log(today.getFullYear(), today.getMonth(), today.getDate());
   const dispatch = useDispatch();
   const metrics = useSelector((state) => state.metrics.metrics);
   const todayMetrics = metrics.filter((metric) => metric.timing === "daily");
@@ -47,6 +43,7 @@ const Dashboard = ({ apiLogout }) => {
     dispatch(apiGetMetricsAllWagesByUserId());
     dispatch(apiGetMetricsTodayWagesByUserId());
     dispatch(apiGetMetricsLastestWagesByUserId());
+    // eslint-disable-next-line
   }, []);
 
   return (

@@ -1,5 +1,4 @@
 import React from "react";
-import clsx from "clsx";
 
 import PropTypes from "prop-types";
 import { connect, useDispatch, useSelector } from "react-redux";
@@ -14,8 +13,8 @@ import {
   Divider,
   Typography,
   Card,
+  Box,
 } from "@mui/material";
-import { border, Box } from "@mui/system";
 import { SeverityPill } from "../../components/severity-pill";
 
 import GroupCard from "../../sections/group/groupCard";
@@ -34,9 +33,11 @@ import { toast } from "react-toastify";
 const MetricsGroup = ({ apiLogout }) => {
   React.useEffect(() => {
     dispatch(apiGetGroupsByUserId());
+    // eslint-disable-next-line
   }, []);
   React.useEffect(() => {
     dispatch(apiGetMetricsByUserId());
+    // eslint-disable-next-line
   }, []);
   const dispatch = useDispatch();
   const groups = useSelector((state) => state.group.groups);
@@ -56,9 +57,7 @@ const MetricsGroup = ({ apiLogout }) => {
   const [list2, setList2] = React.useState([...metrics]);
   const handleClickEdit = (group) => {
     const savedGroups = group.contents.map((content) => {
-      {
-        return metrics.filter((metric) => metric._id === content)[0];
-      }
+      return metrics.filter((metric) => metric._id === content)[0];
     });
     const remainGroup = metrics.filter(
       (metric) => !group.contents.includes(metric._id)
@@ -168,8 +167,9 @@ const MetricsGroup = ({ apiLogout }) => {
                   padding: "8px",
 
                   outline: "solid 1px #e2e2e2",
+                  minHeight: "300px",
+                  border: "solid 1px #e2e2e2",
                 }}
-                md={{ height: "800px" }}
               >
                 <Grid container spacing={2}>
                   {groups &&

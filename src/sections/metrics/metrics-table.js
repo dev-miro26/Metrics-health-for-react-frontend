@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import {
   Box,
   Card,
-  Checkbox,
   IconButton,
   Stack,
   Table,
@@ -30,10 +29,10 @@ const statusMap = {
 export const MetricsTable = (props) => {
   const {
     metrics,
-    onDeselectAll,
-    onDeselectOne,
-    onSelectAll,
-    onSelectOne,
+    // onDeselectAll,
+    // onDeselectOne,
+    // onSelectAll,
+    // onSelectOne,
     selected = [],
     deletedId,
     setDeletedId,
@@ -42,8 +41,8 @@ export const MetricsTable = (props) => {
   } = props;
   const dispatch = useDispatch();
   const [openDialog, setOpenDialog] = React.useState(false);
-  const selectedSome = selected.length > 0 && selected.length < metrics.length;
-  const selectedAll = metrics.length > 0 && selected.length === metrics.length;
+  // const selectedSome = selected.length > 0 && selected.length < metrics.length;
+  // const selectedAll = metrics.length > 0 && selected.length === metrics.length;
 
   const onOK = () => {
     deletedId && dispatch(apiDeleteMetricById(deletedId));
