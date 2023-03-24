@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import { BootstrapDialog } from "../../components/BootstrapDialog";
 import ConfirmDialog from "../../components/ConfirmModal";
+import { toast } from "react-toastify";
 
 export const MetricsDialog = (props) => {
   const { onClose, open, timings, fieldTypes, chartTypes, statuses } = props;
@@ -23,19 +24,23 @@ export const MetricsDialog = (props) => {
     initialValues: props.initialValues,
 
     onSubmit: (values) => {
-      if (values._id) {
-        setOpenDialog(true);
+      if (values.name === "") {
+        toast.error("You must input Metric name!");
       } else {
-        props.onAddMetric(values);
-        props.onClose();
+        if (values._id) {
+          setOpenDialog(true);
+        } else {
+          props.onAddMetric(values);
+          props.onClose();
+        }
       }
     },
   });
 
   useEffect(() => {
-    formik.setValues(props.initialValues);
+    props.initialValues && formik.setValues(props.initialValues);
     // eslint-disable-next-line
-  }, [props.initialValues]);// eslint-disable-next-line
+  }, [props.initialValues]); // eslint-disable-next-line
 
   return (
     <BootstrapDialog
@@ -59,6 +64,7 @@ export const MetricsDialog = (props) => {
                     label="Name"
                     name="name"
                     onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                     value={formik.values.name}
                   />
                 </Grid>
@@ -68,6 +74,7 @@ export const MetricsDialog = (props) => {
                     label="Description"
                     name="description"
                     onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                     value={formik.values.description}
                   />
                 </Grid>
@@ -78,14 +85,16 @@ export const MetricsDialog = (props) => {
                     name="fieldType"
                     onChange={formik.handleChange}
                     select
+                    onBlur={formik.handleBlur}
                     SelectProps={{ native: true }}
                     value={formik.values.fieldType}
                   >
-                    {fieldTypes.map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
+                    {fieldTypes &&
+                      fieldTypes.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label && option.label}
+                        </option>
+                      ))}
                   </TextField>
                 </Grid>
                 <Grid xs={12} md={6}>
@@ -94,6 +103,7 @@ export const MetricsDialog = (props) => {
                     label="Prefix"
                     name="prefix"
                     onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                     value={formik.values.prefix}
                   />
                 </Grid>
@@ -103,6 +113,7 @@ export const MetricsDialog = (props) => {
                     label="Postfix"
                     name="postfix"
                     onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                     value={formik.values.postfix}
                   />
                 </Grid>
@@ -112,15 +123,17 @@ export const MetricsDialog = (props) => {
                     label="Select ChartType"
                     name="chartType"
                     onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                     select
                     SelectProps={{ native: true }}
                     value={formik.values.chartType}
                   >
-                    {chartTypes.map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
+                    {chartTypes &&
+                      chartTypes.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label && option.label}
+                        </option>
+                      ))}
                   </TextField>
                 </Grid>
                 <Grid xs={12} md={6}>
@@ -130,14 +143,16 @@ export const MetricsDialog = (props) => {
                     name="status"
                     onChange={formik.handleChange}
                     select
+                    onBlur={formik.handleBlur}
                     SelectProps={{ native: true }}
                     value={formik.values.status}
                   >
-                    {statuses.map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
+                    {statuses &&
+                      statuses.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
                   </TextField>
                 </Grid>
                 <Grid xs={12} md={6}>
@@ -145,6 +160,7 @@ export const MetricsDialog = (props) => {
                     fullWidth
                     label="Order"
                     name="order"
+                    onBlur={formik.handleBlur}
                     onChange={formik.handleChange}
                     value={formik.values.order}
                   />
@@ -155,15 +171,17 @@ export const MetricsDialog = (props) => {
                     label="Select Timing"
                     name="timing"
                     onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                     select
                     SelectProps={{ native: true }}
                     value={formik.values.timing}
                   >
-                    {timings.map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
+                    {timings &&
+                      timings.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
                   </TextField>
                 </Grid>
               </Grid>

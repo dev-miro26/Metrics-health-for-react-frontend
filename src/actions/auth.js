@@ -5,7 +5,7 @@ import {
   userLogOut,
   userRegister,
 } from "../store/authSlice";
-import { api, toast } from "../utils";
+import { api, setAuthToken, toast } from "../utils";
 
 // Load User
 export const apiLoadUser = () => async (dispatch) => {
@@ -29,6 +29,7 @@ export const apiRegister = (formData) => async (dispatch) => {
     const res = await api.post("auth/register", formData);
 
     dispatch(userRegister(res.data.doc));
+    setAuthToken(res.data.doc);
     toast.success("You are successfully registered!");
     dispatch(apiLoadUser());
   } catch (err) {

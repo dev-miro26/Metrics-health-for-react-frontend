@@ -14,7 +14,7 @@ export const apiGetGroupsByUserId = () => async (dispatch) => {
 
     return dispatch(getGroups(res.data.docs));
   } catch (err) {
-    const errors = err.response.data.errors;
+    const errors = err?.response.data?.errors;
     if (errors) {
       errors.forEach((error) => toast.error(error.msg));
       return dispatch(groupError());
@@ -27,9 +27,11 @@ export const apiAddGroup = (formData) => async (dispatch) => {
     const res = await api.post("group", formData);
 
     toast.success("New Group is added!");
+    console.log("add group response = ", res);
     return dispatch(addGroup(res.data.doc));
   } catch (err) {
-    const errors = err.response.data.errors;
+    console.log(err);
+    const errors = err?.response.data?.errors;
     if (errors) {
       errors.forEach((error) => toast.error(error.msg));
       return dispatch(groupError());
@@ -44,9 +46,9 @@ export const apiUpdateGroup = (formData) => async (dispatch) => {
     toast.success(" Group is updated!");
     return dispatch(updateGroup(res.data.doc));
   } catch (err) {
-    const errors = err.response.data.errors;
+    const errors = err?.response.data?.errors;
     if (errors) {
-      errors.forEach((error) => toast.error(error.msg));
+      errors.forEach((error) => error && toast.error(error.msg));
       return dispatch(groupError());
     }
   }
@@ -58,7 +60,7 @@ export const apiDeleteGroupById = (_id) => async (dispatch) => {
     toast.success("The Group has been successfully deleted.");
     return dispatch(deleteGroup({ _id: _id }));
   } catch (err) {
-    const errors = err.response.data.errors;
+    const errors = err?.response.data?.errors;
     if (errors) {
       errors.forEach((error) => toast.error(error.msg));
       // return dispatch(metricsError());

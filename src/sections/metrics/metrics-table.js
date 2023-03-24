@@ -83,7 +83,7 @@ export const MetricsTable = (props) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {metrics.map((metric, index) => {
+              {metrics?.map((metric, index) => {
                 const isSelected = selected.includes(metric._id);
 
                 return (

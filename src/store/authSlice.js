@@ -3,7 +3,7 @@ const initialState = {
   token: localStorage.getItem("token"),
   isAuthenticated: null,
   loading: true,
-  user: null,
+  user: {},
 };
 
 export const authReducer = createSlice({
@@ -30,7 +30,9 @@ export const authReducer = createSlice({
       state.loading = false;
       state.user = null;
     },
-    userAuthError: (state, action) => {},
+    userAuthError: (state, action) => {
+      state.token = null;
+    },
   },
 });
 

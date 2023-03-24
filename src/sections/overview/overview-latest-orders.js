@@ -42,22 +42,23 @@ export const OverviewLatestOrders = (props) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {orders.map((order) => {
-                const createdAt = format(order.createdAt, "dd/MM/yyyy");
+              {
+                orders?.map((order) => {
+                  const createdAt = format(order.createdAt, "dd/MM/yyyy");
 
-                return (
-                  <TableRow hover key={order.id}>
-                    <TableCell>{order.ref}</TableCell>
-                    <TableCell>{order.customer.name}</TableCell>
-                    <TableCell>{createdAt}</TableCell>
-                    <TableCell>
-                      <SeverityPill color={statusMap[order.status]}>
-                        {order.status}
-                      </SeverityPill>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
+                  return (
+                    <TableRow hover key={order.id}>
+                      <TableCell>{order.ref}</TableCell>
+                      <TableCell>{order.customer.name}</TableCell>
+                      <TableCell>{createdAt}</TableCell>
+                      <TableCell>
+                        <SeverityPill color={statusMap[order.status]}>
+                          {order.status}
+                        </SeverityPill>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
             </TableBody>
           </Table>
         </Box>

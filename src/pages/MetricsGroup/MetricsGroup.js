@@ -54,12 +54,12 @@ const MetricsGroup = ({ apiLogout }) => {
     fixed: "error",
   };
   const [list1, setList1] = React.useState([]);
-  const [list2, setList2] = React.useState([...metrics]);
+  const [list2, setList2] = React.useState(metrics ? [...metrics] : []);
   const handleClickEdit = (group) => {
     const savedGroups = group.contents.map((content) => {
-      return metrics.filter((metric) => metric._id === content)[0];
+      return metrics?.filter((metric) => metric._id === content)[0];
     });
-    const remainGroup = metrics.filter(
+    const remainGroup = metrics?.filter(
       (metric) => !group.contents.includes(metric._id)
     );
 
@@ -83,12 +83,12 @@ const MetricsGroup = ({ apiLogout }) => {
           apiAddGroup({
             _id: "",
             name: groupName,
-            contents: list1.map((list) => list._id),
+            contents: list1 && list1.map((list) => list?._id),
           })
         );
         setEditGroup(initialValues);
         setList1([]);
-        setList2([...metrics]);
+        setList2(metrics ? [...metrics] : []);
 
         setGroupName("");
       }
@@ -104,13 +104,13 @@ const MetricsGroup = ({ apiLogout }) => {
       apiUpdateGroup({
         _id: editGroup._id,
         name: groupName,
-        contents: list1.map((list) => list._id),
+        contents: list1 && list1.map((list) => list._id),
       })
     );
     setEditGroup(initialValues);
     setGroupName("");
     setList1([]);
-    setList2([...metrics]);
+    setList2(metrics ? [...metrics] : []);
 
     setOpenDialog(false);
   };
@@ -138,12 +138,14 @@ const MetricsGroup = ({ apiLogout }) => {
 
       if (sourceList === "list1") {
         setList1(
-          sourceListItems.filter((_, index) => index !== result.source.index)
+          sourceListItems &&
+            sourceListItems?.filter((_, index) => index !== result.source.index)
         );
         setList2(destinationListItems);
       } else {
         setList2(
-          sourceListItems.filter((_, index) => index !== result.source.index)
+          sourceListItems &&
+            sourceListItems?.filter((_, index) => index !== result.source.index)
         );
         setList1(destinationListItems);
       }
@@ -167,7 +169,7 @@ const MetricsGroup = ({ apiLogout }) => {
                   padding: "8px",
 
                   outline: "solid 1px #e2e2e2",
-                  minHeight: "300px",
+                  minHeight: "620px",
                   border: "solid 1px #e2e2e2",
                 }}
               >
@@ -214,7 +216,7 @@ const MetricsGroup = ({ apiLogout }) => {
                           variant="outlined"
                           onClick={(e) => {
                             setList1([]);
-                            setList2([...metrics]);
+                            setList2(metrics ? [...metrics] : []);
                             setEditGroup(initialValues);
                             setGroupName("");
                           }}
@@ -259,20 +261,112 @@ const MetricsGroup = ({ apiLogout }) => {
                                     overflowY: "auto",
                                   }}
                                 >
-                                  {list1.map((item, index) => (
-                                    <Draggable
-                                      key={item._id}
-                                      draggableId={item._id}
-                                      index={index}
-                                    >
-                                      {(provided) => (
-                                        <Grid
-                                          item
-                                          md={6}
-                                          sm={12}
-                                          xs={12}
-                                          key={index}
-                                        >
+                                  {list1 &&
+                                    list1.map((item, index) => (
+                                      <Draggable
+                                        key={item._id}
+                                        draggableId={item._id}
+                                        index={index}
+                                      >
+                                        {(provided) => (
+                                          <Grid
+                                            item
+                                            md={6}
+                                            sm={12}
+                                            xs={12}
+                                            key={index}
+                                          >
+                                            <Box pr={2} pl={2} pb={1}>
+                                              <Card
+                                                ref={provided.innerRef}
+                                                {...provided.draggableProps}
+                                                {...provided.dragHandleProps}
+                                                sx={{
+                                                  userSelect: "none",
+
+                                                  minHeight: "50px",
+                                                  backgroundColor: "white",
+                                                  ...provided.draggableProps
+                                                    .style,
+                                                }}
+                                                style={{
+                                                  outline: "solid 1px #e2e2e2",
+                                                  padding: "16px",
+                                                }}
+                                              >
+                                                <Box>
+                                                  <Typography variant="h5">
+                                                    {item.name}
+                                                  </Typography>
+                                                </Box>
+                                                <Box
+                                                  display={"flex"}
+                                                  justifyContent="space-between"
+                                                  mt={1}
+                                                >
+                                                  <Typography>
+                                                    {item.description}
+                                                  </Typography>
+                                                  <Typography>
+                                                    <SeverityPill
+                                                      color={
+                                                        statusMap[item.status]
+                                                      }
+                                                    >
+                                                      {item.status}
+                                                    </SeverityPill>
+                                                  </Typography>
+                                                </Box>
+                                              </Card>
+                                            </Box>
+                                          </Grid>
+                                        )}
+                                      </Draggable>
+                                    ))}
+                                </Grid>
+                                {provided.placeholder}
+                              </Box>
+                            )}
+                          </Droppable>
+                        </Box>
+                      </Grid>
+                      <Grid item md={4} sm={6} xs={6}>
+                        <Box
+                          style={{
+                            border: "solid 1px #e2e2e2",
+                            borderRadius: "4px",
+                            minHeight: "500px",
+                          }}
+                        >
+                          <Droppable droppableId="list2">
+                            {(provided) => (
+                              <Box
+                                {...provided.droppableProps}
+                                ref={provided.innerRef}
+                                sx={{ marginBottom: 2 }}
+                              >
+                                <Box mb={2} mt={2}>
+                                  <Typography variant="h4" textAlign={"center"}>
+                                    Metrics Lists
+                                  </Typography>
+                                </Box>
+                                <Divider />
+                                <Box
+                                  style={{
+                                    maxHeight: "420px",
+                                    minHeight: "200px",
+                                    overflowY: "auto",
+                                    paddingTop: "16px",
+                                  }}
+                                >
+                                  {list2 &&
+                                    list2.map((item, index) => (
+                                      <Draggable
+                                        key={item._id}
+                                        draggableId={item._id}
+                                        index={index}
+                                      >
+                                        {(provided) => (
                                           <Box pr={2} pl={2} pb={1}>
                                             <Card
                                               ref={provided.innerRef}
@@ -316,96 +410,9 @@ const MetricsGroup = ({ apiLogout }) => {
                                               </Box>
                                             </Card>
                                           </Box>
-                                        </Grid>
-                                      )}
-                                    </Draggable>
-                                  ))}
-                                </Grid>
-                                {provided.placeholder}
-                              </Box>
-                            )}
-                          </Droppable>
-                        </Box>
-                      </Grid>
-                      <Grid item md={4} sm={6} xs={6}>
-                        <Box
-                          style={{
-                            border: "solid 1px #e2e2e2",
-                            borderRadius: "4px",
-                            minHeight: "500px",
-                          }}
-                        >
-                          <Droppable droppableId="list2">
-                            {(provided) => (
-                              <Box
-                                {...provided.droppableProps}
-                                ref={provided.innerRef}
-                                sx={{ marginBottom: 2 }}
-                              >
-                                <Box mb={2} mt={2}>
-                                  <Typography variant="h4" textAlign={"center"}>
-                                    Metrics Lists
-                                  </Typography>
-                                </Box>
-                                <Divider />
-                                <Box
-                                  style={{
-                                    maxHeight: "420px",
-                                    minHeight: "200px",
-                                    overflowY: "auto",
-                                    paddingTop: "16px",
-                                  }}
-                                >
-                                  {list2.map((item, index) => (
-                                    <Draggable
-                                      key={item._id}
-                                      draggableId={item._id}
-                                      index={index}
-                                    >
-                                      {(provided) => (
-                                        <Box pr={2} pl={2} pb={1}>
-                                          <Card
-                                            ref={provided.innerRef}
-                                            {...provided.draggableProps}
-                                            {...provided.dragHandleProps}
-                                            sx={{
-                                              userSelect: "none",
-
-                                              minHeight: "50px",
-                                              backgroundColor: "white",
-                                              ...provided.draggableProps.style,
-                                            }}
-                                            style={{
-                                              outline: "solid 1px #e2e2e2",
-                                              padding: "16px",
-                                            }}
-                                          >
-                                            <Box>
-                                              <Typography variant="h5">
-                                                {item.name}
-                                              </Typography>
-                                            </Box>
-                                            <Box
-                                              display={"flex"}
-                                              justifyContent="space-between"
-                                              mt={1}
-                                            >
-                                              <Typography>
-                                                {item.description}
-                                              </Typography>
-                                              <Typography>
-                                                <SeverityPill
-                                                  color={statusMap[item.status]}
-                                                >
-                                                  {item.status}
-                                                </SeverityPill>
-                                              </Typography>
-                                            </Box>
-                                          </Card>
-                                        </Box>
-                                      )}
-                                    </Draggable>
-                                  ))}
+                                        )}
+                                      </Draggable>
+                                    ))}
                                   {provided.placeholder}
                                 </Box>
                               </Box>
