@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from "react";
 
 export const useSelection = (items = []) => {
   const [selected, setSelected] = useState([]);
@@ -21,7 +21,7 @@ export const useSelection = (items = []) => {
 
   const handleDeselectOne = useCallback((item) => {
     setSelected((prevState) => {
-      return prevState.filter((_item) => _item !== item);
+      return prevState?.filter((_item) => _item !== item);
     });
   }, []);
 
@@ -30,6 +30,6 @@ export const useSelection = (items = []) => {
     handleDeselectOne,
     handleSelectAll,
     handleSelectOne,
-    selected
+    selected,
   };
 };

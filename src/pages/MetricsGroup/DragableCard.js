@@ -176,23 +176,24 @@ const List = ({ className, listId, ...rest }) => {
         <Droppable droppableId={list.id} type="card">
           {(provided) => (
             <div ref={provided.innerRef} className={classes.droppableArea}>
-              {list.cardIds.map((cardId, index) => (
-                <Draggable draggableId={cardId} index={index} key={cardId}>
-                  {(provided, snapshot) => (
-                    <Card
-                      cardId={cardId}
-                      dragging={snapshot.isDragging}
-                      index={index}
-                      key={cardId}
-                      list={list}
-                      ref={provided.innerRef}
-                      style={{ ...provided.draggableProps.style }}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                    />
-                  )}
-                </Draggable>
-              ))}
+              {list &&
+                list.cardIds.map((cardId, index) => (
+                  <Draggable draggableId={cardId} index={index} key={cardId}>
+                    {(provided, snapshot) => (
+                      <Card
+                        cardId={cardId}
+                        dragging={snapshot.isDragging}
+                        index={index}
+                        key={cardId}
+                        list={list}
+                        ref={provided.innerRef}
+                        style={{ ...provided.draggableProps.style }}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                      />
+                    )}
+                  </Draggable>
+                ))}
               {provided.placeholder}
             </div>
           )}

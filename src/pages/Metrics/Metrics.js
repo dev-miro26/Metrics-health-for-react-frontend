@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
@@ -10,7 +10,6 @@ import {
   SvgIcon,
   Typography,
 } from "@mui/material";
-import { useSelection } from "../../hooks/use-selection";
 import { Layout as DashboardLayout } from "../../layouts/dashboard/layout";
 import { MetricsTable } from "../../sections/metrics/metrics-table";
 import { MetricsSearch } from "../../sections/metrics/metrics-search";
@@ -29,21 +28,20 @@ import {
 } from "../../actions/metrics";
 import { apiLogout } from "../../actions/auth";
 
-const useMetricsIds = (metrics) => {
-  return useMemo(() => {
-    return metrics.map((metric) => metric._id);
-  }, [metrics]);
-};
+// const useMetricsIds = (metrics) => {
+//   return useMemo(() => {
+//     return metrics && metrics.map((metric) => metric._id);
+//   }, [metrics]);
+// };
 
 const Metrics = ({
   metrics: { metrics },
   apiAddMetric,
-  apiGetMetricsByUserId,
   apiUpdateMetric,
   apiLogout,
 }) => {
-  const metricsIds = useMetricsIds(metrics);
-  const metricsSelection = useSelection(metricsIds);
+  // const metricsIds = useMetricsIds(metrics);
+  // const metricsSelection = useSelection(metricsIds);
   const metricsPopover = usePopover();
   const [deletedId, setDeletedId] = React.useState("");
   const [search, setSearch] = React.useState("");
@@ -62,9 +60,6 @@ const Metrics = ({
   };
   const [editedMetric, setEditedMetric] = React.useState({ ...initialValues });
 
-  useEffect(() => {
-    apiGetMetricsByUserId();
-  }, [apiGetMetricsByUserId]);
   return (
     <DashboardLayout onAction={apiLogout}>
       <Box
@@ -104,13 +99,13 @@ const Metrics = ({
               metrics={
                 search === ""
                   ? metrics
-                  : metrics.filter((metric) => metric.name.includes(search))
+                  : metrics?.filter((metric) => metric.name.includes(search))
               }
-              onDeselectAll={metricsSelection.handleDeselectAll}
-              onDeselectOne={metricsSelection.handleDeselectOne}
-              onSelectAll={metricsSelection.handleSelectAll}
-              onSelectOne={metricsSelection.handleSelectOne}
-              selected={metricsSelection.selected}
+              // onDeselectAll={metricsSelection.handleDeselectAll}
+              // onDeselectOne={metricsSelection.handleDeselectOne}
+              // onSelectAll={metricsSelection.handleSelectAll}
+              // onSelectOne={metricsSelection.handleSelectOne}
+              // selected={metricsSelection.selected}
               setDeletedId={setDeletedId}
               deletedId={deletedId}
               setEditedMetric={setEditedMetric}

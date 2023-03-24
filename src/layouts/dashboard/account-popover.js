@@ -9,9 +9,11 @@ import {
   Popover,
   Typography,
 } from "@mui/material";
+import { useSelector } from "react-redux";
 
 export const AccountPopover = (props) => {
   const { anchorEl, onClose, open } = props;
+  const auth = useSelector((state) => state.auth.user);
   // const navigate = useNavigate();
   // const auth = useAuth();
 
@@ -42,7 +44,7 @@ export const AccountPopover = (props) => {
       >
         <Typography variant="overline">Account</Typography>
         <Typography color="text.secondary" variant="body2">
-          Anika Visser
+          {auth?.name}
         </Typography>
       </Box>
       <Divider />

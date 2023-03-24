@@ -48,62 +48,72 @@ export const OverviewLatestMetricsValue = (props) => {
       <Card sx={sx}>
         <CardHeader title="Latest Metrics" />
         <List>
-          {lastestWages.map((wage, index) => {
-            const hasDivider = index < lastestWages.length - 1;
-            const ago = formatDistanceToNow(new Date(wage.updatedAt).getTime());
+          {lastestWages &&
+            lastestWages.map((wage, index) => {
+              const hasDivider = index < lastestWages.length - 1;
+              const ago = formatDistanceToNow(
+                new Date(wage.updatedAt).getTime()
+              );
 
-            return (
-              <ListItem divider={hasDivider} key={wage._id}>
-                <ListItemAvatar style={{ paddingRight: "8px" }}>
-                  <Avatar
-                    sx={{
-                      backgroundColor: "success.main",
-                      height: 56,
-                      width: 56,
-                    }}
-                  >
+              return (
+                <ListItem divider={hasDivider} key={wage._id}>
+                  <ListItemAvatar style={{ paddingRight: "8px" }}>
+                    <Avatar
+                      sx={{
+                        backgroundColor: "success.main",
+                        height: 56,
+                        width: 56,
+                      }}
+                    >
+                      <SvgIcon>
+                        <ClockIcon />
+                      </SvgIcon>
+                    </Avatar>
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary={
+                      metrics?.filter(
+                        (metric) => metric._id === wage.metricsId
+                      )[0]
+                        ? `${
+                            metrics?.filter(
+                              (metric) => metric._id === wage.metricsId
+                            )[0]?.name
+                          }/${wage?.wage}`
+                        : ""
+                    }
+                    primaryTypographyProps={{ variant: "subtitle1" }}
+                    secondary={`Updated ${ago} ago`}
+                    secondaryTypographyProps={{ variant: "body2" }}
+                  />
+                  <IconButton edge="end" onClick={handleClick}>
                     <SvgIcon>
-                      <ClockIcon />
+                      <EllipsisVerticalIcon />
                     </SvgIcon>
-                  </Avatar>
-                </ListItemAvatar>
-                <ListItemText
-                  primary={
-                    metrics.filter((metric) => metric._id === wage.metricsId)[0]
-                      .name
-                  }
-                  primaryTypographyProps={{ variant: "subtitle1" }}
-                  secondary={`Updated ${ago} ago`}
-                  secondaryTypographyProps={{ variant: "body2" }}
-                />
-                <IconButton edge="end" onClick={handleClick}>
-                  <SvgIcon>
-                    <EllipsisVerticalIcon />
-                  </SvgIcon>
-                </IconButton>
-                <Menu
-                  id="basic-menu"
-                  anchorEl={anchorEl}
-                  open={open}
-                  onClose={handleClose}
-                  MenuListProps={{
-                    "aria-labelledby": "basic-button",
-                  }}
-                >
-                  <MenuItem
-                    onClick={() => {
-                      setDeleteMetricWageId(wage._id);
-                      setOpenDialog(true);
+                  </IconButton>
+                  <Menu
+                    id="basic-menu"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    MenuListProps={{
+                      "aria-labelledby": "basic-button",
                     }}
                   >
-                    Delete
-                  </MenuItem>
-                  {/* <MenuItem onClick={handleClose}>My account</MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        setDeleteMetricWageId(wage._id);
+                        setOpenDialog(true);
+                      }}
+                    >
+                      Delete
+                    </MenuItem>
+                    {/* <MenuItem onClick={handleClose}>My account</MenuItem>
                 <MenuItem onClick={handleClose}>Logout</MenuItem> */}
-                </Menu>
-              </ListItem>
-            );
-          })}
+                  </Menu>
+                </ListItem>
+              );
+            })}
         </List>
         <Divider />
         <CardActions sx={{ justifyContent: "flex-end" }}>

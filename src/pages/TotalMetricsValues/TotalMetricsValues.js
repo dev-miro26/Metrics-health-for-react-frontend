@@ -53,7 +53,7 @@ const TotalMetricsValues = () => {
     setPage(0);
   };
 
-  const matchingWages = allWages.reduce((acc, wage) => {
+  const matchingWages = allWages?.reduce((acc, wage) => {
     const metric = metrics.find(
       (metric) => metric._id.toString() === wage.metricsId.toString()
     );
@@ -70,12 +70,13 @@ const TotalMetricsValues = () => {
     return acc;
   }, {});
 
-  const rows = Object.entries(matchingWages)
-    .sort((a, b) => b[0].localeCompare(a[0]))
-    .map(([date, wages]) => ({ date, wages }));
-  console.log(rows);
+  const rows =
+    matchingWages &&
+    Object.entries(matchingWages)
+      .sort((a, b) => b[0].localeCompare(a[0]))
+      .map(([date, wages]) => ({ date, wages }));
   const emptyRows =
-    rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+    rowsPerPage - Math.min(rowsPerPage, rows?.length - page * rowsPerPage);
 
   return (
     <DashboardLayout onAction={apiLogout}>
@@ -144,21 +145,25 @@ const TotalMetricsValues = () => {
                   <TableRow>
                     <TableCell>No</TableCell>
                     <TableCell>Date</TableCell>
-                    {metrics.map((metric) => (
-                      <TableCell key={metric._id}>{metric.name}</TableCell>
-                    ))}
+                    {metrics &&
+                      metrics.map((metric) => (
+                        <TableCell key={metric?._id}>{metric?.name}</TableCell>
+                      ))}
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {rows
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((row, index) => (
-                      <TableRow key={row.date}>
+                    ?.slice(
+                      page * rowsPerPage,
+                      page * rowsPerPage + rowsPerPage
+                    )
+                    ?.map((row, index) => (
+                      <TableRow key={row?.date}>
                         <TableCell>{index + 1}</TableCell>
-                        <TableCell>{row.date}</TableCell>
-                        {metrics.map((metric) => {
+                        <TableCell>{row?.date}</TableCell>
+                        {metrics?.map((metric) => {
                           const wage = row.wages.find(
-                            (w) => w.metric._id === metric._id
+                            (w) => w?.metric?._id === metric?._id
                           );
                           return (
                             <TableCell key={metric._id}>
@@ -170,14 +175,14 @@ const TotalMetricsValues = () => {
                     ))}
                   {emptyRows > 0 && (
                     <TableRow style={{ height: 53 * emptyRows }}>
-                      <TableCell colSpan={metrics.length + 1} />
+                      <TableCell colSpan={metrics?.length + 1} />
                     </TableRow>
                   )}
                   <TableRow>
                     <TablePagination
                       rowsPerPageOptions={[5, 10, 25]}
                       // component="div"
-                      count={rows.length}
+                      count={rows?.length}
                       rowsPerPage={rowsPerPage}
                       page={page}
                       onPageChange={handleChangePage}

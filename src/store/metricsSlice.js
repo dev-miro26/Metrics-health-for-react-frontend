@@ -14,20 +14,23 @@ export const metricsSlice = createSlice({
   reducers: {
     addMetric: (state, action) => {
       state.loading = false;
-      state.metrics = [...state.metrics, action.payload];
+
+      state.metrics = action.payload
+        ? [...state.metrics, action.payload]
+        : state.metrics;
     },
     updateMetric: (state, action) => {
       state.loading = false;
-      state.metrics = state.metrics.map((metric) =>
+      state.metrics = state.metrics?.map((metric) =>
         metric._id === action.payload._id ? action.payload : metric
       );
     },
     getUserMetrics: (state, action) => {
-      state.metrics = action.payload;
+      state.metrics = action.payload ? action.payload : [];
       state.loading = false;
     },
     deleteMetric: (state, action) => {
-      state.metrics = state.metrics.filter(
+      state.metrics = state.metrics?.filter(
         (metric) => metric._id !== action.payload._id
       );
       state.loading = false;
@@ -40,32 +43,32 @@ export const metricsSlice = createSlice({
       // state.lastest.shift(action.payload);
     },
     getMetricsAllWages: (state, action) => {
-      state.wages = action.payload;
+      state.wages = action.payload ? action.payload : [];
     },
     getMetricsTodayWages: (state, action) => {
-      state.todayWages = action.payload;
+      state.todayWages = action.payload ? action.payload : [];
     },
     getMetricsLastestWages: (state, action) => {
-      state.lastestWages = action.payload;
+      state.lastestWages = action.payload ? action.payload : [];
     },
     deleteMetricWage: (state, action) => {
-      state.wages = state.wages.filter(
+      state.wages = state.wages?.filter(
         (value) => value._id !== action.payload._id
       );
-      state.todayWages = state.todayWages.filter(
+      state.todayWages = state.todayWages?.filter(
         (value) => value._id !== action.payload._id
       );
-      state.lastestWages = state.lastestWages.filter(
+      state.lastestWages = state.lastestWages?.filter(
         (value) => value._id !== action.payload._id
       );
       state.loading = false;
     },
     updateMetricsWage: (state, action) => {
       state.loading = false;
-      state.wages = state.wages.map((metric) =>
+      state.wages = state.wages?.map((metric) =>
         metric._id === action.payload._id ? action.payload : metric
       );
-      state.todayWages = state.todayWages.map((wage) =>
+      state.todayWages = state.todayWages?.map((wage) =>
         wage._id === action.payload._id ? action.payload : wage
       );
     },

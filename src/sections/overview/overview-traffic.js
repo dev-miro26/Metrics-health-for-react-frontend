@@ -102,24 +102,25 @@ export const OverviewTraffic = (props) => {
           spacing={2}
           sx={{ mt: 2 }}
         >
-          {chartSeries.map((item, index) => {
-            const label = labels[index];
+          {chartSeries &&
+            chartSeries.map((item, index) => {
+              const label = labels[index];
 
-            return (
-              <Box
-                key={label}
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
-              >
-                <Typography color="text.secondary" variant="subtitle2">
-                  {item}%
-                </Typography>
-              </Box>
-            );
-          })}
+              return (
+                <Box
+                  key={label}
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
+                  <Typography color="text.secondary" variant="subtitle2">
+                    {item}%
+                  </Typography>
+                </Box>
+              );
+            })}
         </Stack>
       </CardContent>
     </Card>

@@ -133,7 +133,6 @@ export const apiGetMetricsAllWagesByUserId = () => async (dispatch) => {
 export const apiGetMetricsTodayWagesByUserId = () => async (dispatch) => {
   try {
     const res = await api.get("metrics/wage/today");
-
     return dispatch(getMetricsTodayWages(res.data.docs));
   } catch (err) {
     const errors = err.response.data.errors;
