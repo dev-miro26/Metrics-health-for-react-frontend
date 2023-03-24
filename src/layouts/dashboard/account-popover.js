@@ -19,6 +19,8 @@ export const AccountPopover = (props) => {
     onClose?.();
     props.onAction();
     return <Navigate to="/auth/login" />;
+
+    // eslint-disable-next-line
   }, []);
 
   return (

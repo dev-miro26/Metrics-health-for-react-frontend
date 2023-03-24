@@ -34,7 +34,8 @@ export const MetricsDialog = (props) => {
 
   useEffect(() => {
     formik.setValues(props.initialValues);
-  }, [props.initialValues]);
+    // eslint-disable-next-line
+  }, [props.initialValues]);// eslint-disable-next-line
 
   return (
     <BootstrapDialog

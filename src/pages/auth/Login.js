@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link as RouterLink, Navigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -12,11 +12,11 @@ import {
   Link,
   TextField,
   Typography,
-  InputAdornment,
-  SvgIcon,
+  // InputAdornment,
+  // SvgIcon,
 } from "@mui/material";
-import AtSymbolIcon from "@heroicons/react/24/solid/AtSymbolIcon";
-import LockClosedIcon from "@heroicons/react/24/solid/LockClosedIcon";
+// import AtSymbolIcon from "@heroicons/react/24/solid/AtSymbolIcon";
+// import LockClosedIcon from "@heroicons/react/24/solid/LockClosedIcon";
 import { Layout as AuthLayout } from "../../layouts/auth/layout";
 
 const Login = ({ isAuthenticated, apiLogin }) => {
@@ -91,15 +91,15 @@ const Login = ({ isAuthenticated, apiLogin }) => {
                   onChange={formik.handleChange}
                   type="email"
                   value={formik.values.email}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <SvgIcon>
-                          <AtSymbolIcon />
-                        </SvgIcon>
-                      </InputAdornment>
-                    ),
-                  }}
+                  // InputProps={{
+                  //   startAdornment: (
+                  //     <InputAdornment position="start">
+                  //       <SvgIcon>
+                  //         <AtSymbolIcon />
+                  //       </SvgIcon>
+                  //     </InputAdornment>
+                  //   ),
+                  // }}
                 />
                 <TextField
                   error={!!(formik.touched.password && formik.errors.password)}
@@ -111,15 +111,15 @@ const Login = ({ isAuthenticated, apiLogin }) => {
                   onChange={formik.handleChange}
                   type="password"
                   value={formik.values.password}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <SvgIcon>
-                          <LockClosedIcon />
-                        </SvgIcon>
-                      </InputAdornment>
-                    ),
-                  }}
+                  // InputProps={{
+                  //   startAdornment: (
+                  //     <InputAdornment position="start">
+                  //       <SvgIcon>
+                  //         <LockClosedIcon />
+                  //       </SvgIcon>
+                  //     </InputAdornment>
+                  //   ),
+                  // }}
                 />
               </Stack>
               {formik.errors.submit && (

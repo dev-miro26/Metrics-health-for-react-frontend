@@ -53,6 +53,7 @@ const ToDoDialog = (props) => {
 
   useEffect(() => {
     formik.setValues({ _id: selectedMetric._id, metricValue: "" });
+    // eslint-disable-next-line
   }, [selectedMetric]);
 
   return (
