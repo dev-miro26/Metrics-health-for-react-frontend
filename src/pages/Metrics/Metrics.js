@@ -99,7 +99,9 @@ const Metrics = ({
               metrics={
                 search === ""
                   ? metrics
-                  : metrics?.filter((metric) => metric.name.includes(search))
+                  : metrics?.filter((metric) =>
+                      metric.name.toLowerCase().includes(search.toLowerCase())
+                    )
               }
               // onDeselectAll={metricsSelection.handleDeselectAll}
               // onDeselectOne={metricsSelection.handleDeselectOne}

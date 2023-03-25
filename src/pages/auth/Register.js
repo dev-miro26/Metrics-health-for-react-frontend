@@ -170,7 +170,7 @@ const Register = ({ apiRegister, isAuthenticated }) => {
 };
 
 Register.propTypes = {
-  register: PropTypes.func.isRequired,
+  // register: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool,
 };
 
