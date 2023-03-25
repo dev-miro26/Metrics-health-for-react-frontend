@@ -15,7 +15,7 @@ export const authReducer = createSlice({
       state.loading = false;
       state.user = action.payload;
     },
-    userRegister: (state, action) => {
+    userRegister: (state) => {
       state.isAuthenticated = true;
       state.loading = false;
     },

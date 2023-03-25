@@ -16,6 +16,7 @@ import {
   Unstable_Grid2 as Grid,
 } from "@mui/material";
 import { BootstrapDialog } from "../../components/BootstrapDialog";
+import { Rating } from "@mui/material";
 // import ConfirmDialog from "../../components/ConfirmModal";
 import { apiAddMetricWage } from "../../actions/metrics";
 
@@ -83,34 +84,47 @@ const ToDoDialog = (props) => {
               <Grid container spacing={3}>
                 <Grid item md={12} sm={12} xs={12}>
                   <Box display={"flex"} justifyContent="center">
-                    <TextField
-                      autoFocus
-                      name="metricValue"
-                      fullWidth
-                      label="Metric Value"
-                      type={"text"}
-                      error={
-                        formik.touched.metricValue &&
-                        Boolean(formik.errors.metricValue)
-                      }
-                      helperText={
-                        formik.touched.metricValue && formik.errors.metricValue
-                      }
-                      onChange={formik.handleChange}
-                      value={formik.values.metricValue}
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">
-                            {selectedMetric.prefix}
-                          </InputAdornment>
-                        ),
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            {selectedMetric.postfix}
-                          </InputAdornment>
-                        ),
-                      }}
-                    />
+                    {selectedMetric.name !== "Mood" ? (
+                      <TextField
+                        autoFocus
+                        name="metricValue"
+                        fullWidth
+                        label="Metric Value"
+                        type={"text"}
+                        error={
+                          formik.touched.metricValue &&
+                          Boolean(formik.errors.metricValue)
+                        }
+                        helperText={
+                          formik.touched.metricValue &&
+                          formik.errors.metricValue
+                        }
+                        onChange={formik.handleChange}
+                        value={formik.values.metricValue}
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              {selectedMetric.prefix}
+                            </InputAdornment>
+                          ),
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              {selectedMetric.postfix}
+                            </InputAdornment>
+                          ),
+                        }}
+                      />
+                    ) : (
+                      <Rating
+                        name="metricValue"
+                        defaultValue={0}
+                        max={10}
+                        type="number"
+                        precision={1}
+                        onChange={formik.handleChange}
+                        value={parseInt(formik.values.metricValue)}
+                      />
+                    )}
                   </Box>
                 </Grid>
               </Grid>
