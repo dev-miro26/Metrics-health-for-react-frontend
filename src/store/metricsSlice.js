@@ -33,6 +33,7 @@ export const metricsSlice = createSlice({
       state.metrics = state.metrics?.filter(
         (metric) => metric._id !== action.payload._id
       );
+      
       state.loading = false;
     },
     addMetricWage: (state, action) => {
