@@ -16,13 +16,13 @@ import {
   Unstable_Grid2 as Grid,
 } from "@mui/material";
 import { BootstrapDialog } from "../../components/BootstrapDialog";
-import ConfirmDialog from "../../components/ConfirmModal";
+// import ConfirmDialog from "../../components/ConfirmModal";
 import { apiAddMetricWage } from "../../actions/metrics";
 
 const ToDoDialog = (props) => {
   const dispatch = useDispatch();
   const { onClose, open, selectedMetric } = props;
-  const [openDialog, setOpenDialog] = React.useState(false);
+  // const [openDialog, setOpenDialog] = React.useState(false);
   const validationString = yup.object({
     metricValue: yup
       .string("Enter your metricValue")
@@ -43,11 +43,18 @@ const ToDoDialog = (props) => {
       selectedMetric.fieldType === "text" ? validationString : validationNumber,
 
     onSubmit: (values) => {
-      if (values._id) {
-        setOpenDialog(true);
-      } else {
-        props.onClose();
-      }
+      // if (values._id) {
+      //   setOpenDialog(true);
+      // } else {
+      //   props.onClose();
+      // }
+      dispatch(
+        apiAddMetricWage({
+          metricId: selectedMetric._id,
+          metricValue: values.metricValue,
+        })
+      );
+      props.onClose();
     },
   });
 
@@ -120,7 +127,7 @@ const ToDoDialog = (props) => {
             </Button>
           </CardActions>
         </Card>
-        <ConfirmDialog
+        {/* <ConfirmDialog
           openDialog={openDialog}
           title="Confirm"
           content="Are you sure save this metric value?"
@@ -135,7 +142,7 @@ const ToDoDialog = (props) => {
             setOpenDialog(false);
             props.onClose();
           }}
-        />
+        /> */}
       </form>
     </BootstrapDialog>
   );
