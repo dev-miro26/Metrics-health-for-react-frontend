@@ -26,11 +26,10 @@ const App = () => {
     if (localStorage.getItem("metronic-log-books")) {
       // if there is a token set axios headers for all requests
       setAuthToken(localStorage.getItem("metronic-log-books"));
+      store.dispatch(apiLoadUser());
     }
-    console.log(localStorage.getItem("metronic-log-books"));
     // try to fetch a user, if no token or invalid token we
     // will get a 401 response from our API
-    store.dispatch(apiLoadUser());
 
     // log user out from all tabs if they log out in one tab
     window.addEventListener("storage", () => {

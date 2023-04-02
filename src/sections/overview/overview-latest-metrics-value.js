@@ -27,18 +27,20 @@ import ConfirmDialog from "../../components/ConfirmModal";
 export const OverviewLatestMetricsValue = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { lastestWages = [], metrics, sx } = props;
-  const [deletedMetricWageId, setDeleteMetricWageId] = React.useState({});
+  const { lastestWages = [], metrics = [], sx } = props;
+  const [deletedMetricWageId, setDeleteMetricWageId] = React.useState("");
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openDialog, setOpenDialog] = React.useState(false);
   const open = Boolean(anchorEl);
-  const handleClick = (event) => {
+  const handleClick = (event, id) => {
+    setDeleteMetricWageId(id);
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
   const onOK = () => {
+    console.log(deletedMetricWageId);
     dispatch(apiDeleteMetricWageById(deletedMetricWageId));
     setOpenDialog(false);
     handleClose();
@@ -86,7 +88,10 @@ export const OverviewLatestMetricsValue = (props) => {
                     secondary={`Updated ${ago} ago`}
                     secondaryTypographyProps={{ variant: "body2" }}
                   />
-                  <IconButton edge="end" onClick={handleClick}>
+                  <IconButton
+                    edge="end"
+                    onClick={(e) => handleClick(e, wage._id)}
+                  >
                     <SvgIcon>
                       <EllipsisVerticalIcon />
                     </SvgIcon>
@@ -102,7 +107,7 @@ export const OverviewLatestMetricsValue = (props) => {
                   >
                     <MenuItem
                       onClick={() => {
-                        setDeleteMetricWageId(wage._id);
+                        // setDeleteMetricWageId(wage._id);
                         setOpenDialog(true);
                       }}
                     >

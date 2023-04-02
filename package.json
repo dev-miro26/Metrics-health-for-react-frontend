@@ -7,6 +7,7 @@
     "@emotion/styled": "^11.10.6",
     "@fontsource/roboto": "^4.5.8",
     "@heroicons/react": "^2.0.16",
+    "@mui/icons-material": "^5.11.11",
     "@mui/material": "^5.11.12",
     "@mui/styles": "^5.11.13",
     "@mui/system": "^5.11.12",
@@ -41,7 +42,7 @@
     "yup": "^1.0.2"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "set port=3030 && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

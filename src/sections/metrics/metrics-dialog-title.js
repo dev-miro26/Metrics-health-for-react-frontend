@@ -7,25 +7,18 @@ export const fieldTypes = [
     value: "text",
     label: "Text",
   },
+  { value: "bloodPressure", label: "Blood Pressure" },
   {
-    value: "textArea",
-    label: "TextArea",
+    value: "5rating",
+    label: "Rate From 1-5",
   },
   {
-    value: "checkBox",
-    label: "CheckBox",
+    value: "10rating",
+    label: "Rate From 1-10",
   },
   {
-    value: "radioButton",
-    label: "RadioButton",
-  },
-  {
-    value: "datetime",
-    label: "DateTime",
-  },
-  {
-    value: "predefinedTemplates",
-    label: "Predefined Templates",
+    vale: "exercise",
+    label: "Exercise",
   },
 ];
 
@@ -33,14 +26,6 @@ export const chartTypes = [
   {
     value: "line",
     label: "Line",
-  },
-  {
-    value: "bar",
-    label: "Bar",
-  },
-  {
-    value: "pie",
-    label: "Pie",
   },
 ];
 
@@ -63,10 +48,6 @@ export const timings = [
   {
     value: "daily",
     label: "Daily",
-  },
-  {
-    value: "eachday",
-    label: "Eachday",
   },
   {
     value: "everytime",

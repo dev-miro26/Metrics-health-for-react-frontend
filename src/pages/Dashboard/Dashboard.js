@@ -7,7 +7,6 @@ import { connect, useDispatch, useSelector } from "react-redux";
 // import { subDays, subHours } from "date-fns";
 import { Box, Container, Unstable_Grid2 as Grid } from "@mui/material";
 
-import { OverviewLatestOrders } from "../../sections/overview/overview-latest-orders";
 import { OverviewLatestMetricsValue } from "../../sections/overview/overview-latest-metrics-value";
 
 import { ToDoCard } from "../../sections/dashboard/to-do-card";
@@ -63,8 +62,8 @@ const Dashboard = ({ apiLogout }) => {
                 .filter(
                   (metric) =>
                     !todayWages
-                      .map((wage) => wage.metricsId)
-                      .includes(metric._id)
+                      ?.map((wage) => wage.metricsId)
+                      ?.includes(metric._id)
                 )
                 ?.map((metric, index) => (
                   <Grid xs={12} sm={6} lg={3} key={index}>
@@ -101,6 +100,7 @@ const Dashboard = ({ apiLogout }) => {
         open={openModal}
         onClose={() => {
           setOpenModal(false);
+          setSelectedMetric({ _id: "", fieldType: "" });
         }}
         selectedMetric={selectedMetric}
       />
