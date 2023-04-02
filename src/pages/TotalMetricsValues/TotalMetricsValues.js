@@ -31,28 +31,10 @@ const TotalMetricsValues = () => {
   const dispatch = useDispatch();
   const metrics = useSelector((state) => state.metrics.metrics);
   const allWages = useSelector((state) => state.metrics.wages);
-  const [startDate, setStartDate] = React.useState();
-
-  const [endDate, setEndDate] = React.useState(moment().format("YYYY-MM-DD"));
-  console.log(startDate, endDate);
-  React.useEffect(() => {
-    dispatch(apiGetMetricsAllWagesByUserId);
-    // eslint-disable-next-line
-  }, []);
   const [search, setSearch] = React.useState("");
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
   const matchingWages = allWages?.reduce((acc, wage) => {
     const metric = metrics.find(
       (metric) => metric._id.toString() === wage.metricsId.toString()
@@ -77,7 +59,51 @@ const TotalMetricsValues = () => {
       .map(([date, wages]) => ({ date, wages }));
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows?.length - page * rowsPerPage);
+  const [startDate, setStartDate] = React.useState("");
+  const [current, setCurrentRows] = React.useState(rows);
 
+  const [endDate, setEndDate] = React.useState(moment().format("YYYY-MM-DD"));
+  React.useEffect(() => {
+    dispatch(apiGetMetricsAllWagesByUserId);
+    // eslint-disable-next-line
+  }, []);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  React.useEffect(() => {
+    const start = startDate.valueOf();
+    const end = endDate.valueOf();
+    const findWages = (rows) => {
+      let newRows = [];
+      let date = [];
+
+      rows.forEach((item) => {
+        item.wages.forEach((wageItem) => {
+          if (wageItem.wage.wage.includes(search)) {
+            !date.includes(item.date) && newRows.push(item);
+            !date.includes(item.date) && date.push(item.date);
+          }
+        });
+      });
+
+      return newRows;
+    };
+    console.log(findWages(rows));
+    setCurrentRows(
+      findWages(rows).filter(
+        (row) => start <= row.date.valueOf() && end >= row.date.valueOf()
+      )
+    );
+  }, [search, startDate, endDate]);
+
+  // console.log("tag", rows, "=", setCurrentRows);
   return (
     <DashboardLayout onAction={apiLogout}>
       <Box
@@ -152,7 +178,7 @@ const TotalMetricsValues = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {rows
+                  {current
                     ?.slice(
                       page * rowsPerPage,
                       page * rowsPerPage + rowsPerPage

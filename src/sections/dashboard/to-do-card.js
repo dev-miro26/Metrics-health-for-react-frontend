@@ -11,14 +11,17 @@ import {
 } from "@mui/material";
 
 export const ToDoCard = (props) => {
-  const { sx, metric, setOpenModal, setSelectedMetric } = props;
+  const { sx, metric, setOpenModal, setOpenBlood, setSelectedMetric } = props;
 
   return (
     <Card
       sx={sx}
       style={{ outline: "solid 1px #e2e2e2", cursor: "pointer" }}
       onClick={(e) => {
-        setOpenModal(true);
+        metric.fieldType === "bloodPressure"
+          ? setOpenBlood(true)
+          : setOpenModal(true);
+
         setSelectedMetric(metric);
       }}
     >

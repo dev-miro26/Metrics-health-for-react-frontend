@@ -17,6 +17,7 @@ import {
   apiGetMetricsLastestWagesByUserId,
 } from "../../actions/metrics";
 import ToDoDialog from "../../sections/dashboard/to-do-dialog";
+import ToDoForBloodPressure from "../../sections/dashboard/to-do-dialog-for-bloodPressure";
 // import { OverviewTraffic } from "../sections/overview/overview-traffic";
 
 const Dashboard = ({ apiLogout }) => {
@@ -33,6 +34,7 @@ const Dashboard = ({ apiLogout }) => {
   });
   // const [openDialog, setOpenDialog] = React.useState(false);
   const [openModal, setOpenModal] = React.useState(false);
+  const [openBlood, setOpenBlood] = React.useState(false);
 
   // const onOK = () => {};
   // const onCancel = () => {
@@ -73,9 +75,14 @@ const Dashboard = ({ apiLogout }) => {
                       // setOpenDialog={setOpenDialog}
                       setSelectedMetric={setSelectedMetric}
                       setOpenModal={setOpenModal}
+                      setOpenBlood={setOpenBlood}
                     />
                   </Grid>
                 ))}
+            <Grid item md={12}>
+              <Grid item md={4} sm={3}></Grid>
+              <Grid item md={8} sm={9}></Grid>
+            </Grid>
             <Box style={{ width: "100%" }}>
               <Grid xs={12} md={6} lg={4}>
                 <OverviewLatestMetricsValue
@@ -100,6 +107,14 @@ const Dashboard = ({ apiLogout }) => {
         open={openModal}
         onClose={() => {
           setOpenModal(false);
+          setSelectedMetric({ _id: "", fieldType: "" });
+        }}
+        selectedMetric={selectedMetric}
+      />
+      <ToDoForBloodPressure
+        open={openBlood}
+        onClose={() => {
+          setOpenBlood(false);
           setSelectedMetric({ _id: "", fieldType: "" });
         }}
         selectedMetric={selectedMetric}
