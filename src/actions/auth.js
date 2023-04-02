@@ -6,7 +6,6 @@ import {
   userRegister,
 } from "../store/authSlice";
 import { api, setAuthToken, toast } from "../utils";
-
 // Load User
 export const apiLoadUser = () => async (dispatch) => {
   try {

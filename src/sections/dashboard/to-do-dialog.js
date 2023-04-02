@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { styled } from "@mui/material/styles";
 import * as yup from "yup";
 import PropTypes from "prop-types";
 import { useFormik } from "formik";
@@ -14,11 +15,27 @@ import {
   TextField,
   InputAdornment,
   Unstable_Grid2 as Grid,
+  SvgIcon,
 } from "@mui/material";
-import { BootstrapDialog } from "../../components/BootstrapDialog";
 import { Rating } from "@mui/material";
 // import ConfirmDialog from "../../components/ConfirmModal";
+import { HeartIcon } from "@heroicons/react/24/solid";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import MonitorHeartIcon from "@mui/icons-material/MonitorHeart";
+
+import { BootstrapDialog } from "../../components/BootstrapDialog";
+
 import { apiAddMetricWage } from "../../actions/metrics";
+
+const StyledRating = styled(Rating)({
+  "& .MuiRating-iconFilled": {
+    color: "#f31212",
+  },
+  "& .MuiRating-iconHover": {
+    color: "#ff5d02",
+  },
+});
 
 const ToDoDialog = (props) => {
   const dispatch = useDispatch();
@@ -38,6 +55,9 @@ const ToDoDialog = (props) => {
     initialValues: {
       _id: selectedMetric._id ? selectedMetric._id : "",
       metricValue: "",
+      BPH: "",
+      BPL: "",
+      HR: "",
     },
     validateOnSubmit: true,
     validationSchema:
@@ -49,12 +69,23 @@ const ToDoDialog = (props) => {
       // } else {
       //   props.onClose();
       // }
-      dispatch(
-        apiAddMetricWage({
-          metricId: selectedMetric._id,
-          metricValue: values.metricValue,
-        })
-      );
+      console.log(values);
+      if (selectedMetric.fieldType === "bloodPressure") {
+        dispatch(
+          apiAddMetricWage({
+            metricId: selectedMetric._id,
+            metricValue: values.BPH + "," + values.BPL + ("," + values.HR),
+          })
+        );
+      } else {
+        dispatch(
+          apiAddMetricWage({
+            metricId: selectedMetric._id,
+            metricValue: values.metricValue,
+          })
+        );
+      }
+
       props.onClose();
     },
   });
@@ -81,53 +112,134 @@ const ToDoDialog = (props) => {
           />
           <CardContent sx={{ pt: 0 }}>
             <Box sx={{ m: -1.5 }}>
-              <Grid container spacing={3}>
-                <Grid item md={12} sm={12} xs={12}>
-                  <Box display={"flex"} justifyContent="center">
-                    {selectedMetric.name !== "Mood" ? (
+              <Box display={"flex"} justifyContent="center">
+                {selectedMetric.fieldType === "number" ||
+                selectedMetric.fieldType === "text" ? (
+                  <TextField
+                    autoFocus
+                    name="metricValue"
+                    fullWidth
+                    label="Metric Value"
+                    type={
+                      selectedMetric.fieldType === "text" ? "text" : "number"
+                    }
+                    error={
+                      formik.touched.metricValue &&
+                      Boolean(formik.errors.metricValue)
+                    }
+                    helperText={
+                      formik.touched.metricValue && formik.errors.metricValue
+                    }
+                    onChange={formik.handleChange}
+                    value={formik.values.metricValue}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          {selectedMetric.prefix}
+                        </InputAdornment>
+                      ),
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          {selectedMetric.postfix}
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                ) : null}
+
+                {selectedMetric.fieldType === "bloodPressure" && (
+                  <Box
+                    display={"flex"}
+                    sm={{ justifyContent: "space-between" }}
+                  >
+                    <Box pr={2} pb={2}>
                       <TextField
                         autoFocus
-                        name="metricValue"
+                        name="BPH"
                         fullWidth
-                        label="Metric Value"
-                        type={"text"}
-                        error={
-                          formik.touched.metricValue &&
-                          Boolean(formik.errors.metricValue)
-                        }
-                        helperText={
-                          formik.touched.metricValue &&
-                          formik.errors.metricValue
-                        }
-                        onChange={formik.handleChange}
-                        value={formik.values.metricValue}
+                        label="Diastolic "
+                        type="number"
+                        value={formik.values.BPH}
                         InputProps={{
                           startAdornment: (
                             <InputAdornment position="start">
-                              {selectedMetric.prefix}
-                            </InputAdornment>
-                          ),
-                          endAdornment: (
-                            <InputAdornment position="end">
-                              {selectedMetric.postfix}
+                              <SvgIcon
+                                sx={{
+                                  color: "success.main",
+                                }}
+                              >
+                                <MonitorHeartIcon />
+                              </SvgIcon>
                             </InputAdornment>
                           ),
                         }}
                       />
-                    ) : (
-                      <Rating
-                        name="metricValue"
-                        defaultValue={0}
-                        max={10}
+                    </Box>
+                    <Box pr={2} pb={2}>
+                      <TextField
+                        autoFocus
+                        name="BPL"
+                        value={formik.values.BPL}
+                        fullWidth
                         type="number"
-                        precision={1}
-                        onChange={formik.handleChange}
-                        value={parseInt(formik.values.metricValue)}
+                        label="Systolic "
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <SvgIcon
+                                sx={{
+                                  color: "info.main",
+                                }}
+                              >
+                                <MonitorHeartIcon />
+                              </SvgIcon>
+                            </InputAdornment>
+                          ),
+                        }}
                       />
-                    )}
+                    </Box>
+                    <Box pr={2} pb={2}>
+                      <TextField
+                        autoFocus
+                        name="HR"
+                        value={formik.values.HR}
+                        fullWidth
+                        type="number"
+                        label="Heart Rate"
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <SvgIcon
+                                sx={{
+                                  color: "error.main",
+                                }}
+                              >
+                                <HeartIcon />
+                              </SvgIcon>
+                            </InputAdornment>
+                          ),
+                        }}
+                      />
+                    </Box>
                   </Box>
-                </Grid>
-              </Grid>
+                )}
+                {selectedMetric.fieldType === "5rating" ||
+                selectedMetric.fieldType === "10rating" ? (
+                  <Box display={"flex"} justifyContent="center">
+                    <StyledRating
+                      name="metricValue"
+                      defaultValue={0}
+                      max={selectedMetric.fieldType === "5rating" ? 5 : 10}
+                      type="number"
+                      precision={1}
+                      onChange={formik.handleChange}
+                      value={parseInt(formik.values.metricValue)}
+                      icon={<FavoriteIcon fontSize="large" />}
+                      emptyIcon={<FavoriteBorderIcon fontSize="large" />}
+                    />
+                  </Box>
+                ) : null}
+              </Box>
             </Box>
           </CardContent>
           <Divider />

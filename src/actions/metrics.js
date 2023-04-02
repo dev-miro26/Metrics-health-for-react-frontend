@@ -77,7 +77,7 @@ export const apiAddMetricWage = (wage) => async (dispatch) => {
     const res = await api.post("metrics/wage", wage);
 
     toast.success(" Metrics Value is added!");
-    dispatch(apiGetMetricsLastestWagesByUserId());
+    // dispatch(apiGetMetricsLastestWagesByUserId());
     return dispatch(addMetricWage(res.data.doc));
   } catch (err) {
     const errors = err.response.data.errors;

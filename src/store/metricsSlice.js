@@ -33,13 +33,14 @@ export const metricsSlice = createSlice({
       state.metrics = state.metrics?.filter(
         (metric) => metric._id !== action.payload._id
       );
-      
+
       state.loading = false;
     },
     addMetricWage: (state, action) => {
       state.wages = [...state.wages, action.payload];
       state.todayWages = [...state.todayWages, action.payload];
-      // state.lastestWages = [...state.lastestWages, action.payload];
+      state.lastestWages.unshift(action.payload);
+      state.lastestWages.length > 3 && state.lastestWages.pop();
       // state.lastestWages[0].delete();
       // state.lastest.shift(action.payload);
     },

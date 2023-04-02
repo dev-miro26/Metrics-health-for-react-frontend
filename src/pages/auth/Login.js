@@ -20,6 +20,7 @@ import {
 import { Layout as AuthLayout } from "../../layouts/auth/layout";
 
 const Login = ({ isAuthenticated, apiLogin }) => {
+  console.log("------------");
   const formik = useFormik({
     initialValues: {
       email: "",
