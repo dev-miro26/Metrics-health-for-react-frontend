@@ -40,6 +40,7 @@ const StyledRating = styled(Rating)({
 const ToDoDialog = (props) => {
   const dispatch = useDispatch();
   const { onClose, open, selectedMetric } = props;
+
   // const [openDialog, setOpenDialog] = React.useState(false);
   const validationString = yup.object({
     metricValue: yup
@@ -51,50 +52,37 @@ const ToDoDialog = (props) => {
       .number("Metric Vaule must be number")
       .required("metricValue is required"),
   });
+
   const formik = useFormik({
     initialValues: {
+      fieldType: selectedMetric?.fieldType,
       _id: selectedMetric._id ? selectedMetric._id : "",
       metricValue: "",
-      BPH: "",
-      BPL: "",
-      HR: "",
     },
     validateOnSubmit: true,
     validationSchema:
       selectedMetric.fieldType === "text" ? validationString : validationNumber,
 
     onSubmit: (values) => {
-      // if (values._id) {
-      //   setOpenDialog(true);
-      // } else {
-      //   props.onClose();
-      // }
-      console.log(values);
-      if (selectedMetric.fieldType === "bloodPressure") {
-        dispatch(
-          apiAddMetricWage({
-            metricId: selectedMetric._id,
-            metricValue: values.BPH + "," + values.BPL + ("," + values.HR),
-          })
-        );
-      } else {
-        dispatch(
-          apiAddMetricWage({
-            metricId: selectedMetric._id,
-            metricValue: values.metricValue,
-          })
-        );
-      }
+      dispatch(
+        apiAddMetricWage({
+          fieldType: values.fieldType,
+          metricId: values._id,
+          metricValue: values.metricValue,
+        })
+      );
 
       props.onClose();
     },
   });
-
   useEffect(() => {
-    formik.setValues({ _id: selectedMetric._id, metricValue: "" });
+    formik.setValues({
+      _id: selectedMetric._id,
+      metricValue: "",
+      fieldType: selectedMetric.fieldType,
+    });
     // eslint-disable-next-line
   }, [selectedMetric]);
-
   return (
     <BootstrapDialog
       open={open}
@@ -130,6 +118,7 @@ const ToDoDialog = (props) => {
                     helperText={
                       formik.touched.metricValue && formik.errors.metricValue
                     }
+                    onBlur={formik.handleBlur}
                     onChange={formik.handleChange}
                     value={formik.values.metricValue}
                     InputProps={{
@@ -147,7 +136,7 @@ const ToDoDialog = (props) => {
                   />
                 ) : null}
 
-                {selectedMetric.fieldType === "bloodPressure" && (
+                {selectedMetric.fieldType === "bloodPressure" ? (
                   <Box
                     display={"flex"}
                     sm={{ justifyContent: "space-between" }}
@@ -158,7 +147,9 @@ const ToDoDialog = (props) => {
                         name="BPH"
                         fullWidth
                         label="Diastolic "
+                        onBlur={formik.handleBlur}
                         type="number"
+                        onChange={formik.handleChange}
                         value={formik.values.BPH}
                         InputProps={{
                           startAdornment: (
@@ -177,12 +168,13 @@ const ToDoDialog = (props) => {
                     </Box>
                     <Box pr={2} pb={2}>
                       <TextField
-                        autoFocus
                         name="BPL"
                         value={formik.values.BPL}
                         fullWidth
                         type="number"
-                        label="Systolic "
+                        label="Systolic"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
                         InputProps={{
                           startAdornment: (
                             <InputAdornment position="start">
@@ -200,9 +192,10 @@ const ToDoDialog = (props) => {
                     </Box>
                     <Box pr={2} pb={2}>
                       <TextField
-                        autoFocus
                         name="HR"
                         value={formik.values.HR}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
                         fullWidth
                         type="number"
                         label="Heart Rate"
@@ -222,7 +215,7 @@ const ToDoDialog = (props) => {
                       />
                     </Box>
                   </Box>
-                )}
+                ) : null}
                 {selectedMetric.fieldType === "5rating" ||
                 selectedMetric.fieldType === "10rating" ? (
                   <Box display={"flex"} justifyContent="center">
