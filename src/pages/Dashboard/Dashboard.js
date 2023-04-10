@@ -125,10 +125,10 @@ const Dashboard = ({ apiLogout }) => {
                       >
                         {group?.contents?.map((metric, index) => (
                           <TreeItem
-                            key={`metric-${index + 1}`}
-                            nodeId={`metric-${index + 1}`}
+                            key={`metric-${metric}`}
+                            nodeId={`${metric}`}
                             label={
-                              <List>
+                              <List key={metric}>
                                 <ListItem
                                   onClick={() =>
                                     setSelectedShowChatMetric(metric)
@@ -164,7 +164,9 @@ const Dashboard = ({ apiLogout }) => {
                 </Paper>
               </Grid>
               <Grid item md={8} sm={9}>
-                {chartMetric?.fieldType === "number" ? (
+                {chartMetric?.fieldType === "number" ||
+                chartMetric?.fieldType === "5rating" ||
+                chartMetric?.fieldType === "10rating" ? (
                   <OneLineChart
                     data={showChartWages}
                     selectedShowChatMetric={selectedShowChatMetric}

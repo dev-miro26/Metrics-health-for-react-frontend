@@ -14,8 +14,9 @@ const BloodChart = ({ data, selectedShowChatMetric }) => {
   //     moment(data.updatedAt).format("MM/DD/YYYY")
   //   );
 
-  const oldestDate = moment.min(data.map((item) => moment(item.createdAt)));
-  const currentDate = moment(new Date()).local();
+  const dates = data.map((item) => item.createdAt);
+  const oldestDate = moment.tz(dates.sort()[0], "UTC").local().startOf("day");
+  const today = moment().tz(moment.tz.guess()).startOf("day");
   const dateArray = [];
   const valueArray = [];
   const hP = [];
@@ -23,16 +24,16 @@ const BloodChart = ({ data, selectedShowChatMetric }) => {
   const hR = [];
 
   for (
-    let m = moment(oldestDate).local();
-    m.isSameOrBefore(currentDate);
-    m.add(1, "day")
+    let currentDate = oldestDate.clone();
+    currentDate <= today;
+    currentDate.add(1, "days")
   ) {
-    dateArray.push(m.local().format("DD/MMMM"));
+    dateArray.push(currentDate.format("DD/MMMM"));
 
     const mm = sortedData.filter(
       (d) =>
         moment(d.createdAt).local().format("YYYY-MM-DD") ===
-        m.local().format("YYYY-MM-DD")
+        currentDate.local().format("YYYY-MM-DD")
     );
     const total = mm[0]?.wage?.split(",");
     mm[0] ? hP.push(parseInt(total[0])) : hP.push(0);
@@ -116,7 +117,7 @@ const BloodChart = ({ data, selectedShowChatMetric }) => {
     <ReactApexChart
       options={state.options}
       series={state.series}
-      type="area"
+      type="line"
       height={350}
     />
   );

@@ -115,7 +115,7 @@ const ToDoForBloodPressure = (props) => {
                           <InputAdornment position="start">
                             <SvgIcon
                               sx={{
-                                color: "success.main",
+                                color: "info.main",
                               }}
                             >
                               <MonitorHeartIcon />
@@ -139,7 +139,7 @@ const ToDoForBloodPressure = (props) => {
                           <InputAdornment position="start">
                             <SvgIcon
                               sx={{
-                                color: "info.main",
+                                color: "success.main",
                               }}
                             >
                               <MonitorHeartIcon />
