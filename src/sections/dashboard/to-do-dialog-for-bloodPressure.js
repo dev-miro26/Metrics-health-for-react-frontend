@@ -97,10 +97,10 @@ const ToDoForBloodPressure = (props) => {
               <Box display={"flex"} justifyContent="center">
                 <Box
                   display={"flex"}
-                  sm={{ justifyContent: "space-between" }}
-                  sx={{ flexDirection: "column" }}
+                  md={{ justifyContent: "space-between" }}
+                  // sx={{ flexDirection: "column" }}
                 >
-                  <Box sm={{ pr: 2 }} pb={2}>
+                  <Box pr={2} pb={2}>
                     <TextField
                       autoFocus
                       name="BPH"
@@ -125,7 +125,7 @@ const ToDoForBloodPressure = (props) => {
                       }}
                     />
                   </Box>
-                  <Box sm={{ pr: 2 }} pb={2}>
+                  <Box pr={2} pb={2}>
                     <TextField
                       name="BPL"
                       value={formik.values.BPL}
@@ -149,7 +149,7 @@ const ToDoForBloodPressure = (props) => {
                       }}
                     />
                   </Box>
-                  <Box sm={{ pr: 2 }} pb={2}>
+                  <Box pr={2} pb={2}>
                     <TextField
                       name="HR"
                       value={formik.values.HR}

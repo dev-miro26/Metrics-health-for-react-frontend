@@ -19,16 +19,19 @@ export const metricsSlice = createSlice({
         ? [...state.metrics, action.payload]
         : state.metrics;
     },
+
     updateMetric: (state, action) => {
       state.loading = false;
       state.metrics = state.metrics?.map((metric) =>
         metric._id === action.payload._id ? action.payload : metric
       );
     },
+
     getUserMetrics: (state, action) => {
       state.metrics = action.payload ? action.payload : [];
       state.loading = false;
     },
+
     deleteMetric: (state, action) => {
       state.metrics = state.metrics?.filter(
         (metric) => metric._id !== action.payload._id
@@ -36,6 +39,7 @@ export const metricsSlice = createSlice({
 
       state.loading = false;
     },
+
     addMetricWage: (state, action) => {
       state.wages = [...state.wages, action.payload];
       state.todayWages = [...state.todayWages, action.payload];
@@ -44,6 +48,7 @@ export const metricsSlice = createSlice({
       // state.lastestWages[0].delete();
       // state.lastest.shift(action.payload);
     },
+
     getMetricsAllWages: (state, action) => {
       state.wages = action.payload ? action.payload : [];
     },
