@@ -164,13 +164,13 @@ const Dashboard = ({ apiLogout }) => {
                 </Paper>
               </Grid>
               <Grid item md={8} sm={9}>
-                {chartMetric?.fieldType == "number" ? (
+                {chartMetric?.fieldType === "number" ? (
                   <OneLineChart
                     data={showChartWages}
                     selectedShowChatMetric={selectedShowChatMetric}
                   />
                 ) : null}
-                {chartMetric?.fieldType == "bloodPressure" ? (
+                {chartMetric?.fieldType === "bloodPressure" ? (
                   <BloodChart
                     data={showChartWages}
                     selectedShowChatMetric={selectedShowChatMetric}
