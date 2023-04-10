@@ -16,10 +16,6 @@ export const fieldTypes = [
     value: "10rating",
     label: "Rate From 1-10",
   },
-  {
-    vale: "exercise",
-    label: "Exercise",
-  },
 ];
 
 export const chartTypes = [

@@ -8,7 +8,6 @@ import {
 import { api, toast } from "../utils";
 
 export const apiGetGroupsByUserId = () => async (dispatch) => {
-  console.log("---------");
   try {
     const res = await api.get("group");
 
@@ -27,7 +26,6 @@ export const apiAddGroup = (formData) => async (dispatch) => {
     const res = await api.post("group", formData);
 
     toast.success("New Group is added!");
-    console.log("add group response = ", res);
     return dispatch(addGroup(res.data.doc));
   } catch (err) {
     console.log(err);
