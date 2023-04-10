@@ -1,12 +1,11 @@
 import React from "react";
+import { connect, useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import TreeView from "@mui/lab/TreeView";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import TreeItem from "@mui/lab/TreeItem";
 import { Layout as DashboardLayout } from "../../layouts/dashboard/layout";
-import { apiLogout } from "../../actions/auth";
-import { connect, useDispatch, useSelector } from "react-redux";
 import {
   Box,
   Container,
@@ -31,6 +30,7 @@ import {
 import ToDoDialog from "../../sections/dashboard/to-do-dialog";
 import ToDoForBloodPressure from "../../sections/dashboard/to-do-dialog-for-bloodPressure";
 import { apiGetGroupsByUserId } from "../../actions/group";
+import { apiLogout } from "../../actions/auth";
 
 import OneLineChart from "./OneLineChart";
 import BloodChart from "./BloodPressureChart";
