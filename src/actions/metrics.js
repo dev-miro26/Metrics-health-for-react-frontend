@@ -91,6 +91,7 @@ export const apiAddMetricWage = (wage) => async (dispatch) => {
 export const apiDeleteMetricWageById = (_id) => async (dispatch) => {
   try {
     await api.delete(`metrics/wage?_id=${_id}`);
+    await dispatch(apiGetMetricsLastestWagesByUserId());
     toast.success("The metric value has been successfully deleted.");
     return dispatch(deleteMetricWage({ _id: _id }));
   } catch (err) {
