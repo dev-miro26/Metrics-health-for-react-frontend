@@ -51,7 +51,7 @@ export const SideNav = (props) => {
             }}
           >
             {/* <LogoIcon /> */}
-            <img alt="Go to pro" src="/assets/Untitled.svg" />
+            <img alt="Go to pro" src="/assets/logoIcon.svg" />
           </Box>
           <Box
             sx={{
