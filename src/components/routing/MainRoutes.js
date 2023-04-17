@@ -8,6 +8,7 @@ import Metrics from "../../pages/Metrics/Metrics";
 import NotFound from "../../pages/NotFound.js";
 import MetricsGroup from "../../pages/MetricsGroup/MetricsGroup";
 import TotalMetricsValues from "../../pages/TotalMetricsValues/TotalMetricsValues";
+import Track from "../../pages/Track/Track";
 
 const MainRoutes = () => {
   return (
@@ -16,6 +17,7 @@ const MainRoutes = () => {
       <Route path="/auth/login" element={<Login></Login>}></Route>
       <Route path="/auth/register" element={<Register></Register>}></Route>
       <Route path="/metrics" element={<PrivateRoute component={Metrics} />} />
+      <Route path="/track" element={<PrivateRoute component={Track} />} />
       <Route
         path="metrics/viewallvalues"
         element={<PrivateRoute component={TotalMetricsValues} />}

@@ -19,7 +19,7 @@ import {
   Grid,
 } from "@mui/material";
 import { Layout as DashboardLayout } from "../../layouts/dashboard/layout";
-import { ArrowUturnLeftIcon } from "@heroicons/react/24/solid";
+import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 import { MetricsSearch } from "../../sections/metrics/metrics-search";
 import { apiLogout } from "../../actions/auth";
 
@@ -101,7 +101,7 @@ const TotalMetricsValues = () => {
         (row) => start <= row.date.valueOf() && end >= row.date.valueOf()
       )
     );
-  }, [search, startDate, endDate]);
+  }, [search, startDate, endDate]);//eslint-disable-line
 
   // console.log("tag", rows, "=", setCurrentRows);
   return (
@@ -121,16 +121,16 @@ const TotalMetricsValues = () => {
               border: "solid 1px #e2e2e2",
             }}
           >
-            <Box>
+            <Box sx={{ pb: 2 }}>
               <Tooltip title={"back"}>
                 <IconButton onClick={(e) => navigate("/")}>
                   <SvgIcon>
-                    <ArrowUturnLeftIcon />
+                    <ArrowLeftIcon />
                   </SvgIcon>
                 </IconButton>
               </Tooltip>
             </Box>
-            <Grid container spacing={2}>
+            <Grid container spacing={2} sx={{ pb: 2 }}>
               <Grid item md={6} sm={12} xs={12}>
                 <MetricsSearch search={search} setSearch={setSearch} />
               </Grid>
@@ -163,62 +163,65 @@ const TotalMetricsValues = () => {
                 </Box>
               </Grid>
             </Grid>
-          </Paper>
-          <Box>
-            <TableContainer>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>No</TableCell>
-                    <TableCell>Date</TableCell>
-                    {metrics &&
-                      metrics.map((metric) => (
-                        <TableCell key={metric?._id}>{metric?.name}</TableCell>
-                      ))}
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {current
-                    ?.slice(
-                      page * rowsPerPage,
-                      page * rowsPerPage + rowsPerPage
-                    )
-                    ?.map((row, index) => (
-                      <TableRow key={row?.date}>
-                        <TableCell>{index + 1}</TableCell>
-                        <TableCell>{row?.date}</TableCell>
-                        {metrics?.map((metric) => {
-                          const wage = row.wages.find(
-                            (w) => w?.metric?._id === metric?._id
-                          );
-                          return (
-                            <TableCell key={metric._id}>
-                              {wage ? wage.wage.wage : "-"}
-                            </TableCell>
-                          );
-                        })}
-                      </TableRow>
-                    ))}
-                  {emptyRows > 0 && (
-                    <TableRow style={{ height: 53 * emptyRows }}>
-                      <TableCell colSpan={metrics?.length + 1} />
+
+            <Box>
+              <TableContainer>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>No</TableCell>
+                      <TableCell>Date</TableCell>
+                      {metrics &&
+                        metrics.map((metric) => (
+                          <TableCell key={metric?._id}>
+                            {metric?.name}
+                          </TableCell>
+                        ))}
                     </TableRow>
-                  )}
-                  <TableRow>
-                    <TablePagination
-                      rowsPerPageOptions={[5, 10, 25]}
-                      // component="div"
-                      count={rows?.length}
-                      rowsPerPage={rowsPerPage}
-                      page={page}
-                      onPageChange={handleChangePage}
-                      onRowsPerPageChange={handleChangeRowsPerPage}
-                    />
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Box>
+                  </TableHead>
+                  <TableBody>
+                    {current
+                      ?.slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
+                      ?.map((row, index) => (
+                        <TableRow key={row?.date}>
+                          <TableCell>{index + 1}</TableCell>
+                          <TableCell>{row?.date}</TableCell>
+                          {metrics?.map((metric) => {
+                            const wage = row.wages.find(
+                              (w) => w?.metric?._id === metric?._id
+                            );
+                            return (
+                              <TableCell key={metric._id}>
+                                {wage ? wage.wage.wage : "-"}
+                              </TableCell>
+                            );
+                          })}
+                        </TableRow>
+                      ))}
+                    {emptyRows > 0 && (
+                      <TableRow style={{ height: 53 * emptyRows }}>
+                        <TableCell colSpan={metrics?.length + 1} />
+                      </TableRow>
+                    )}
+                    <TableRow>
+                      <TablePagination
+                        rowsPerPageOptions={[5, 10, 25]}
+                        // component="div"
+                        count={rows?.length}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        onPageChange={handleChangePage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                      />
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Box>
+          </Paper>
         </Container>
       </Box>
     </DashboardLayout>

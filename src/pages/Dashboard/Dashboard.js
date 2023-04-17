@@ -17,7 +17,14 @@ import {
   ListItemIcon,
   SvgIcon,
   Avatar,
+  Divider,
 } from "@mui/material";
+import dayjs from "dayjs";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+
 import { ClockIcon } from "@heroicons/react/24/solid";
 import { OverviewLatestMetricsValue } from "../../sections/overview/overview-latest-metrics-value";
 import { ToDoCard } from "../../sections/dashboard/to-do-card";
@@ -34,11 +41,26 @@ import { apiLogout } from "../../actions/auth";
 
 import OneLineChart from "./OneLineChart";
 import BloodChart from "./BloodPressureChart";
+import moment from "moment-timezone";
+
 const Dashboard = ({ apiLogout }) => {
+  const [filterEndDay, setFilterEndDay] = React.useState(
+    moment().tz(moment.tz.guess()).startOf("day")
+  );
+  const [filterStartDay, setFilterStartDay] = React.useState(
+    moment().tz(moment.tz.guess()).startOf("day").subtract(1, "week")
+  );
+  // for (let date = filterStartDay; date <= filterEndDay; date = date.clone().add(1, "day")) {
+  //   dateArray.push(date.format("YYYY-MM-DD"));
+  // }
+
   const dispatch = useDispatch();
   const metrics = useSelector((state) => state.metrics.metrics);
   const todayMetrics =
-    metrics && metrics.filter((metric) => metric.timing === "daily");
+    metrics &&
+    metrics.filter(
+      (metric) => metric.timing === "daily" && metric.status === "active"
+    );
   const todayWages = useSelector((state) => state.metrics.todayWages);
   const lastestWages = useSelector((state) => state.metrics.lastestWages);
   const allWages = useSelector((state) => state.metrics.wages);
@@ -49,8 +71,9 @@ const Dashboard = ({ apiLogout }) => {
   const groups = useSelector((state) => state.group.groups);
   const [showChartWages, setShowChartWages] = React.useState([]);
   const [chartMetric, setChartMetric] = React.useState({});
-  const [selectedShowChatMetric, setSelectedShowChatMetric] =
-    React.useState("");
+  const [selectedShowChatMetric, setSelectedShowChatMetric] = React.useState(
+    groups[0]?.contents[0]
+  );
   const [openModal, setOpenModal] = React.useState(false);
   const [openBlood, setOpenBlood] = React.useState(false);
 
@@ -60,8 +83,12 @@ const Dashboard = ({ apiLogout }) => {
     dispatch(apiGetMetricsTodayWagesByUserId());
     dispatch(apiGetMetricsLastestWagesByUserId());
     dispatch(apiGetGroupsByUserId());
+
     // eslint-disable-next-line
   }, []);
+  React.useEffect(() => {
+    setSelectedShowChatMetric(groups[0]?.contents[0]);
+  }, [groups]);
   React.useEffect(() => {
     setShowChartWages(
       allWages.filter((wage) => wage.metricsId === selectedShowChatMetric)
@@ -98,18 +125,41 @@ const Dashboard = ({ apiLogout }) => {
                     />
                   </Grid>
                 ))}
-            <Grid item md={12} sm={12} style={{ display: "flex" }}>
-              <Grid item md={4} sm={6}>
-                <Paper>
+          </Grid>
+          <Paper
+            style={{
+              width: "100%",
+              padding: "8px",
+              marginTop: "8px",
+              marginBottom: "8px",
+            }}
+          >
+            <Grid container spacing={4}>
+              <Grid md={3} lg={3} sm={12} xs={12}>
+                <Box sx={{ borderRight: { sm: "solid 1px #e2e2e2" } }}>
+                  <p
+                    style={{
+                      textAlign: "center",
+                      p: "2px",
+                      fontSize: "18px",
+                      fontWeight: "700",
+                    }}
+                  >
+                    Group Name
+                  </p>
+                  <Divider />
                   <TreeView
+                    defaultExpanded={["group-1"]}
                     aria-label="file system navigator"
                     defaultCollapseIcon={<ExpandMoreIcon />}
                     defaultExpandIcon={<ChevronRightIcon />}
                     sx={{
                       flexGrow: 1,
-                      maxWidth: 400,
+                      maxHeight: 350,
                       overflowY: "auto",
                     }}
+                    // style={{ height: "350px", overflowY: "scroll" }}
+                    selected={[selectedShowChatMetric]}
                   >
                     {groups?.map((group, index) => (
                       <TreeItem
@@ -122,17 +172,27 @@ const Dashboard = ({ apiLogout }) => {
                             </ListItem>
                           </List>
                         }
+                        // defaultExpanded={["root"]}
                       >
                         {group?.contents?.map((metric, index) => (
                           <TreeItem
-                            key={`metric-${metric}`}
-                            nodeId={`${metric}`}
+                            key={metric}
+                            nodeId={metric}
+                            onClick={() => {
+                              setSelectedShowChatMetric(metric);
+                              setFilterEndDay(moment());
+                              setFilterStartDay(moment().subtract(1, "week"));
+                            }}
                             label={
                               <List key={metric}>
                                 <ListItem
-                                  onClick={() =>
-                                    setSelectedShowChatMetric(metric)
-                                  }
+                                // onClick={() => {
+                                //   setSelectedShowChatMetric(metric);
+                                //   setFilterEndDay(moment());
+                                //   setFilterStartDay(
+                                //     moment().subtract(1, "week")
+                                //   );
+                                // }}
                                 >
                                   <ListItemIcon>
                                     <Avatar
@@ -161,36 +221,81 @@ const Dashboard = ({ apiLogout }) => {
                       </TreeItem>
                     ))}
                   </TreeView>
-                </Paper>
+                </Box>
               </Grid>
-              <Grid item md={8} sm={9}>
+              <Grid md={9} lg={9} sm={12} xs={12}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: { sm: "flex-end", xs: "center" },
+                    flexDirection: { xs: "column", sm: "row" },
+                  }}
+                >
+                  <Box sx={{ pr: { sm: 2 }, pb: { xs: "8px" } }}>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DemoContainer components={["DatePicker"]}>
+                        <DatePicker
+                          label="From"
+                          value={dayjs(filterStartDay)}
+                          onChange={(newValue) => {
+                            setFilterStartDay(
+                              moment(newValue.format("YYYY-MM-DD"))
+                            );
+                          }}
+                        />
+                      </DemoContainer>
+                    </LocalizationProvider>
+                  </Box>
+                  <Box sx={{ pb: { xs: "16px" } }}>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DemoContainer components={["DatePicker"]}>
+                        <DatePicker
+                          label="To"
+                          value={dayjs(filterEndDay)}
+                          onChange={(newValue) => {
+                            setFilterEndDay(
+                              moment(newValue.format("YYYY-MM-DD"))
+                            );
+                          }}
+                        />
+                      </DemoContainer>
+                    </LocalizationProvider>
+                  </Box>
+                </Box>
                 {chartMetric?.fieldType === "number" ||
                 chartMetric?.fieldType === "5rating" ||
                 chartMetric?.fieldType === "10rating" ? (
                   <OneLineChart
                     data={showChartWages}
                     selectedShowChatMetric={selectedShowChatMetric}
+                    filterEndDay={filterEndDay}
+                    filterStartDay={filterStartDay}
                   />
                 ) : null}
                 {chartMetric?.fieldType === "bloodPressure" ? (
                   <BloodChart
                     data={showChartWages}
+                    filterEndDay={filterEndDay}
+                    filterStartDay={filterStartDay}
                     selectedShowChatMetric={selectedShowChatMetric}
                   />
                 ) : null}
+                {!selectedShowChatMetric && (
+                  <p style={{ textAlign: "center", padding: "24px" }}>Chart</p>
+                )}
               </Grid>
             </Grid>
-            <Box style={{ width: "100%" }}>
-              <Grid xs={12} md={6} lg={4}>
-                <OverviewLatestMetricsValue
-                  lastestWages={lastestWages}
-                  sx={{ height: "100%" }}
-                  metrics={metrics}
-                />
-              </Grid>
-            </Box>
-            <Grid xs={12} md={12} lg={8}></Grid>
+          </Paper>
+          <Grid container spacing={4}>
+            <Grid xs={12} md={6} lg={4}>
+              <OverviewLatestMetricsValue
+                lastestWages={lastestWages}
+                sx={{ height: "100%" }}
+                metrics={metrics}
+              />
+            </Grid>
           </Grid>
+          <Grid xs={12} sm={12} md={12}></Grid>
         </Container>
       </Box>
 

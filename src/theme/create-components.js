@@ -268,6 +268,7 @@ export function createComponents(config) {
         root: {
           borderBottomColor: palette.divider,
           padding: "15px 16px",
+          borderBottom: "solid 2px #e7ebf0",
         },
       },
     },
@@ -277,7 +278,7 @@ export function createComponents(config) {
           borderBottom: "none",
           [`& .${tableCellClasses.root}`]: {
             borderBottom: "none",
-            backgroundColor: palette.neutral[50],
+            backgroundColor: "#e2e2e2",
             color: palette.neutral[700],
             fontSize: 12,
             fontWeight: 600,

@@ -14,9 +14,11 @@ import {
   Typography,
   Card,
   Box,
+  Avatar,
+  SvgIcon,
 } from "@mui/material";
 import { SeverityPill } from "../../components/severity-pill";
-
+import { ClockIcon } from "@heroicons/react/24/solid";
 import GroupCard from "../../sections/group/groupCard";
 import { Layout as DashboardLayout } from "../../layouts/dashboard/layout";
 import { apiLogout } from "../../actions/auth";
@@ -165,18 +167,19 @@ const MetricsGroup = ({ apiLogout }) => {
           <Grid container spacing={2}>
             <Grid item md={3} sm={12} xs={12}>
               <Paper
-                style={{
+                sx={{
                   padding: "8px",
 
                   outline: "solid 1px #e2e2e2",
-                  minHeight: "620px",
+                  minHeight: { sm: "620px" },
+                  overflowY: "auto",
                   border: "solid 1px #e2e2e2",
                 }}
               >
                 <Grid container spacing={2}>
                   {groups &&
                     groups.map((group, index) => (
-                      <Grid item md={12} sm={6} xs={6} key={index}>
+                      <Grid item md={12} sm={12} xs={12} key={index}>
                         <Box key={index} mb={1}>
                           <GroupCard
                             group={group}
@@ -232,12 +235,13 @@ const MetricsGroup = ({ apiLogout }) => {
                 <DragDropContext onDragEnd={handleDragEnd}>
                   <Box display={"flex"} mt={2}>
                     <Grid container spacing={2}>
-                      <Grid item md={8} sm={6} xs={6}>
+                      <Grid item md={7} sm={6} xs={6}>
                         <Box
                           style={{
                             border: "solid 1px #e2e2e2",
                             borderRadius: "4px",
                             minHeight: "500px",
+                            overflowY: "auto",
                           }}
                         >
                           <Droppable droppableId="list1">
@@ -253,12 +257,12 @@ const MetricsGroup = ({ apiLogout }) => {
                                   </Typography>
                                 </Box>
                                 <Divider style={{ marginBottom: "16px" }} />
-                                <Grid
-                                  container
-                                  spacing={1}
+                                <Box
                                   style={{
                                     maxHeight: "420px",
+                                    minHeight: "400px",
                                     overflowY: "auto",
+                                    paddingTop: "16px",
                                   }}
                                 >
                                   {list1 &&
@@ -269,68 +273,82 @@ const MetricsGroup = ({ apiLogout }) => {
                                         index={index}
                                       >
                                         {(provided) => (
-                                          <Grid
-                                            item
-                                            md={6}
-                                            sm={12}
-                                            xs={12}
-                                            key={index}
-                                          >
-                                            <Box pr={2} pl={2} pb={1}>
-                                              <Card
-                                                ref={provided.innerRef}
-                                                {...provided.draggableProps}
-                                                {...provided.dragHandleProps}
-                                                sx={{
-                                                  userSelect: "none",
+                                          <Box pr={2} pl={2} pb={1}>
+                                            <Card
+                                              ref={provided.innerRef}
+                                              {...provided.draggableProps}
+                                              {...provided.dragHandleProps}
+                                              sx={{
+                                                userSelect: "none",
 
-                                                  minHeight: "50px",
-                                                  backgroundColor: "white",
-                                                  ...provided.draggableProps
-                                                    .style,
-                                                }}
-                                                style={{
-                                                  outline: "solid 1px #e2e2e2",
-                                                  padding: "16px",
-                                                }}
+                                                minHeight: "50px",
+                                                backgroundColor: "white",
+                                                ...provided.draggableProps
+                                                  .style,
+                                              }}
+                                              style={{
+                                                outline: "solid 1px #e2e2e2",
+                                                padding: "16px",
+                                              }}
+                                            >
+                                              <Box
+                                                display={"flex"}
+                                                alignItems={"center"}
                                               >
-                                                <Box>
-                                                  <Typography variant="h5">
-                                                    {item.name}
-                                                  </Typography>
-                                                </Box>
-                                                <Box
-                                                  display={"flex"}
-                                                  justifyContent="space-between"
-                                                  mt={1}
+                                                <Avatar
+                                                  sx={{
+                                                    backgroundColor:
+                                                      "error.main",
+                                                    height: { sm: 36, xs: 24 },
+                                                    width: { sm: 36, xs: 24 },
+                                                    display: {
+                                                      xs: "none",
+                                                      sm: "flex",
+                                                    },
+                                                  }}
                                                 >
-                                                  <Typography>
-                                                    {item.description}
-                                                  </Typography>
-                                                  <Typography>
-                                                    <SeverityPill
-                                                      color={
-                                                        statusMap[item.status]
-                                                      }
-                                                    >
-                                                      {item.status}
-                                                    </SeverityPill>
-                                                  </Typography>
-                                                </Box>
-                                              </Card>
-                                            </Box>
-                                          </Grid>
+                                                  <SvgIcon>
+                                                    <ClockIcon />
+                                                  </SvgIcon>
+                                                </Avatar>
+                                                <Typography
+                                                  variant="h5"
+                                                  sx={{ pl: 1 }}
+                                                >
+                                                  {item.name}
+                                                </Typography>
+                                              </Box>
+                                              <Box
+                                                display={"flex"}
+                                                justifyContent="space-between"
+                                                mt={1}
+                                              >
+                                                <Typography>
+                                                  {item.description}
+                                                </Typography>
+                                                <Typography>
+                                                  <SeverityPill
+                                                    color={
+                                                      statusMap[item.status]
+                                                    }
+                                                  >
+                                                    {item.status}
+                                                  </SeverityPill>
+                                                </Typography>
+                                              </Box>
+                                            </Card>
+                                          </Box>
                                         )}
                                       </Draggable>
                                     ))}
-                                </Grid>
+                                </Box>
                                 {provided.placeholder}
                               </Box>
                             )}
                           </Droppable>
                         </Box>
                       </Grid>
-                      <Grid item md={4} sm={6} xs={6}>
+                      <Grid item md={5} sm={6} xs={6}>
                         <Box
                           style={{
                             border: "solid 1px #e2e2e2",
@@ -354,7 +372,7 @@ const MetricsGroup = ({ apiLogout }) => {
                                 <Box
                                   style={{
                                     maxHeight: "420px",
-                                    minHeight: "200px",
+                                    minHeight: "400px",
                                     overflowY: "auto",
                                     paddingTop: "16px",
                                   }}
@@ -385,8 +403,30 @@ const MetricsGroup = ({ apiLogout }) => {
                                                 padding: "16px",
                                               }}
                                             >
-                                              <Box>
-                                                <Typography variant="h5">
+                                              <Box
+                                                display={"flex"}
+                                                alignItems={"center"}
+                                              >
+                                                <Avatar
+                                                  sx={{
+                                                    backgroundColor:
+                                                      "success.main",
+                                                    height: { sm: 36, xs: 24 },
+                                                    width: { sm: 36, xs: 24 },
+                                                    display: {
+                                                      xs: "none",
+                                                      sm: "flex",
+                                                    },
+                                                  }}
+                                                >
+                                                  <SvgIcon>
+                                                    <ClockIcon />
+                                                  </SvgIcon>
+                                                </Avatar>
+                                                <Typography
+                                                  variant="h5"
+                                                  sx={{ pl: 1 }}
+                                                >
                                                   {item.name}
                                                 </Typography>
                                               </Box>

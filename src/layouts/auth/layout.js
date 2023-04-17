@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import { Box, Typography, Unstable_Grid2 as Grid } from "@mui/material";
-import { Logo } from "../../components/logo";
 
 // TODO: Change subtitle text
 
@@ -44,7 +43,7 @@ export const Layout = (props) => {
                 width: 32,
               }}
             >
-              <Logo />
+              <img alt="Go to pro" src="/assets/Untitled.svg" />
             </Box>
           </Box>
           {children}

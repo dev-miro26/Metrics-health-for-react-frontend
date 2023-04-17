@@ -5,7 +5,7 @@
   flex-direction: column;
   height: 100%;
   width: 100%;
-  font-family: '"Roboto", "Helvetica", "Arial", "sans-serif"' !important;
+  font-family: "Roboto", "Helvetica", "Arial", "sans-serif" !important;
 }
 
 ::-webkit-scrollbar {
@@ -20,4 +20,7 @@
 }
 ::-webkit-scrollbar-track {
   border-radius: 6px;
+}
+p {
+  font-family: "Roboto", "Helvetica", "Arial", "sans-serif" !important;
 }

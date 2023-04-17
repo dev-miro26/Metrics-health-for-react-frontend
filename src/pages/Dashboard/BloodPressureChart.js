@@ -3,7 +3,12 @@ import React from "react";
 import { useSelector } from "react-redux";
 import ReactApexChart from "react-apexcharts";
 import moment from "moment";
-const BloodChart = ({ data, selectedShowChatMetric }) => {
+const BloodChart = ({
+  data,
+  filterStartDay,
+  filterEndDay,
+  selectedShowChatMetric,
+}) => {
   const metric = useSelector((state) => state.metrics.metrics).filter(
     (metric) => metric._id === selectedShowChatMetric
   )[0];
@@ -14,18 +19,18 @@ const BloodChart = ({ data, selectedShowChatMetric }) => {
   //     moment(data.updatedAt).format("MM/DD/YYYY")
   //   );
 
-  const dates = data.map((item) => item.createdAt);
-  const oldestDate = moment.tz(dates.sort()[0], "UTC").local().startOf("day");
-  const today = moment().tz(moment.tz.guess()).startOf("day");
+  // const dates = data.map((item) => item.createdAt);
+  // const oldestDate = moment.tz(dates.sort()[0], "UTC").local().startOf("day");
+  // const today = moment().tz(moment.tz.guess()).startOf("day");
   const dateArray = [];
-  const valueArray = [];
+  // const valueArray = [];
   const hP = [];
   const lP = [];
   const hR = [];
 
   for (
-    let currentDate = oldestDate.clone();
-    currentDate <= today;
+    let currentDate = filterStartDay.clone();
+    currentDate <= filterEndDay;
     currentDate.add(1, "days")
   ) {
     dateArray.push(currentDate.format("DD/MMMM"));
@@ -41,7 +46,6 @@ const BloodChart = ({ data, selectedShowChatMetric }) => {
     mm[0] ? hR.push(parseInt(total[2])) : hR.push(0);
   }
 
-  console.log(sortedData, dateArray, valueArray);
   const state = {
     options: {
       colors: ["#008FFB", "#00E396", "#F04438", "#FF4560"],
