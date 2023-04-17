@@ -103,10 +103,10 @@ export const apiDeleteMetricWageById = (_id) => async (dispatch) => {
 };
 
 export const apiUpdateMetricWage = (formData) => async (dispatch) => {
-  console.log(formData);
   try {
     const res = await api.put("metrics/wage", formData);
-
+    await dispatch(apiGetMetricsLastestWagesByUserId());
+    console.log(res.data.doc);
     toast.success(" Metrics is updated!");
     return dispatch(updateMetricsWage(res.data.doc));
   } catch (err) {

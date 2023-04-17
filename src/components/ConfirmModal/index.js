@@ -11,7 +11,7 @@ import {
 const ConfirmDialog = ({ openDialog, onCancel, onOK, title, content }) => {
   return (
     <Dialog
-      fullWidth={true}
+      fullWidth
       maxWidth="sm"
       open={openDialog}
       onClose={onCancel}

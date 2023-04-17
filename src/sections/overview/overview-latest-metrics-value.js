@@ -133,7 +133,7 @@ export const OverviewLatestMetricsValue = (props) => {
             size="small"
             variant="text"
             onClick={(e) => {
-              navigate("/metrics/viewallvalues");
+              navigate("/track");
             }}
           >
             View all

@@ -3,7 +3,7 @@ import { styled } from "@mui/material/styles";
 import * as yup from "yup";
 import PropTypes from "prop-types";
 import { useFormik } from "formik";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Box,
   Button,
@@ -25,7 +25,7 @@ import MonitorHeartIcon from "@mui/icons-material/MonitorHeart";
 
 import { BootstrapDialog } from "../../components/BootstrapDialog";
 
-import { apiAddMetricWage } from "../../actions/metrics";
+import { apiUpdateMetricWage } from "../../actions/metrics";
 
 const StyledRating = styled(Rating)({
   "& .MuiRating-iconFilled": {
@@ -36,10 +36,12 @@ const StyledRating = styled(Rating)({
   },
 });
 
-const ToDoDialog = (props) => {
+const EditWageDialog = (props) => {
   const dispatch = useDispatch();
-  const { onClose, open, selectedMetric } = props;
-
+  const { onClose, openEditMetricWageDialog, editedMetricWage } = props;
+  const user = useSelector((state) => state.auth.user);
+  const metrics = useSelector((state) => state.metrics.metrics);
+  const [fieldType, setFieldType] = React.useState("");
   // const [openDialog, setOpenDialog] = React.useState(false);
   const validationString = yup.object({
     metricValue: yup
@@ -54,37 +56,43 @@ const ToDoDialog = (props) => {
 
   const formik = useFormik({
     initialValues: {
-      fieldType: selectedMetric?.fieldType,
-      _id: selectedMetric._id ? selectedMetric._id : "",
+      fieldType: editedMetricWage?.fieldType,
+      _id: editedMetricWage._id ? editedMetricWage._id : "",
       metricValue: "",
     },
     validateOnSubmit: true,
     validationSchema:
-      selectedMetric.fieldType === "text" ? validationString : validationNumber,
+      fieldType === "text" ? validationString : validationNumber,
 
     onSubmit: (values) => {
       dispatch(
-        apiAddMetricWage({
-          fieldType: values.fieldType,
+        apiUpdateMetricWage({
+          _id: values?._id,
+          userId: user?._id,
           metricId: values._id,
-          metricValue: values.metricValue,
+          wage: values.metricValue,
         })
       );
 
       props.onClose();
     },
   });
+
   useEffect(() => {
+    const fieldType = metrics.filter(
+      (metric) => metric?._id === editedMetricWage.metricsId
+    )[0]?.fieldType;
+    setFieldType(fieldType);
     formik.setValues({
-      _id: selectedMetric._id,
-      metricValue: "",
-      fieldType: selectedMetric.fieldType,
+      _id: editedMetricWage._id,
+      metricValue: editedMetricWage.wage,
+      fieldType: fieldType,
     });
     // eslint-disable-next-line
-  }, [selectedMetric]);
+  }, [editedMetricWage]);
   return (
     <BootstrapDialog
-      open={open}
+      open={openEditMetricWageDialog}
       fullWidth
       onClose={onClose}
       aria-labelledby="customized-dialog-title"
@@ -95,21 +103,18 @@ const ToDoDialog = (props) => {
         <Card>
           <CardHeader
             subheader="The information can be saved"
-            title={selectedMetric.name}
+            title={editedMetricWage.name}
           />
           <CardContent sx={{ pt: 0 }}>
             <Box sx={{ m: -1.5 }}>
               <Box display={"flex"} justifyContent="center">
-                {selectedMetric.fieldType === "number" ||
-                selectedMetric.fieldType === "text" ? (
+                {fieldType === "number" || fieldType === "text" ? (
                   <TextField
                     autoFocus
                     name="metricValue"
                     fullWidth
                     label="Metric Value"
-                    type={
-                      selectedMetric.fieldType === "text" ? "text" : "number"
-                    }
+                    type={fieldType === "text" ? "text" : "number"}
                     error={
                       formik.touched.metricValue &&
                       Boolean(formik.errors.metricValue)
@@ -123,19 +128,19 @@ const ToDoDialog = (props) => {
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
-                          {selectedMetric.prefix}
+                          {editedMetricWage.prefix}
                         </InputAdornment>
                       ),
                       endAdornment: (
                         <InputAdornment position="end">
-                          {selectedMetric.postfix}
+                          {editedMetricWage.postfix}
                         </InputAdornment>
                       ),
                     }}
                   />
                 ) : null}
 
-                {selectedMetric.fieldType === "bloodPressure" ? (
+                {fieldType === "bloodPressure" ? (
                   <Box
                     display={"flex"}
                     sm={{ justifyContent: "space-between" }}
@@ -215,13 +220,12 @@ const ToDoDialog = (props) => {
                     </Box>
                   </Box>
                 ) : null}
-                {selectedMetric.fieldType === "5rating" ||
-                selectedMetric.fieldType === "10rating" ? (
+                {fieldType === "5rating" || fieldType === "10rating" ? (
                   <Box display={"flex"} justifyContent="center">
                     <StyledRating
                       name="metricValue"
                       defaultValue={0}
-                      max={selectedMetric.fieldType === "5rating" ? 5 : 10}
+                      max={fieldType === "5rating" ? 5 : 10}
                       type="number"
                       precision={1}
                       onChange={formik.handleChange}
@@ -245,7 +249,7 @@ const ToDoDialog = (props) => {
           <Divider />
           <CardActions sx={{ justifyContent: "flex-end" }}>
             <Button variant="contained" type="submit">
-              Add
+              Save
             </Button>
 
             <Button variant="outlined" onClick={onClose}>
@@ -261,7 +265,7 @@ const ToDoDialog = (props) => {
           onOK={(e) => {
             dispatch(
               apiAddMetricWage({
-                metricId: selectedMetric._id,
+                metricId: editedMetricWage._id,
                 metricValue: formik.values.metricValue,
               })
             );
@@ -273,9 +277,9 @@ const ToDoDialog = (props) => {
     </BootstrapDialog>
   );
 };
-ToDoDialog.propTypes = {
+EditWageDialog.propTypes = {
   onClose: PropTypes.func,
-  open: PropTypes.bool.isRequired,
+  openEditMetricWageDialog: PropTypes.bool.isRequired,
 };
 
-export default ToDoDialog;
+export default EditWageDialog;

@@ -2,7 +2,12 @@ import React from "react";
 import { useSelector } from "react-redux";
 import ReactApexChart from "react-apexcharts";
 import moment from "moment-timezone";
-const OneLineChart = ({ data, selectedShowChatMetric }) => {
+const OneLineChart = ({
+  data,
+  selectedShowChatMetric,
+  filterStartDay,
+  filterEndDay,
+}) => {
   const metric = useSelector((state) => state.metrics.metrics).filter(
     (metric) => metric._id === selectedShowChatMetric
   )[0];
@@ -12,15 +17,15 @@ const OneLineChart = ({ data, selectedShowChatMetric }) => {
   //   const categories = sortedData.map((data) =>
   //     moment(data.updatedAt).format("MM/DD/YYYY")
   //   );
-  const dates = data.map((item) => item.createdAt);
-  const oldestDate = moment.tz(dates.sort()[0], "UTC").local().startOf("day");
-  const today = moment().tz(moment.tz.guess()).startOf("day");
+  // const dates = data.map((item) => item.createdAt);
+  // const oldestDate = moment.tz(dates.sort()[0], "UTC").local().startOf("day");
+  // const today = moment().tz(moment.tz.guess()).startOf("day");
   const dateArray = [];
   const valueArray = [];
 
   for (
-    let currentDate = oldestDate.clone();
-    currentDate <= today;
+    let currentDate = filterStartDay.clone();
+    currentDate <= filterEndDay;
     currentDate.add(1, "days")
   ) {
     dateArray.push(currentDate.format("DD/MMMM"));
@@ -39,8 +44,6 @@ const OneLineChart = ({ data, selectedShowChatMetric }) => {
         )
       : valueArray.push(0);
   }
-
-  console.log(sortedData, dateArray, valueArray);
 
   const state = {
     colors: ["#00e396"],

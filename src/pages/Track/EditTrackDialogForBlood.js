@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import * as yup from "yup";
 import PropTypes from "prop-types";
 import { useFormik } from "formik";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Box,
   Button,
@@ -24,11 +24,12 @@ import MonitorHeartIcon from "@mui/icons-material/MonitorHeart";
 
 import { BootstrapDialog } from "../../components/BootstrapDialog";
 
-import { apiAddMetricWage } from "../../actions/metrics";
+import { apiUpdateMetricWage } from "../../actions/metrics";
 
-const ToDoForBloodPressure = (props) => {
+const EditTrackDialogForBlood = (props) => {
   const dispatch = useDispatch();
-  const { onClose, open, selectedMetric } = props;
+  const { onClose, openEditMetricWageDialogForBlood, editedMetricWage } = props;
+  const user = useSelector((state) => state.auth.user);
 
   // const [openDialog, setOpenDialog] = React.useState(false);
 
@@ -46,8 +47,8 @@ const ToDoForBloodPressure = (props) => {
 
   const formik = useFormik({
     initialValues: {
-      fieldType: selectedMetric?.fieldType,
-      _id: selectedMetric._id ? selectedMetric._id : "",
+      fieldType: editedMetricWage?.fieldType,
+      _id: editedMetricWage._id ? editedMetricWage._id : "",
       BPH: "",
       BPL: "",
       HR: "",
@@ -57,29 +58,33 @@ const ToDoForBloodPressure = (props) => {
 
     onSubmit: (values) => {
       dispatch(
-        apiAddMetricWage({
-          fieldType: values.fieldType,
+        apiUpdateMetricWage({
+          _id: values._id,
+          userId: user?._id,
           metricId: values._id,
-          metricValue: values.BPH + "," + values.BPL + "," + values.HR,
+          wage: values.BPH + "," + values.BPL + "," + values.HR,
         })
       );
 
       props.onClose();
     },
   });
+
   useEffect(() => {
+    const kk = editedMetricWage?.wage?.split(",");
     formik.setValues({
-      _id: selectedMetric._id,
-      BPH: "",
-      BPL: "",
-      HR: "",
-      fieldType: selectedMetric.fieldType,
+      _id: editedMetricWage?._id,
+      BPH: kk && kk[0],
+      BPL: kk && kk[1],
+      HR: kk && kk[2],
+      fieldType: editedMetricWage?.fieldType,
     });
     // eslint-disable-next-line
-  }, [selectedMetric]);
+  }, [editedMetricWage]);
+
   return (
     <BootstrapDialog
-      open={open}
+      open={openEditMetricWageDialogForBlood}
       fullWidth
       onClose={onClose}
       aria-labelledby="customized-dialog-title"
@@ -90,7 +95,7 @@ const ToDoForBloodPressure = (props) => {
         <Card>
           <CardHeader
             subheader="The information can be saved"
-            title={selectedMetric.name}
+            title={editedMetricWage.name}
           />
           <CardContent sx={{ pt: 0 }}>
             <Box sx={{ m: -1.5 }}>
@@ -192,9 +197,8 @@ const ToDoForBloodPressure = (props) => {
     </BootstrapDialog>
   );
 };
-ToDoForBloodPressure.propTypes = {
+EditTrackDialogForBlood.propTypes = {
   onClose: PropTypes.func,
-  open: PropTypes.bool.isRequired,
 };
 
-export default ToDoForBloodPressure;
+export default EditTrackDialogForBlood;
