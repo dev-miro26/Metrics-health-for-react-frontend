@@ -323,10 +323,21 @@ const MetricsGroup = ({ apiLogout }) => {
                                                 justifyContent="space-between"
                                                 mt={1}
                                               >
-                                                <Typography>
+                                                <Typography
+                                                  sx={{
+                                                    overflowX: { xs: "hidden" },
+                                                  }}
+                                                >
                                                   {item.description}
                                                 </Typography>
-                                                <Typography>
+                                                <Typography
+                                                  sx={{
+                                                    display: {
+                                                      xs: "none",
+                                                      sm: "block",
+                                                    },
+                                                  }}
+                                                >
                                                   <SeverityPill
                                                     color={
                                                       statusMap[item.status]
@@ -438,7 +449,14 @@ const MetricsGroup = ({ apiLogout }) => {
                                                 <Typography>
                                                   {item.description}
                                                 </Typography>
-                                                <Typography>
+                                                <Typography
+                                                  sx={{
+                                                    display: {
+                                                      xs: "none",
+                                                      sm: "block",
+                                                    },
+                                                  }}
+                                                >
                                                   <SeverityPill
                                                     color={
                                                       statusMap[item.status]

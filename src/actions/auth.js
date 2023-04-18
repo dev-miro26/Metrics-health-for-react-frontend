@@ -10,15 +10,14 @@ import { api, setAuthToken, toast } from "../utils";
 export const apiLoadUser = () => async (dispatch) => {
   try {
     const res = await api.get("auth/loadUser");
-    console.log(res);
 
-    dispatch(userLogined(res.data.doc));
+    await dispatch(userLogined(res.data.doc));
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
       errors.forEach((error) => console.log(error.msg));
     }
-    dispatch(userAuthError());
+    await dispatch(userAuthError());
   }
 };
 

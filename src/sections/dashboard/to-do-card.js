@@ -27,19 +27,11 @@ export const ToDoCard = (props) => {
     >
       <CardContent>
         <Stack
-          alignItems="flex-start"
+          alignItems="center"
           direction="row"
           justifyContent="space-between"
           spacing={3}
         >
-          <Stack spacing={1}>
-            <Typography color="text.primary" variant="h3">
-              {metric.name}
-            </Typography>
-            <Typography variant="h4" color="text.secondary">
-              {metric.description}
-            </Typography>
-          </Stack>
           <Avatar
             sx={{
               backgroundColor: "error.main",
@@ -51,6 +43,27 @@ export const ToDoCard = (props) => {
               <ClockIcon />
             </SvgIcon>
           </Avatar>
+          <Stack spacing={1} alignItems={"center"}>
+            <Typography
+              color="text.primary"
+              variant="h3"
+              sx={{ textAlign: "right", alignItems: "center" }}
+            >
+              {metric.name}
+            </Typography>
+            {/* <Typography
+              variant="h5"
+              color="text.secondary"
+              sx={{
+                // overflow: "hidden",
+                whiteSpace: "nowrap",
+                wordWrap: "break-word",
+              }}
+            >
+              {metric.description.slice(0, 20)}
+              {metric.description.length > 20 ? "..." : null}
+            </Typography> */}
+          </Stack>
         </Stack>
       </CardContent>
     </Card>

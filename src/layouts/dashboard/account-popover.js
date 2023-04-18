@@ -58,7 +58,14 @@ export const AccountPopover = (props) => {
           },
         }}
       >
-        <MenuItem onClick={handleSignOut}>Sign out</MenuItem>
+        <MenuItem
+          onClick={() => {
+            handleSignOut();
+            localStorage.removeItem("smart-metrics-logbook");
+          }}
+        >
+          Sign out
+        </MenuItem>
       </MenuList>
     </Popover>
   );
