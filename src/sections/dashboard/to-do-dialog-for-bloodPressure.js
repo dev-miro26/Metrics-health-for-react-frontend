@@ -87,7 +87,7 @@ const ToDoForBloodPressure = (props) => {
       maxWidth={"sm"}
     >
       <form noValidate onSubmit={formik.handleSubmit}>
-        <Card>
+        <Card  sx={{ pr: { sm: "16px", xs: "0px" }, pl: { sm: "16px", xs: "0px" } }}>
           <CardHeader
             subheader="The information can be saved"
             title={selectedMetric.name}

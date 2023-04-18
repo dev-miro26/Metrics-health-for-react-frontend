@@ -15,6 +15,7 @@ import {
   TextField,
   InputAdornment,
   SvgIcon,
+  Typography,
 } from "@mui/material";
 import { Rating } from "@mui/material";
 // import ConfirmDialog from "../../components/ConfirmModal";
@@ -92,11 +93,14 @@ const ToDoDialog = (props) => {
       maxWidth={"sm"}
     >
       <form noValidate onSubmit={formik.handleSubmit}>
-        <Card>
+        <Card
+          sx={{ pr: { sm: "16px", xs: "0px" }, pl: { sm: "16px", xs: "0px" } }}
+        >
           <CardHeader
             subheader="The information can be saved"
-            title={selectedMetric.name}
+            title={<Typography variant="h4">{selectedMetric.name}</Typography>}
           />
+
           <CardContent sx={{ pt: 0 }}>
             <Box sx={{ m: -1.5 }}>
               <Box display={"flex"} justifyContent="center">

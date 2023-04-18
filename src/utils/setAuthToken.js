@@ -3,10 +3,10 @@ import api from "./api";
 const setAuthToken = (token) => {
   if (token) {
     api.defaults.headers.common["x-auth-token"] = token;
-    localStorage.setItem("metronic-log-books", token);
+    localStorage.setItem("smart-metrics-logbook", token);
   } else {
     delete api.defaults.headers["x-auth-token"];
-    localStorage.removeItem("metronic-log-books");
+    localStorage.removeItem("smart-metrics-logbook");
   }
 };
 

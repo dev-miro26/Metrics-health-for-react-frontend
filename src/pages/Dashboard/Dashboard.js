@@ -115,7 +115,7 @@ const Dashboard = ({ apiLogout }) => {
                       ?.includes(metric._id)
                 )
                 ?.map((metric, index) => (
-                  <Grid xs={12} sm={6} lg={3} key={index}>
+                  <Grid xs={12} sm={6} lg={4} key={index}>
                     <ToDoCard
                       sx={{ height: "100%" }}
                       metric={metric}
@@ -135,7 +135,7 @@ const Dashboard = ({ apiLogout }) => {
             }}
           >
             <Grid container spacing={4}>
-              <Grid md={3} lg={3} sm={12} xs={12}>
+              <Grid md={4} lg={3} sm={12} xs={12}>
                 <Box sx={{ borderRight: { sm: "solid 1px #e2e2e2" } }}>
                   <p
                     style={{
@@ -223,7 +223,7 @@ const Dashboard = ({ apiLogout }) => {
                   </TreeView>
                 </Box>
               </Grid>
-              <Grid md={9} lg={9} sm={12} xs={12}>
+              <Grid md={8} lg={9} sm={12} xs={12}>
                 <Box
                   sx={{
                     display: "flex",
