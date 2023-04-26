@@ -42,6 +42,9 @@ import { apiLogout } from "../../actions/auth";
 import OneLineChart from "./OneLineChart";
 import BloodChart from "./BloodPressureChart";
 import moment from "moment-timezone";
+import TableForTextMetrics from "./TableForTextMetrics";
+import EveryTimeChart from "./EveryTimeChart";
+import GroupChart from "./GroupChart";
 
 const Dashboard = ({ apiLogout }) => {
   const [filterEndDay, setFilterEndDay] = React.useState(
@@ -50,9 +53,10 @@ const Dashboard = ({ apiLogout }) => {
   const [filterStartDay, setFilterStartDay] = React.useState(
     moment().tz(moment.tz.guess()).startOf("day").subtract(1, "week")
   );
-  // for (let date = filterStartDay; date <= filterEndDay; date = date.clone().add(1, "day")) {
-  //   dateArray.push(date.format("YYYY-MM-DD"));
-  // }
+
+  const [everyTimeDate, setEveryTimeDate] = React.useState(
+    moment().tz(moment.tz.guess()).startOf("day")
+  );
 
   const dispatch = useDispatch();
   const metrics = useSelector((state) => state.metrics.metrics);
@@ -61,6 +65,11 @@ const Dashboard = ({ apiLogout }) => {
     metrics.filter(
       (metric) => metric.timing === "daily" && metric.status === "active"
     );
+  const everyTimeMetrics =
+    metrics &&
+    metrics.filter(
+      (metric) => metric.timing === "everytime" && metric.status === "active"
+    );
   const todayWages = useSelector((state) => state.metrics.todayWages);
   const lastestWages = useSelector((state) => state.metrics.lastestWages);
   const allWages = useSelector((state) => state.metrics.wages);
@@ -68,12 +77,15 @@ const Dashboard = ({ apiLogout }) => {
     _id: "",
     fieldType: "",
   });
+  const [allData, setAllData] = React.useState([]);
+
   const groups = useSelector((state) => state.group.groups);
   const [showChartWages, setShowChartWages] = React.useState([]);
   const [chartMetric, setChartMetric] = React.useState({});
-  const [selectedShowChatMetric, setSelectedShowChatMetric] = React.useState(
-    groups[0]?.contents[0]
-  );
+  const [selectedShowChatMetric, setSelectedShowChatMetric] = React.useState();
+  const [activeGroup, setActiveGroup] = React.useState("group-1");
+  const [selectedGroup, setSelectedGroup] = React.useState();
+  const [showChartMetricType, setShowChartMetricType] = React.useState();
   const [openModal, setOpenModal] = React.useState(false);
   const [openBlood, setOpenBlood] = React.useState(false);
 
@@ -85,14 +97,17 @@ const Dashboard = ({ apiLogout }) => {
     dispatch(apiGetGroupsByUserId());
 
     // eslint-disable-next-line
-  }, []);
+    setActiveGroup("group-1");
+    setSelectedShowChatMetric("");
+  }, [dispatch]);
   React.useEffect(() => {
-    setSelectedShowChatMetric(groups[0]?.contents[0]);
+    setSelectedGroup(groups[0]?._id);
   }, [groups]);
   React.useEffect(() => {
     setShowChartWages(
       allWages.filter((wage) => wage.metricsId === selectedShowChatMetric)
     );
+
     setChartMetric(metrics.filter((m) => m._id === selectedShowChatMetric)[0]);
   }, [selectedShowChatMetric, allWages]); //eslint-disable-line
   return (
@@ -125,6 +140,18 @@ const Dashboard = ({ apiLogout }) => {
                     />
                   </Grid>
                 ))}
+            {everyTimeMetrics &&
+              everyTimeMetrics?.map((metric, index) => (
+                <Grid xs={12} sm={6} lg={4} key={index}>
+                  <ToDoCard
+                    sx={{ height: "100%" }}
+                    metric={metric}
+                    setSelectedMetric={setSelectedMetric}
+                    setOpenModal={setOpenModal}
+                    setOpenBlood={setOpenBlood}
+                  />
+                </Grid>
+              ))}
           </Grid>
           <Paper
             style={{
@@ -159,7 +186,11 @@ const Dashboard = ({ apiLogout }) => {
                       overflowY: "auto",
                     }}
                     // style={{ height: "350px", overflowY: "scroll" }}
-                    selected={[selectedShowChatMetric]}
+                    selected={[
+                      selectedShowChatMetric
+                        ? selectedShowChatMetric
+                        : activeGroup,
+                    ]}
                   >
                     {groups?.map((group, index) => (
                       <TreeItem
@@ -172,6 +203,13 @@ const Dashboard = ({ apiLogout }) => {
                             </ListItem>
                           </List>
                         }
+                        onClick={() => {
+                          setSelectedGroup(group._id);
+                          setAllData([]);
+                          setShowChartMetricType();
+                          setSelectedShowChatMetric("");
+                          setActiveGroup(`group-${index + 1}`);
+                        }}
                         // defaultExpanded={["root"]}
                       >
                         {group?.contents?.map((metric, index) => (
@@ -179,7 +217,12 @@ const Dashboard = ({ apiLogout }) => {
                             key={metric}
                             nodeId={metric}
                             onClick={() => {
+                              const mm = metrics.filter(
+                                (a) => a._id === metric
+                              )[0];
                               setSelectedShowChatMetric(metric);
+                              setSelectedGroup("");
+                              setShowChartMetricType(mm);
                               setFilterEndDay(moment());
                               setFilterStartDay(moment().subtract(1, "week"));
                             }}
@@ -231,40 +274,63 @@ const Dashboard = ({ apiLogout }) => {
                     flexDirection: { xs: "column", sm: "row" },
                   }}
                 >
-                  <Box sx={{ pr: { sm: 2 }, pb: { xs: "8px" } }}>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DemoContainer components={["DatePicker"]}>
-                        <DatePicker
-                          label="From"
-                          value={dayjs(filterStartDay)}
-                          onChange={(newValue) => {
-                            setFilterStartDay(
-                              moment(newValue.format("YYYY-MM-DD"))
-                            );
-                          }}
-                        />
-                      </DemoContainer>
-                    </LocalizationProvider>
-                  </Box>
-                  <Box sx={{ pb: { xs: "16px" } }}>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DemoContainer components={["DatePicker"]}>
-                        <DatePicker
-                          label="To"
-                          value={dayjs(filterEndDay)}
-                          onChange={(newValue) => {
-                            setFilterEndDay(
-                              moment(newValue.format("YYYY-MM-DD"))
-                            );
-                          }}
-                        />
-                      </DemoContainer>
-                    </LocalizationProvider>
-                  </Box>
+                  {showChartMetricType?.fieldType !== "text" &&
+                  showChartMetricType?.timing === "everytime" ? (
+                    <Box sx={{ pr: { sm: 2 }, pb: { xs: "8px" } }}>
+                      <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DemoContainer components={["DatePicker"]}>
+                          <DatePicker
+                            label="From"
+                            value={dayjs(everyTimeDate)}
+                            onChange={(newValue) => {
+                              setEveryTimeDate(
+                                moment(newValue.format("YYYY-MM-DD"))
+                              );
+                            }}
+                          />
+                        </DemoContainer>
+                      </LocalizationProvider>
+                    </Box>
+                  ) : (
+                    <>
+                      <Box sx={{ pr: { sm: 2 }, pb: { xs: "8px" } }}>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                          <DemoContainer components={["DatePicker"]}>
+                            <DatePicker
+                              label="From"
+                              value={dayjs(filterStartDay)}
+                              onChange={(newValue) => {
+                                setFilterStartDay(
+                                  moment(newValue.format("YYYY-MM-DD"))
+                                );
+                              }}
+                            />
+                          </DemoContainer>
+                        </LocalizationProvider>
+                      </Box>
+                      <Box sx={{ pb: { xs: "16px" } }}>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                          <DemoContainer components={["DatePicker"]}>
+                            <DatePicker
+                              label="To"
+                              value={dayjs(filterEndDay)}
+                              onChange={(newValue) => {
+                                setFilterEndDay(
+                                  moment(newValue.format("YYYY-MM-DD"))
+                                );
+                              }}
+                            />
+                          </DemoContainer>
+                        </LocalizationProvider>
+                      </Box>
+                    </>
+                  )}
                 </Box>
-                {chartMetric?.fieldType === "number" ||
-                chartMetric?.fieldType === "5rating" ||
-                chartMetric?.fieldType === "10rating" ? (
+                {chartMetric?.timing !== "everytime" &&
+                selectedGroup === "" &&
+                (chartMetric?.fieldType === "number" ||
+                  chartMetric?.fieldType === "5rating" ||
+                  chartMetric?.fieldType === "10rating") ? (
                   <OneLineChart
                     data={showChartWages}
                     selectedShowChatMetric={selectedShowChatMetric}
@@ -272,7 +338,9 @@ const Dashboard = ({ apiLogout }) => {
                     filterStartDay={filterStartDay}
                   />
                 ) : null}
-                {chartMetric?.fieldType === "bloodPressure" ? (
+                {chartMetric?.fieldType === "bloodPressure" &&
+                selectedGroup === "" &&
+                chartMetric?.timing === "daily" ? (
                   <BloodChart
                     data={showChartWages}
                     filterEndDay={filterEndDay}
@@ -280,9 +348,35 @@ const Dashboard = ({ apiLogout }) => {
                     selectedShowChatMetric={selectedShowChatMetric}
                   />
                 ) : null}
-                {!selectedShowChatMetric && (
-                  <p style={{ textAlign: "center", padding: "24px" }}>Chart</p>
-                )}
+
+                {selectedGroup === "" && chartMetric?.fieldType === "text" ? (
+                  <TableForTextMetrics
+                    data={showChartWages}
+                    filterEndDay={filterEndDay}
+                    filterStartDay={filterStartDay}
+                    selectedShowChatMetric={selectedShowChatMetric}
+                  />
+                ) : null}
+                {selectedGroup === "" &&
+                chartMetric?.fieldType === "number" &&
+                chartMetric?.timing === "everytime" ? (
+                  <EveryTimeChart
+                    data={showChartWages}
+                    everyTimeDate={everyTimeDate}
+                    selectedShowChatMetric={selectedShowChatMetric}
+                  ></EveryTimeChart>
+                ) : null}
+                {selectedGroup ? (
+                  <GroupChart
+                    selectedGroup={selectedGroup}
+                    filterEndDay={filterEndDay}
+                    filterStartDay={filterStartDay}
+                    metrics={metrics}
+                    allWages={allWages}
+                    setAllData={setAllData}
+                    allData={allData}
+                  ></GroupChart>
+                ) : null}
               </Grid>
             </Grid>
           </Paper>

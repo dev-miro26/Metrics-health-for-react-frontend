@@ -95,15 +95,13 @@ const TotalMetricsValues = () => {
 
       return newRows;
     };
-    console.log(findWages(rows));
     setCurrentRows(
       findWages(rows).filter(
         (row) => start <= row.date.valueOf() && end >= row.date.valueOf()
       )
     );
-  }, [search, startDate, endDate]);//eslint-disable-line
+  }, [search, startDate, endDate]); //eslint-disable-line
 
-  // console.log("tag", rows, "=", setCurrentRows);
   return (
     <DashboardLayout onAction={apiLogout}>
       <Box

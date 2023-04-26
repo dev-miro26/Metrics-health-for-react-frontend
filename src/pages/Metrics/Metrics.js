@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
 import {
   Box,
@@ -42,6 +42,7 @@ const Metrics = ({
 }) => {
   // const metricsIds = useMetricsIds(metrics);
   // const metricsSelection = useSelection(metricsIds);
+  const dispatch = useDispatch();
   const metricsPopover = usePopover();
   const [deletedId, setDeletedId] = React.useState("");
   const [search, setSearch] = React.useState("");
@@ -55,11 +56,13 @@ const Metrics = ({
     postfix: "",
     chartType: chartTypes[0].value,
     status: statuses[0].value,
-    order: "",
+    ignore: true,
     timing: timings[0].value,
   };
   const [editedMetric, setEditedMetric] = React.useState({ ...initialValues });
-
+  React.useEffect(() => {
+    dispatch(apiGetMetricsByUserId());
+  }, [dispatch]);
   return (
     <DashboardLayout onAction={apiLogout}>
       <Box

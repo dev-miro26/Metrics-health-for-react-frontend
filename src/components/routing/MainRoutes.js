@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute";
 import Login from "../../pages/auth/Login.js";
 import Register from "../../pages/auth/Register.js";
@@ -9,8 +9,24 @@ import NotFound from "../../pages/NotFound.js";
 import MetricsGroup from "../../pages/MetricsGroup/MetricsGroup";
 import TotalMetricsValues from "../../pages/TotalMetricsValues/TotalMetricsValues";
 import Track from "../../pages/Track/Track";
-
+import { setAuthToken } from "../../utils";
+import store from "../../store";
+import { apiLoadUser } from "../../actions/auth";
+import { userLogOut } from "../../store/authSlice";
 const MainRoutes = () => {
+  const navigate = useNavigate();
+  React.useEffect(() => {
+    if (localStorage.getItem("smart-metrics-logbook")) {
+      setAuthToken(localStorage.getItem("smart-metrics-logbook"));
+      store.dispatch(apiLoadUser(navigate));
+    } else {
+      store.dispatch(userLogOut());
+      navigate("api/login");
+      localStorage.removeItem("smart-metrics-logbook");
+    }
+    window.addEventListener("storage", () => {});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <Routes>
       <Route path="/" element={<PrivateRoute component={Dashboard} />} />

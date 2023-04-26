@@ -35,15 +35,13 @@ import { toast } from "react-toastify";
 const MetricsGroup = ({ apiLogout }) => {
   React.useEffect(() => {
     dispatch(apiGetGroupsByUserId());
-    // eslint-disable-next-line
-  }, []);
-  React.useEffect(() => {
     dispatch(apiGetMetricsByUserId());
     // eslint-disable-next-line
   }, []);
+
   const dispatch = useDispatch();
   const groups = useSelector((state) => state.group.groups);
-  let metrics = useSelector((state) => state.metrics.metrics);
+  const metrics = useSelector((state) => state.metrics.metrics);
   const initialValues = { _id: "", userId: "", name: "" };
   const [openDialog, setOpenDialog] = React.useState(false);
   const [editGroup, setEditGroup] = React.useState({ ...initialValues });
@@ -56,7 +54,7 @@ const MetricsGroup = ({ apiLogout }) => {
     fixed: "error",
   };
   const [list1, setList1] = React.useState([]);
-  const [list2, setList2] = React.useState(metrics ? [...metrics] : []);
+  const [list2, setList2] = React.useState([...metrics]);
   const handleClickEdit = (group) => {
     const savedGroups = group.contents.map((content) => {
       return metrics?.filter((metric) => metric._id === content)[0];
@@ -273,82 +271,95 @@ const MetricsGroup = ({ apiLogout }) => {
                                         index={index}
                                       >
                                         {(provided) => (
-                                          <Box pr={2} pl={2} pb={1}>
-                                            <Card
-                                              ref={provided.innerRef}
-                                              {...provided.draggableProps}
-                                              {...provided.dragHandleProps}
-                                              sx={{
-                                                userSelect: "none",
+                                          <Tooltip
+                                            title={
+                                              item?.description
+                                                ? item?.description
+                                                : "There is no any description"
+                                            }
+                                          >
+                                            <Box pr={2} pl={2} pb={1}>
+                                              <Card
+                                                ref={provided.innerRef}
+                                                {...provided.draggableProps}
+                                                {...provided.dragHandleProps}
+                                                sx={{
+                                                  userSelect: "none",
 
-                                                minHeight: "50px",
-                                                backgroundColor: "white",
-                                                ...provided.draggableProps
-                                                  .style,
-                                              }}
-                                              style={{
-                                                outline: "solid 1px #e2e2e2",
-                                                padding: "16px",
-                                              }}
-                                            >
-                                              <Box
-                                                display={"flex"}
-                                                alignItems={"center"}
+                                                  minHeight: "50px",
+                                                  backgroundColor: "white",
+                                                  ...provided.draggableProps
+                                                    .style,
+                                                }}
+                                                style={{
+                                                  outline: "solid 1px #e2e2e2",
+                                                  padding: "16px",
+                                                }}
                                               >
-                                                <Avatar
-                                                  sx={{
-                                                    backgroundColor:
-                                                      "error.main",
-                                                    height: { sm: 36, xs: 24 },
-                                                    width: { sm: 36, xs: 24 },
-                                                    display: {
-                                                      xs: "none",
-                                                      sm: "flex",
-                                                    },
-                                                  }}
+                                                <Box
+                                                  display={"flex"}
+                                                  alignItems={"center"}
                                                 >
-                                                  <SvgIcon>
-                                                    <ClockIcon />
-                                                  </SvgIcon>
-                                                </Avatar>
-                                                <Typography
-                                                  variant="h5"
-                                                  sx={{ pl: 1 }}
-                                                >
-                                                  {item.name}
-                                                </Typography>
-                                              </Box>
-                                              <Box
-                                                display={"flex"}
-                                                justifyContent="space-between"
-                                                mt={1}
-                                              >
-                                                <Typography
-                                                  sx={{
-                                                    overflowX: { xs: "hidden" },
-                                                  }}
-                                                >
-                                                  {item.description}
-                                                </Typography>
-                                                <Typography
-                                                  sx={{
-                                                    display: {
-                                                      xs: "none",
-                                                      sm: "block",
-                                                    },
-                                                  }}
-                                                >
-                                                  <SeverityPill
-                                                    color={
-                                                      statusMap[item.status]
-                                                    }
+                                                  <Avatar
+                                                    sx={{
+                                                      backgroundColor:
+                                                        "error.main",
+                                                      height: {
+                                                        sm: 36,
+                                                        xs: 24,
+                                                      },
+                                                      width: { sm: 36, xs: 24 },
+                                                      display: {
+                                                        xs: "none",
+                                                        sm: "flex",
+                                                      },
+                                                    }}
                                                   >
-                                                    {item.status}
-                                                  </SeverityPill>
-                                                </Typography>
-                                              </Box>
-                                            </Card>
-                                          </Box>
+                                                    <SvgIcon>
+                                                      <ClockIcon />
+                                                    </SvgIcon>
+                                                  </Avatar>
+                                                  <Typography
+                                                    variant="h5"
+                                                    sx={{ pl: 1 }}
+                                                  >
+                                                    {item.name}
+                                                  </Typography>
+                                                </Box>
+                                                <Box
+                                                  display={"flex"}
+                                                  justifyContent="space-between"
+                                                  mt={1}
+                                                >
+                                                  <Typography
+                                                    sx={{
+                                                      overflowX: {
+                                                        xs: "hidden",
+                                                      },
+                                                    }}
+                                                  >
+                                                    {item.description}
+                                                  </Typography>
+                                                  <Typography
+                                                    sx={{
+                                                      display: {
+                                                        xs: "none",
+                                                        sm: "block",
+                                                      },
+                                                    }}
+                                                  >
+                                                    <SeverityPill
+                                                      color={
+                                                        statusMap[item.status]
+                                                      }
+                                                    >
+                                                      {item.status}
+                                                    </SeverityPill>
+                                                  </Typography>
+                                                </Box>
+                                              </Card>
+                                            </Box>
+                                          </Tooltip>
                                         )}
                                       </Draggable>
                                     ))}
@@ -396,78 +407,89 @@ const MetricsGroup = ({ apiLogout }) => {
                                         index={index}
                                       >
                                         {(provided) => (
-                                          <Box pr={2} pl={2} pb={1}>
-                                            <Card
-                                              ref={provided.innerRef}
-                                              {...provided.draggableProps}
-                                              {...provided.dragHandleProps}
-                                              sx={{
-                                                userSelect: "none",
+                                          <Tooltip
+                                            title={
+                                              item?.description
+                                                ? item?.description
+                                                : "There is no any description"
+                                            }
+                                          >
+                                            <Box pr={2} pl={2} pb={1}>
+                                              <Card
+                                                ref={provided.innerRef}
+                                                {...provided.draggableProps}
+                                                {...provided.dragHandleProps}
+                                                sx={{
+                                                  userSelect: "none",
 
-                                                minHeight: "50px",
-                                                backgroundColor: "white",
-                                                ...provided.draggableProps
-                                                  .style,
-                                              }}
-                                              style={{
-                                                outline: "solid 1px #e2e2e2",
-                                                padding: "16px",
-                                              }}
-                                            >
-                                              <Box
-                                                display={"flex"}
-                                                alignItems={"center"}
+                                                  minHeight: "50px",
+                                                  backgroundColor: "white",
+                                                  ...provided.draggableProps
+                                                    .style,
+                                                }}
+                                                style={{
+                                                  outline: "solid 1px #e2e2e2",
+                                                  padding: "16px",
+                                                }}
                                               >
-                                                <Avatar
-                                                  sx={{
-                                                    backgroundColor:
-                                                      "success.main",
-                                                    height: { sm: 36, xs: 24 },
-                                                    width: { sm: 36, xs: 24 },
-                                                    display: {
-                                                      xs: "none",
-                                                      sm: "flex",
-                                                    },
-                                                  }}
+                                                <Box
+                                                  display={"flex"}
+                                                  alignItems={"center"}
                                                 >
-                                                  <SvgIcon>
-                                                    <ClockIcon />
-                                                  </SvgIcon>
-                                                </Avatar>
-                                                <Typography
-                                                  variant="h5"
-                                                  sx={{ pl: 1 }}
-                                                >
-                                                  {item.name}
-                                                </Typography>
-                                              </Box>
-                                              <Box
-                                                display={"flex"}
-                                                justifyContent="space-between"
-                                                mt={1}
-                                              >
-                                                <Typography>
-                                                  {item.description}
-                                                </Typography>
-                                                <Typography
-                                                  sx={{
-                                                    display: {
-                                                      xs: "none",
-                                                      sm: "block",
-                                                    },
-                                                  }}
-                                                >
-                                                  <SeverityPill
-                                                    color={
-                                                      statusMap[item.status]
-                                                    }
+                                                  <Avatar
+                                                    sx={{
+                                                      backgroundColor:
+                                                        "success.main",
+                                                      height: {
+                                                        sm: 36,
+                                                        xs: 24,
+                                                      },
+                                                      width: { sm: 36, xs: 24 },
+                                                      display: {
+                                                        xs: "none",
+                                                        sm: "flex",
+                                                      },
+                                                    }}
                                                   >
-                                                    {item.status}
-                                                  </SeverityPill>
-                                                </Typography>
-                                              </Box>
-                                            </Card>
-                                          </Box>
+                                                    <SvgIcon>
+                                                      <ClockIcon />
+                                                    </SvgIcon>
+                                                  </Avatar>
+                                                  <Typography
+                                                    variant="h5"
+                                                    sx={{ pl: 1 }}
+                                                  >
+                                                    {item.name}
+                                                  </Typography>
+                                                </Box>
+                                                <Box
+                                                  display={"flex"}
+                                                  justifyContent="space-between"
+                                                  mt={1}
+                                                >
+                                                  <Typography>
+                                                    {item.description}
+                                                  </Typography>
+                                                  <Typography
+                                                    sx={{
+                                                      display: {
+                                                        xs: "none",
+                                                        sm: "block",
+                                                      },
+                                                    }}
+                                                  >
+                                                    <SeverityPill
+                                                      color={
+                                                        statusMap[item.status]
+                                                      }
+                                                    >
+                                                      {item.status}
+                                                    </SeverityPill>
+                                                  </Typography>
+                                                </Box>
+                                              </Card>
+                                            </Box>
+                                          </Tooltip>
                                         )}
                                       </Draggable>
                                     ))}

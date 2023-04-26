@@ -22,7 +22,7 @@ export const apiAddMetric = (formData) => async (dispatch) => {
     toast.success("New metrics is added!");
     return dispatch(addMetric(res.data.doc));
   } catch (err) {
-    const errors = err.response.data.errors;
+    const errors = err?.response?.data?.errors;
     if (errors) {
       errors.forEach((error) => toast.error(error.msg));
       return dispatch(metricsError());
@@ -37,7 +37,7 @@ export const apiUpdateMetric = (formData) => async (dispatch) => {
     toast.success(" Metrics is updated!");
     return dispatch(updateMetric(res.data.doc));
   } catch (err) {
-    const errors = err.response.data.errors;
+    const errors = err?.response?.data?.errors;
     if (errors) {
       errors.forEach((error) => toast.error(error.msg));
       return dispatch(metricsError());
@@ -50,7 +50,7 @@ export const apiGetMetricsByUserId = () => async (dispatch) => {
 
     return dispatch(getUserMetrics(res.data.docs));
   } catch (err) {
-    const errors = err.response.data.errors;
+    const errors = err?.response?.data?.errors;
     if (errors) {
       errors.forEach((error) => toast.error(error.msg));
       return dispatch(metricsError());
@@ -64,7 +64,7 @@ export const apiDeleteMetricById = (_id) => async (dispatch) => {
     toast.success("The metric has been successfully deleted.");
     return dispatch(deleteMetric({ _id: _id }));
   } catch (err) {
-    const errors = err.response.data.errors;
+    const errors = err?.response?.data?.errors;
     if (errors) {
       errors.forEach((error) => toast.error(error.msg));
       // return dispatch(metricsError());
@@ -80,7 +80,7 @@ export const apiAddMetricWage = (wage) => async (dispatch) => {
     // dispatch(apiGetMetricsLastestWagesByUserId());
     return dispatch(addMetricWage(res.data.doc));
   } catch (err) {
-    const errors = err.response.data.errors;
+    const errors = err?.response?.data?.errors;
     if (errors) {
       errors.forEach((error) => toast.error(error.msg));
       return dispatch(metricsError());
@@ -95,7 +95,7 @@ export const apiDeleteMetricWageById = (_id) => async (dispatch) => {
     toast.success("The metric value has been successfully deleted.");
     return dispatch(deleteMetricWage({ _id: _id }));
   } catch (err) {
-    const errors = err.response.data.errors;
+    const errors = err?.response?.data?.errors;
     if (errors) {
       errors.forEach((error) => toast.error(error.msg));
     }
@@ -110,7 +110,7 @@ export const apiUpdateMetricWage = (formData) => async (dispatch) => {
     toast.success(" Metrics is updated!");
     return dispatch(updateMetricsWage(res.data.doc));
   } catch (err) {
-    const errors = err.response.data.errors;
+    const errors = err?.response?.data?.errors;
     if (errors) {
       errors.forEach((error) => toast.error(error.msg));
       return dispatch(metricsError());
@@ -123,7 +123,7 @@ export const apiGetMetricsAllWagesByUserId = () => async (dispatch) => {
 
     return dispatch(getMetricsAllWages(res.data.docs));
   } catch (err) {
-    const errors = err.response.data.errors;
+    const errors = err?.response?.data?.errors;
     if (errors) {
       errors.forEach((error) => toast.error(error.msg));
       return dispatch(metricsError());
@@ -135,7 +135,7 @@ export const apiGetMetricsTodayWagesByUserId = () => async (dispatch) => {
     const res = await api.get("metrics/wage/today");
     return dispatch(getMetricsTodayWages(res.data.docs));
   } catch (err) {
-    const errors = err.response.data.errors;
+    const errors = err?.response?.data?.errors;
     if (errors) {
       errors.forEach((error) => toast.error(error.msg));
       return dispatch(metricsError());
@@ -148,7 +148,7 @@ export const apiGetMetricsLastestWagesByUserId = () => async (dispatch) => {
 
     return dispatch(getMetricsLastestWages(res.data.docs));
   } catch (err) {
-    const errors = err.response.data.errors;
+    const errors = err?.response?.data?.errors;
     if (errors) {
       errors.forEach((error) => toast.error(error.msg));
       return dispatch(metricsError());

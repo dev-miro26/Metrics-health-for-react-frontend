@@ -205,13 +205,15 @@ const Track = () => {
             </Box>
           </Grid>
         </Grid>
-        <Table sx={{ mt: 2 }}>
+        <Table sx={{ mt: 2, width: "100%" }}>
           <TableHead>
             <TableRow>
               <TableCell
                 sx={{
                   padding: { xs: "12px" },
                   textAlign: "center",
+                  width: "10%",
+                  wordBreak: "break-all",
                 }}
               >
                 No
@@ -220,6 +222,8 @@ const Track = () => {
                 sx={{
                   padding: { xs: "12px" },
                   textAlign: "center",
+                  width: "10%",
+                  wordBreak: "break-all",
                 }}
               >
                 Date
@@ -228,6 +232,8 @@ const Track = () => {
                 sx={{
                   padding: { xs: "12px" },
                   textAlign: "center",
+                  width: "20%",
+                  wordBreak: "break-all",
                 }}
               >
                 Metrics Name
@@ -236,6 +242,8 @@ const Track = () => {
                 sx={{
                   padding: { xs: "12px" },
                   textAlign: "center",
+                  width: "40%",
+                  wordBreak: "break-all",
                 }}
               >
                 Metrics Value
@@ -244,6 +252,7 @@ const Track = () => {
                 sx={{
                   padding: { xs: "12px" },
                   textAlign: "center",
+                  width: "20%",
                 }}
               >
                 actions
@@ -262,6 +271,7 @@ const Track = () => {
                         sx={{
                           padding: { xs: "4px" },
                           textAlign: "center",
+                          wordBreak: "break-all",
                         }}
                       >
                         {index + 1}
@@ -271,6 +281,7 @@ const Track = () => {
                         sx={{
                           padding: { xs: "4px" },
                           textAlign: "center",
+                          wordBreak: "break-all",
                         }}
                       >
                         {row?.date}
@@ -279,6 +290,7 @@ const Track = () => {
                         sx={{
                           padding: { xs: "4px" },
                           textAlign: "center",
+                          wordBreak: "break-all",
                         }}
                       >
                         {
@@ -291,6 +303,7 @@ const Track = () => {
                         sx={{
                           padding: { xs: "4px" },
                           textAlign: "center",
+                          wordBreak: "break-all",
                         }}
                       >
                         {item?.wage?.wage}
@@ -299,6 +312,7 @@ const Track = () => {
                         sx={{
                           padding: { xs: "4px" },
                           textAlign: "center",
+                          wordBreak: "break-all",
                         }}
                       >
                         <Tooltip title="edit">
@@ -347,6 +361,7 @@ const Track = () => {
                         sx={{
                           padding: { xs: "4px" },
                           textAlign: "center",
+                          wordBreak: "break-all",
                         }}
                       >
                         {
@@ -359,6 +374,7 @@ const Track = () => {
                         sx={{
                           padding: { xs: "4px" },
                           textAlign: "center",
+                          wordBreak: "break-all",
                         }}
                       >
                         {item?.wage?.wage}
@@ -368,6 +384,7 @@ const Track = () => {
                         sx={{
                           padding: { xs: "4px" },
                           textAlign: "center",
+                          wordBreak: "break-all",
                         }}
                       >
                         <Tooltip title="edit">

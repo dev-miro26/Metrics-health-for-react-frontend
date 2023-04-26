@@ -7,13 +7,14 @@ import {
 } from "../store/authSlice";
 import { api, setAuthToken, toast } from "../utils";
 // Load User
-export const apiLoadUser = () => async (dispatch) => {
+export const apiLoadUser = (navigate) => async (dispatch) => {
   try {
     const res = await api.get("auth/loadUser");
 
     await dispatch(userLogined(res.data.doc));
   } catch (err) {
-    const errors = err.response.data.errors;
+    navigate("/auth/login");
+    const errors = err?.response?.data?.errors;
     if (errors) {
       errors.forEach((error) => console.log(error.msg));
     }
@@ -31,7 +32,7 @@ export const apiRegister = (formData) => async (dispatch) => {
     toast.success("You are successfully registered!");
     dispatch(apiLoadUser());
   } catch (err) {
-    const errors = err.response.data.errors;
+    const errors = err?.response?.data?.errors;
     if (errors) {
       errors.forEach((error) => toast.error(error.msg));
     }
@@ -49,7 +50,7 @@ export const apiLogin = (formData) => async (dispatch) => {
 
     dispatch(apiLoadUser());
   } catch (err) {
-    const errors = err.response.data.errors;
+    const errors = err?.response?.data?.errors;
 
     if (errors) {
       errors.forEach((error) => toast.error(error.msg));

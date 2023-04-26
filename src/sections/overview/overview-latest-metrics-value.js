@@ -82,7 +82,7 @@ export const OverviewLatestMetricsValue = (props) => {
                             metrics?.filter(
                               (metric) => metric._id === wage.metricsId
                             )[0]?.name
-                          }/${wage?.wage}`
+                          }`
                         : ""
                     }
                     primaryTypographyProps={{ variant: "subtitle1" }}

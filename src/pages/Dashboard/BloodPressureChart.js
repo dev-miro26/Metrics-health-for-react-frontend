@@ -12,6 +12,7 @@ const BloodChart = ({
   const metric = useSelector((state) => state.metrics.metrics).filter(
     (metric) => metric._id === selectedShowChatMetric
   )[0];
+  const ignore = metric.ignore;
   const sortedData = data.sort(
     (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
   );
@@ -41,11 +42,102 @@ const BloodChart = ({
         currentDate.local().format("YYYY-MM-DD")
     );
     const total = mm[0]?.wage?.split(",");
-    mm[0] ? hP.push(parseInt(total[0])) : hP.push(0);
-    mm[0] ? lP.push(parseInt(total[1])) : lP.push(0);
-    mm[0] ? hR.push(parseInt(total[2])) : hR.push(0);
-  }
+    // mm[0] ? hP.push(parseInt(total[0])) : hP.push(0);
+    // mm[0] ? lP.push(parseInt(total[1])) : lP.push(0);
+    // mm[0] ? hR.push(parseInt(total[2])) : hR.push(0);
 
+    if (currentDate.format("DD/MMMM") === filterStartDay.format("DD/MMMM")) {
+      mm[0]
+        ? hP.push({
+            x: currentDate.format("DD/MMMM"),
+            y: parseInt(total[0]),
+          })
+        : hP.push({
+            x: currentDate.format("DD/MMMM"),
+            y: 0,
+          });
+      mm[0]
+        ? lP.push({
+            x: currentDate.format("DD/MMMM"),
+            y: parseInt(total[1]),
+          })
+        : lP.push({
+            x: currentDate.format("DD/MMMM"),
+            y: 0,
+          });
+      mm[0]
+        ? hR.push({
+            x: currentDate.format("DD/MMMM"),
+            y: parseInt(total[2]),
+          })
+        : hR.push({
+            x: currentDate.format("DD/MMMM"),
+            y: 0,
+          });
+    } else if (
+      currentDate.format("DD/MMMM") === filterEndDay.format("DD/MMMM")
+    ) {
+      mm[0]
+        ? hP.push({
+            x: currentDate.format("DD/MMMM"),
+            y: parseInt(total[0]),
+          })
+        : hP.push({
+            x: currentDate.format("DD/MMMM"),
+            y: 0,
+          });
+      mm[0]
+        ? lP.push({
+            x: currentDate.format("DD/MMMM"),
+            y: parseInt(total[1]),
+          })
+        : lP.push({
+            x: currentDate.format("DD/MMMM"),
+            y: 0,
+          });
+      mm[0]
+        ? hR.push({
+            x: currentDate.format("DD/MMMM"),
+            y: parseInt(total[2]),
+          })
+        : hR.push({
+            x: currentDate.format("DD/MMMM"),
+            y: 0,
+          });
+    } else {
+      mm[0]
+        ? hP.push({
+            x: currentDate.format("DD/MMMM"),
+            y: parseInt(total[0]),
+          })
+        : !ignore &&
+          hP.push({
+            x: currentDate.format("DD/MMMM"),
+            y: 0,
+          });
+      mm[0]
+        ? lP.push({
+            x: currentDate.format("DD/MMMM"),
+            y: parseInt(total[1]),
+          })
+        : !ignore &&
+          lP.push({
+            x: currentDate.format("DD/MMMM"),
+            y: 0,
+          });
+      mm[0]
+        ? hR.push({
+            x: currentDate.format("DD/MMMM"),
+            y: parseInt(total[2]),
+          })
+        : !ignore &&
+          hR.push({
+            x: currentDate.format("DD/MMMM"),
+            y: 0,
+          });
+    }
+  }
+  console.log(hP, lP, hR);
   const state = {
     options: {
       colors: ["#008FFB", "#00E396", "#F04438", "#FF4560"],
@@ -77,6 +169,7 @@ const BloodChart = ({
           size: 8,
         },
       },
+
       tooltip: {
         theme: "dark",
         x: {
