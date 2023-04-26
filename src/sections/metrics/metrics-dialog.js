@@ -9,9 +9,10 @@ import {
   CardContent,
   CardHeader,
   Divider,
-  MenuItem,
   TextField,
   Unstable_Grid2 as Grid,
+  FormControlLabel,
+  Checkbox,
 } from "@mui/material";
 import { BootstrapDialog } from "../../components/BootstrapDialog";
 import ConfirmDialog from "../../components/ConfirmModal";
@@ -159,16 +160,6 @@ export const MetricsDialog = (props) => {
                 <Grid xs={12} md={6}>
                   <TextField
                     fullWidth
-                    label="Order"
-                    name="order"
-                    onBlur={formik.handleBlur}
-                    onChange={formik.handleChange}
-                    value={formik.values.order}
-                  />
-                </Grid>
-                <Grid xs={12} md={6}>
-                  <TextField
-                    fullWidth
                     label="Select Timing"
                     name="timing"
                     onChange={formik.handleChange}
@@ -185,6 +176,21 @@ export const MetricsDialog = (props) => {
                       ))}
                   </TextField>
                 </Grid>
+                {formik.values.fieldType !== "text" ? (
+                  <Grid xs={12} md={12}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={formik.values.ignore}
+                          name="ignore"
+                        />
+                      }
+                      onChange={formik.handleChange}
+                      label="Ignoring zeros to show charts?"
+                      style={{ userSelect: "none" }}
+                    />
+                  </Grid>
+                ) : null}
               </Grid>
             </Box>
           </CardContent>

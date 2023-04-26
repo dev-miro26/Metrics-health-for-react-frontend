@@ -14,15 +14,9 @@ const OneLineChart = ({
   const sortedData = data.sort(
     (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
   );
-  //   const categories = sortedData.map((data) =>
-  //     moment(data.updatedAt).format("MM/DD/YYYY")
-  //   );
-  // const dates = data.map((item) => item.createdAt);
-  // const oldestDate = moment.tz(dates.sort()[0], "UTC").local().startOf("day");
-  // const today = moment().tz(moment.tz.guess()).startOf("day");
+  const ignore = metric.ignore;
   const dateArray = [];
   const valueArray = [];
-
   for (
     let currentDate = filterStartDay.clone();
     currentDate <= filterEndDay;
@@ -35,14 +29,49 @@ const OneLineChart = ({
         moment(d.createdAt).format("YYYY-MM-DD") ===
         currentDate.format("YYYY-MM-DD")
     );
-
-    mm[0]
-      ? valueArray.push(
-          parseFloat(mm[0]?.wage) - parseInt(mm[0]?.wage) === 0
-            ? parseInt(mm[0]?.wage)
-            : parseFloat(mm[0]?.wage)
-        )
-      : valueArray.push(0);
+    if (currentDate.format("DD/MMMM") === filterStartDay.format("DD/MMMM")) {
+      mm[0]
+        ? valueArray.push({
+            x: currentDate.format("DD/MMMM"),
+            y:
+              parseFloat(mm[0]?.wage) - parseInt(mm[0]?.wage) === 0
+                ? parseInt(mm[0]?.wage)
+                : parseFloat(mm[0]?.wage),
+          })
+        : valueArray.push({
+            x: currentDate.format("DD/MMMM"),
+            y: 0,
+          });
+    } else if (
+      currentDate.format("DD/MMMM") === filterEndDay.format("DD/MMMM")
+    ) {
+      mm[0]
+        ? valueArray.push({
+            x: currentDate.format("DD/MMMM"),
+            y:
+              parseFloat(mm[0]?.wage) - parseInt(mm[0]?.wage) === 0
+                ? parseInt(mm[0]?.wage)
+                : parseFloat(mm[0]?.wage),
+          })
+        : valueArray.push({
+            x: currentDate.format("DD/MMMM"),
+            y: 0,
+          });
+    } else {
+      mm[0]
+        ? valueArray.push({
+            x: currentDate.format("DD/MMMM"),
+            y:
+              parseFloat(mm[0]?.wage) - parseInt(mm[0]?.wage) === 0
+                ? parseInt(mm[0]?.wage)
+                : parseFloat(mm[0]?.wage),
+          })
+        : !ignore &&
+          valueArray.push({
+            x: currentDate.format("DD/MMMM"),
+            y: 0,
+          });
+    }
   }
 
   const state = {
@@ -50,23 +79,35 @@ const OneLineChart = ({
     options: {
       chart: {
         id: "basic-line",
+        height: 350,
       },
       xaxis: {
         categories: dateArray,
       },
+      yaxis: {
+        show: true,
+        labels: {
+          show: true,
+          formatter: function (value) {
+            return value;
+          },
+        },
+      },
       stroke: {
-        curve: "straight",
+        curve: "smooth",
         width: 2,
       },
       title: {
         text: metric?.name,
       },
-      markers: {
-        size: 6,
-        strokeWidth: 0,
-        colors: ["#FFA41B"],
-        hover: {
-          size: 8,
+      dataLabels: {
+        enabled: true,
+        formatter: function (val) {
+          return val === 0 ? "" : val;
+        },
+
+        style: {
+          fontSize: "12px",
         },
       },
       tooltip: {
@@ -75,23 +116,16 @@ const OneLineChart = ({
           show: true,
           format: "MMM",
         },
-        y: [
-          {
-            title: {
-              formatter: function () {
-                return "";
-              },
+        y: {
+          show: true,
+          title: {
+            formatter: function () {
+              return `/${metric.postfix}`;
             },
           },
-          {
-            title: {
-              formatter: function () {
-                return "";
-              },
-            },
-          },
-        ],
+        },
       },
+      tickAmount: 7,
     },
     series: [
       {

@@ -114,6 +114,10 @@ const ToDoDialog = (props) => {
                     type={
                       selectedMetric.fieldType === "text" ? "text" : "number"
                     }
+                    multiline={
+                      selectedMetric.fieldType === "text" ? true : false
+                    }
+                    rows={selectedMetric.fieldType === "text" ? 3 : 1}
                     error={
                       formik.touched.metricValue &&
                       Boolean(formik.errors.metricValue)
@@ -127,12 +131,14 @@ const ToDoDialog = (props) => {
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
-                          {selectedMetric.prefix}
+                          {selectedMetric.fieldType !== "text" &&
+                            selectedMetric.prefix}
                         </InputAdornment>
                       ),
                       endAdornment: (
                         <InputAdornment position="end">
-                          {selectedMetric.postfix}
+                          {selectedMetric.fieldType !== "text" &&
+                            selectedMetric.postfix}
                         </InputAdornment>
                       ),
                     }}

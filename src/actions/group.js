@@ -13,7 +13,7 @@ export const apiGetGroupsByUserId = () => async (dispatch) => {
 
     return dispatch(getGroups(res.data.docs));
   } catch (err) {
-    const errors = err?.response.data?.errors;
+    const errors = err?.response?.data?.errors;
     if (errors) {
       errors.forEach((error) => toast.error(error.msg));
       return dispatch(groupError());
