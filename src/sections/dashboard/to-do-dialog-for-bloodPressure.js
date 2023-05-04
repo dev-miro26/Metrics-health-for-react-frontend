@@ -17,7 +17,6 @@ import {
   SvgIcon,
 } from "@mui/material";
 
-// import ConfirmDialog from "../../components/ConfirmModal";
 import { HeartIcon } from "@heroicons/react/24/solid";
 
 import MonitorHeartIcon from "@mui/icons-material/MonitorHeart";
@@ -30,7 +29,6 @@ const ToDoForBloodPressure = (props) => {
   const dispatch = useDispatch();
   const { onClose, open, selectedMetric } = props;
 
-  // const [openDialog, setOpenDialog] = React.useState(false);
 
   const validationNumber = yup.object({
     BPH: yup
@@ -87,7 +85,7 @@ const ToDoForBloodPressure = (props) => {
       maxWidth={"sm"}
     >
       <form noValidate onSubmit={formik.handleSubmit}>
-        <Card  sx={{ pr: { sm: "16px", xs: "0px" }, pl: { sm: "16px", xs: "0px" } }}>
+        <Card sx={{ pr: { sm: "16px", xs: "0px" }, pl: { sm: "16px", xs: "0px" } }}>
           <CardHeader
             subheader="The information can be saved"
             title={selectedMetric.name}
@@ -98,7 +96,7 @@ const ToDoForBloodPressure = (props) => {
                 <Box
                   display={"flex"}
                   md={{ justifyContent: "space-between" }}
-                  // sx={{ flexDirection: "column" }}
+                // sx={{ flexDirection: "column" }}
                 >
                   <Box pr={2} pb={2}>
                     <TextField

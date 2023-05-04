@@ -6,14 +6,12 @@ import {
   Drawer,
   Stack,
   Typography,
-  useMediaQuery,
+  useMediaQuery, IconButton
 } from "@mui/material";
 import { Scrollbar } from "../../components/scrollbar";
 import { items } from "./config";
 import { SideNavItem } from "./side-nav-item";
-
-// import ChevronUpDownIcon from "@heroicons/react/24/solid/ChevronUpDownIcon";
-// import ArrowTopRightOnSquareIcon from "@heroicons/react/24/solid/ArrowTopRightOnSquareIcon";
+import CloseIcon from '@mui/icons-material/Close';
 
 export const SideNav = (props) => {
   const { open, onClose } = props;
@@ -41,6 +39,14 @@ export const SideNav = (props) => {
         }}
       >
         <Box sx={{ p: 3 }}>
+          {!lgUp &&
+            <Box display="flex" justifyContent="flex-end" sx={{ position: "absolute", top: "20px", right: "15px" }}>
+              <IconButton onClick={onClose}>
+                <CloseIcon />
+              </IconButton>
+            </Box>
+          }
+
           <Box
             component={RouterLink}
             to="/"
@@ -68,13 +74,7 @@ export const SideNav = (props) => {
             <Typography color="inherit" variant="subtitle1">
               Smart Metrics Logbook
             </Typography>
-            {/* <Typography color="neutral.400" variant="body2">
-                Production
-              </Typography> */}
 
-            {/* <SvgIcon fontSize="small" sx={{ color: "neutral.500" }}>
-              <ChevronUpDownIcon />
-            </SvgIcon> */}
           </Box>
         </Box>
         <Divider sx={{ borderColor: "neutral.700" }} />
@@ -119,12 +119,7 @@ export const SideNav = (props) => {
             py: 3,
           }}
         >
-          {/* <Typography color="neutral.100" variant="subtitle2">
-            Need more features?
-          </Typography>
-          <Typography color="neutral.500" variant="body2">
-            Check out our Pro membership plan.
-          </Typography> */}
+
           <Box
             sx={{
               display: "flex",
@@ -138,21 +133,7 @@ export const SideNav = (props) => {
           >
             <img alt="Go to pro" src="/assets/logo.svg" />
           </Box>
-          {/* <Button
-            component="a"
-            endIcon={
-              <SvgIcon fontSize="small">
-                <ArrowTopRightOnSquareIcon />
-              </SvgIcon>
-            }
-            fullWidth
-            to="/"
-            sx={{ mt: 2 }}
-            target="_blank"
-            variant="contained"
-          >
-            Pro Membership Plan
-          </Button> */}
+
         </Box>
       </Box>
     </Scrollbar>

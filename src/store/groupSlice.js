@@ -11,12 +11,9 @@ export const groupSlice = createSlice({
   reducers: {
     addGroup: (state, action) => {
       state.loading = false;
-      console.log("action.payload(add) = ", state.groups, action.payload);
       state.groups = [...state.groups, action.payload];
-      console.log("action.payload(add) = ", state.groups, action.payload);
     },
     getGroups: (state, action) => {
-      console.log("action.payload(get) = ", action.payload);
       if (action.payload) {
         state.groups = action.payload;
       } else {

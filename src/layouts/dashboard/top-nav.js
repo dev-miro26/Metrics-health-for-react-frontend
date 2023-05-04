@@ -55,7 +55,7 @@ export const TopNav = (props) => {
           }}
         >
           <Stack alignItems="center" direction="row" spacing={2}>
-            {!lgUp && (
+            { (
               <IconButton onClick={onNavOpen}>
                 <SvgIcon fontSize="small">
                   <Bars3Icon />

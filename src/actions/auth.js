@@ -37,7 +37,6 @@ export const apiRegister = (formData) => async (dispatch) => {
       errors.forEach((error) => toast.error(error.msg));
     }
 
-    // dispatch(userAuthError());
   }
 };
 

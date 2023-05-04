@@ -16,15 +16,8 @@ const BloodChart = ({
   const sortedData = data.sort(
     (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
   );
-  //   const categories = sortedData.map((data) =>
-  //     moment(data.updatedAt).format("MM/DD/YYYY")
-  //   );
 
-  // const dates = data.map((item) => item.createdAt);
-  // const oldestDate = moment.tz(dates.sort()[0], "UTC").local().startOf("day");
-  // const today = moment().tz(moment.tz.guess()).startOf("day");
   const dateArray = [];
-  // const valueArray = [];
   const hP = [];
   const lP = [];
   const hR = [];
@@ -42,99 +35,97 @@ const BloodChart = ({
         currentDate.local().format("YYYY-MM-DD")
     );
     const total = mm[0]?.wage?.split(",");
-    // mm[0] ? hP.push(parseInt(total[0])) : hP.push(0);
-    // mm[0] ? lP.push(parseInt(total[1])) : lP.push(0);
-    // mm[0] ? hR.push(parseInt(total[2])) : hR.push(0);
+
 
     if (currentDate.format("DD/MMMM") === filterStartDay.format("DD/MMMM")) {
       mm[0]
         ? hP.push({
-            x: currentDate.format("DD/MMMM"),
-            y: parseInt(total[0]),
-          })
+          x: currentDate.format("DD/MMMM"),
+          y: parseInt(total[0]),
+        })
         : hP.push({
-            x: currentDate.format("DD/MMMM"),
-            y: 0,
-          });
+          x: currentDate.format("DD/MMMM"),
+          y: 0,
+        });
       mm[0]
         ? lP.push({
-            x: currentDate.format("DD/MMMM"),
-            y: parseInt(total[1]),
-          })
+          x: currentDate.format("DD/MMMM"),
+          y: parseInt(total[1]),
+        })
         : lP.push({
-            x: currentDate.format("DD/MMMM"),
-            y: 0,
-          });
+          x: currentDate.format("DD/MMMM"),
+          y: 0,
+        });
       mm[0]
         ? hR.push({
-            x: currentDate.format("DD/MMMM"),
-            y: parseInt(total[2]),
-          })
+          x: currentDate.format("DD/MMMM"),
+          y: parseInt(total[2]),
+        })
         : hR.push({
-            x: currentDate.format("DD/MMMM"),
-            y: 0,
-          });
+          x: currentDate.format("DD/MMMM"),
+          y: 0,
+        });
     } else if (
       currentDate.format("DD/MMMM") === filterEndDay.format("DD/MMMM")
     ) {
       mm[0]
         ? hP.push({
-            x: currentDate.format("DD/MMMM"),
-            y: parseInt(total[0]),
-          })
+          x: currentDate.format("DD/MMMM"),
+          y: parseInt(total[0]),
+        })
         : hP.push({
-            x: currentDate.format("DD/MMMM"),
-            y: 0,
-          });
+          x: currentDate.format("DD/MMMM"),
+          y: 0,
+        });
       mm[0]
         ? lP.push({
-            x: currentDate.format("DD/MMMM"),
-            y: parseInt(total[1]),
-          })
+          x: currentDate.format("DD/MMMM"),
+          y: parseInt(total[1]),
+        })
         : lP.push({
-            x: currentDate.format("DD/MMMM"),
-            y: 0,
-          });
+          x: currentDate.format("DD/MMMM"),
+          y: 0,
+        });
       mm[0]
         ? hR.push({
-            x: currentDate.format("DD/MMMM"),
-            y: parseInt(total[2]),
-          })
+          x: currentDate.format("DD/MMMM"),
+          y: parseInt(total[2]),
+        })
         : hR.push({
-            x: currentDate.format("DD/MMMM"),
-            y: 0,
-          });
+          x: currentDate.format("DD/MMMM"),
+          y: 0,
+        });
     } else {
       mm[0]
         ? hP.push({
-            x: currentDate.format("DD/MMMM"),
-            y: parseInt(total[0]),
-          })
+          x: currentDate.format("DD/MMMM"),
+          y: parseInt(total[0]),
+        })
         : !ignore &&
-          hP.push({
-            x: currentDate.format("DD/MMMM"),
-            y: 0,
-          });
+        hP.push({
+          x: currentDate.format("DD/MMMM"),
+          y: 0,
+        });
       mm[0]
         ? lP.push({
-            x: currentDate.format("DD/MMMM"),
-            y: parseInt(total[1]),
-          })
+          x: currentDate.format("DD/MMMM"),
+          y: parseInt(total[1]),
+        })
         : !ignore &&
-          lP.push({
-            x: currentDate.format("DD/MMMM"),
-            y: 0,
-          });
+        lP.push({
+          x: currentDate.format("DD/MMMM"),
+          y: 0,
+        });
       mm[0]
         ? hR.push({
-            x: currentDate.format("DD/MMMM"),
-            y: parseInt(total[2]),
-          })
+          x: currentDate.format("DD/MMMM"),
+          y: parseInt(total[2]),
+        })
         : !ignore &&
-          hR.push({
-            x: currentDate.format("DD/MMMM"),
-            y: 0,
-          });
+        hR.push({
+          x: currentDate.format("DD/MMMM"),
+          y: 0,
+        });
     }
   }
   console.log(hP, lP, hR);

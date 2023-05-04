@@ -19,7 +19,6 @@ export const MetricsSearch = ({ search, setSearch }) => (
           </SvgIcon>
         </InputAdornment>
       }
-      // sx={{ maxWidth: 500 }}
     />
   </div>
 );

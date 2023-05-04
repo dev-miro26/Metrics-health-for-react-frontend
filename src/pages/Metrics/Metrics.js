@@ -28,20 +28,12 @@ import {
 } from "../../actions/metrics";
 import { apiLogout } from "../../actions/auth";
 
-// const useMetricsIds = (metrics) => {
-//   return useMemo(() => {
-//     return metrics && metrics.map((metric) => metric._id);
-//   }, [metrics]);
-// };
-
 const Metrics = ({
   metrics: { metrics },
   apiAddMetric,
   apiUpdateMetric,
   apiLogout,
 }) => {
-  // const metricsIds = useMetricsIds(metrics);
-  // const metricsSelection = useSelection(metricsIds);
   const dispatch = useDispatch();
   const metricsPopover = usePopover();
   const [deletedId, setDeletedId] = React.useState("");

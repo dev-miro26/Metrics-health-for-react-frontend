@@ -18,7 +18,6 @@ import {
   Typography,
 } from "@mui/material";
 import { Rating } from "@mui/material";
-// import ConfirmDialog from "../../components/ConfirmModal";
 import { HeartIcon } from "@heroicons/react/24/solid";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -41,7 +40,6 @@ const ToDoDialog = (props) => {
   const dispatch = useDispatch();
   const { onClose, open, selectedMetric } = props;
 
-  // const [openDialog, setOpenDialog] = React.useState(false);
   const validationString = yup.object({
     metricValue: yup
       .string("Enter your metricValue")
@@ -105,7 +103,7 @@ const ToDoDialog = (props) => {
             <Box sx={{ m: -1.5 }}>
               <Box display={"flex"} justifyContent="center">
                 {selectedMetric.fieldType === "number" ||
-                selectedMetric.fieldType === "text" ? (
+                  selectedMetric.fieldType === "text" ? (
                   <TextField
                     autoFocus
                     name="metricValue"
@@ -226,7 +224,7 @@ const ToDoDialog = (props) => {
                   </Box>
                 ) : null}
                 {selectedMetric.fieldType === "5rating" ||
-                selectedMetric.fieldType === "10rating" ? (
+                  selectedMetric.fieldType === "10rating" ? (
                   <Box display={"flex"} justifyContent="center">
                     <StyledRating
                       name="metricValue"
@@ -263,22 +261,6 @@ const ToDoDialog = (props) => {
             </Button>
           </CardActions>
         </Card>
-        {/* <ConfirmDialog
-          openDialog={openDialog}
-          title="Confirm"
-          content="Are you sure save this metric value?"
-          onCancel={(e) => setOpenDialog(false)}
-          onOK={(e) => {
-            dispatch(
-              apiAddMetricWage({
-                metricId: selectedMetric._id,
-                metricValue: formik.values.metricValue,
-              })
-            );
-            setOpenDialog(false);
-            props.onClose();
-          }}
-        /> */}
       </form>
     </BootstrapDialog>
   );

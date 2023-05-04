@@ -24,7 +24,7 @@ const MainRoutes = () => {
       navigate("api/login");
       localStorage.removeItem("smart-metrics-logbook");
     }
-    window.addEventListener("storage", () => {});
+    window.addEventListener("storage", () => { });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (

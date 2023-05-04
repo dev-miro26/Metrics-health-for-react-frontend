@@ -17,7 +17,6 @@ import {
   SvgIcon,
 } from "@mui/material";
 
-// import ConfirmDialog from "../../components/ConfirmModal";
 import { HeartIcon } from "@heroicons/react/24/solid";
 
 import MonitorHeartIcon from "@mui/icons-material/MonitorHeart";
@@ -31,7 +30,6 @@ const EditTrackDialogForBlood = (props) => {
   const { onClose, openEditMetricWageDialogForBlood, editedMetricWage } = props;
   const user = useSelector((state) => state.auth.user);
 
-  // const [openDialog, setOpenDialog] = React.useState(false);
 
   const validationNumber = yup.object({
     BPH: yup

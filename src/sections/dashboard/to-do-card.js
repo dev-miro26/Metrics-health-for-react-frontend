@@ -59,18 +59,6 @@ export const ToDoCard = (props) => {
               >
                 {metric.name}
               </Typography>
-              {/* <Typography
-              variant="h5"
-              color="text.secondary"
-              sx={{
-                // overflow: "hidden",
-                whiteSpace: "nowrap",
-                wordWrap: "break-word",
-              }}
-            >
-              {metric.description.slice(0, 20)}
-              {metric.description.length > 20 ? "..." : null}
-            </Typography> */}
             </Stack>
           </Stack>
         </CardContent>
