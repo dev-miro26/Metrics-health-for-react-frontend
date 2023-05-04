@@ -280,7 +280,7 @@ const Dashboard = ({ apiLogout }) => {
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DemoContainer components={["DatePicker"]}>
                           <DatePicker
-                            label="From"
+                            label="Date"
                             value={dayjs(everyTimeDate)}
                             onChange={(newValue) => {
                               setEveryTimeDate(

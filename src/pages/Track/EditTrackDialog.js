@@ -17,7 +17,6 @@ import {
   SvgIcon,
 } from "@mui/material";
 import { Rating } from "@mui/material";
-// import ConfirmDialog from "../../components/ConfirmModal";
 import { HeartIcon } from "@heroicons/react/24/solid";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -42,7 +41,6 @@ const EditWageDialog = (props) => {
   const user = useSelector((state) => state.auth.user);
   const metrics = useSelector((state) => state.metrics.metrics);
   const [fieldType, setFieldType] = React.useState("");
-  // const [openDialog, setOpenDialog] = React.useState(false);
   const validationString = yup.object({
     metricValue: yup
       .string("Enter your metricValue")
@@ -124,6 +122,10 @@ const EditWageDialog = (props) => {
                     helperText={
                       formik.touched.metricValue && formik.errors.metricValue
                     }
+                    multiline={
+                      fieldType === "text" ? true : false
+                    }
+                    rows={fieldType === "text" ? 3 : 1}
                     onBlur={formik.handleBlur}
                     onChange={formik.handleChange}
                     value={formik.values.metricValue}

@@ -61,7 +61,6 @@ export const apiDeleteGroupById = (_id) => async (dispatch) => {
     const errors = err?.response.data?.errors;
     if (errors) {
       errors.forEach((error) => toast.error(error.msg));
-      // return dispatch(metricsError());
     }
   }
 };

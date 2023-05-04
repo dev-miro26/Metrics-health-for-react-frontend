@@ -45,8 +45,6 @@ export const metricsSlice = createSlice({
       state.todayWages = [...state.todayWages, action.payload];
       state.lastestWages.unshift(action.payload);
       state.lastestWages.length > 3 && state.lastestWages.pop();
-      // state.lastestWages[0].delete();
-      // state.lastest.shift(action.payload);
     },
 
     getMetricsAllWages: (state, action) => {

@@ -51,7 +51,6 @@ const Track = () => {
     openEditMetricWageDialogForBlood,
     setOpenEditMetricWageDialogForBlood,
   ] = React.useState(false);
-  // const [editedMetricWageType, setEditedMetricWageType] = React.useState("");
   const [rows, setRows] = React.useState([]);
   const [matchingWages, setMatchingWages] = React.useState([]);
   React.useEffect(() => {
@@ -73,11 +72,7 @@ const Track = () => {
     }, {});
     setMatchingWages(matchingWages);
   }, [allWages]); //eslint-disable-line
-  React.useEffect(() => {
-    // setEditedMetricWageType(
-    //   metrics.filter((m) => m._id === editedMetricWage.metricsId)[0]?.fieldType
-    // );
-  }, [editedMetricWage]); //eslint-disable-line
+ 
   const onOK = () => {
     dispatch(apiDeleteMetricWageById(deletedWageId));
     setOpenDialog(false);
@@ -146,9 +141,7 @@ const Track = () => {
           px: 4,
         }}
       >
-        {/* <Box sx={{ pb: 2 }}>
-          
-        </Box> */}
+       
         <Grid container spacing={2} sx={{ pb: 2 }}>
           <Grid item md={6} sm={12} xs={12}>
             <Box

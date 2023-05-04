@@ -29,10 +29,7 @@ const statusMap = {
 export const MetricsTable = (props) => {
   const {
     metrics,
-    // onDeselectAll,
-    // onDeselectOne,
-    // onSelectAll,
-    // onSelectOne,
+
     selected = [],
     deletedId,
     setDeletedId,
@@ -41,8 +38,7 @@ export const MetricsTable = (props) => {
   } = props;
   const dispatch = useDispatch();
   const [openDialog, setOpenDialog] = React.useState(false);
-  // const selectedSome = selected.length > 0 && selected.length < metrics.length;
-  // const selectedAll = metrics.length > 0 && selected.length === metrics.length;
+
 
   const onOK = () => {
     deletedId && dispatch(apiDeleteMetricById(deletedId));
@@ -60,19 +56,6 @@ export const MetricsTable = (props) => {
           <Table style={{ width: "100%" }}>
             <TableHead>
               <TableRow>
-                {/* <TableCell padding="checkbox">
-                  <Checkbox
-                    checked={selectedAll}
-                    indeterminate={selectedSome}
-                    onChange={(event) => {
-                      if (event.target.checked) {
-                        onSelectAll?.();
-                      } else {
-                        onDeselectAll?.();
-                      }
-                    }}
-                  />
-                </TableCell> */}
                 <TableCell>No</TableCell>
                 <TableCell>Name</TableCell>
                 <TableCell>Description</TableCell>
@@ -88,18 +71,6 @@ export const MetricsTable = (props) => {
 
                 return (
                   <TableRow hover key={metric._id} selected={isSelected}>
-                    {/* <TableCell padding="checkbox">
-                      <Checkbox
-                        checked={isSelected}
-                        onChange={(event) => {
-                          if (event.target.checked) {
-                            onSelectOne?.(metric._id);
-                          } else {
-                            onDeselectOne?.(metric._id);
-                          }
-                        }}
-                      />
-                    </TableCell> */}
                     <TableCell>{index + 1}</TableCell>
                     <TableCell>
                       <Stack alignItems="center" direction="row" spacing={2}>

@@ -1,17 +1,13 @@
 import React from "react";
-// import { useSelector } from "react-redux";
 import {
   Card,
   Typography,
-  // Tooltip,
   IconButton,
   SvgIcon,
   MenuItem,
   Menu,
 } from "@mui/material";
 import {
-  // PencilIcon,
-  // TrashIcon,
   EllipsisVerticalIcon as MoreIcon,
 } from "@heroicons/react/24/solid";
 import { Box } from "@mui/system";
@@ -60,13 +56,6 @@ const GroupCard = ({ group, handleClickEdit, setDeletedId, setOpenDialog }) => {
             handleMenuClose();
           }}
         >
-          {/* <Tooltip title="delete">
-            <IconButton>
-              <SvgIcon fontSize="small">
-                <PencilIcon />
-              </SvgIcon>
-            </IconButton>
-          </Tooltip> */}
           <span>Edit</span>
         </MenuItem>
         <MenuItem
@@ -76,13 +65,6 @@ const GroupCard = ({ group, handleClickEdit, setDeletedId, setOpenDialog }) => {
             setOpenDialog(true);
           }}
         >
-          {/* <Tooltip title="delete">
-            <IconButton>
-              <SvgIcon fontSize="small">
-                <TrashIcon />
-              </SvgIcon>
-            </IconButton>
-          </Tooltip> */}
           <span>Delete</span>
         </MenuItem>
       </Menu>

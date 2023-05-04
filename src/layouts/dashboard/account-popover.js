@@ -14,8 +14,6 @@ import { useSelector } from "react-redux";
 export const AccountPopover = (props) => {
   const { anchorEl, onClose, open } = props;
   const auth = useSelector((state) => state.auth.user);
-  // const navigate = useNavigate();
-  // const auth = useAuth();
 
   const handleSignOut = useCallback(() => {
     onClose?.();
