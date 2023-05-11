@@ -33,15 +33,23 @@ import ConfirmDialog from "../../components/ConfirmModal";
 import { toast } from "react-toastify";
 
 const MetricsGroup = ({ apiLogout }) => {
-  React.useEffect(() => {
-    dispatch(apiGetGroupsByUserId());
-    dispatch(apiGetMetricsByUserId());
-    // eslint-disable-next-line
-  }, []);
-
   const dispatch = useDispatch();
   const groups = useSelector((state) => state.group.groups);
   const metrics = useSelector((state) => state.metrics.metrics);
+  React.useEffect(() => {
+    dispatch(apiGetGroupsByUserId());
+
+    // eslint-disable-next-line
+  }, []);
+  React.useEffect(() => {
+    dispatch(apiGetMetricsByUserId());
+
+    // eslint-disable-next-line
+  }, []);
+  React.useEffect(() => {
+    setList2(metrics);
+  }, [metrics]);
+
   const initialValues = { _id: "", userId: "", name: "" };
   const [openDialog, setOpenDialog] = React.useState(false);
   const [editGroup, setEditGroup] = React.useState({ ...initialValues });
@@ -55,6 +63,7 @@ const MetricsGroup = ({ apiLogout }) => {
   };
   const [list1, setList1] = React.useState([]);
   const [list2, setList2] = React.useState([...metrics]);
+  console.log(metrics, list2);
   const handleClickEdit = (group) => {
     const savedGroups = group.contents.map((content) => {
       return metrics?.filter((metric) => metric._id === content)[0];

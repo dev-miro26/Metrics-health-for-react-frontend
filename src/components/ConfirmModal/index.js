@@ -17,7 +17,7 @@ const ConfirmDialog = ({ openDialog, onCancel, onOK, title, content }) => {
       onClose={onCancel}
       style={{ zIndex: 9999 }}
     >
-      <DialogTitle>{title}</DialogTitle>
+      <DialogTitle sx={{ fontSize: "18px" }}>{title}</DialogTitle>
       <DialogContent>
         <DialogContentText>{content}</DialogContentText>
       </DialogContent>

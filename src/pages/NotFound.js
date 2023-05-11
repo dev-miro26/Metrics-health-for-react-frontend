@@ -20,7 +20,7 @@ const Page404 = () => (
       >
         <Box
           sx={{
-            mb: 3,
+            mb: 2,
             textAlign: "center",
           }}
         >
