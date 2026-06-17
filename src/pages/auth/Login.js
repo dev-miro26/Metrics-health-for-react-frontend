@@ -75,7 +75,7 @@ const Login = ({ isAuthenticated, apiLogin }) => {
                 </Link>
               </Typography>
             </Stack>
-            <form noValidate onSubmit={formik.handleSubmit}>
+            <form noValidate aria-label="Login form" onSubmit={formik.handleSubmit}>
               <Stack spacing={3}>
                 <TextField
                   error={!!(formik.touched.email && formik.errors.email)}
