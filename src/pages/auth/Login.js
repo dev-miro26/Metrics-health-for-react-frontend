@@ -29,8 +29,8 @@ const Login = ({ isAuthenticated, apiLogin }) => {
         .required("Email is required"),
       password: Yup.string().max(255).required("Password is required"),
     }),
-    onSubmit: (values) => {
-      apiLogin({
+    onSubmit: async (values) => {
+      await apiLogin({
         email: values.email,
         password: values.password,
       });
@@ -115,6 +115,7 @@ const Login = ({ isAuthenticated, apiLogin }) => {
                 </Typography>
               )}
               <Button
+                disabled={formik.isSubmitting}
                 fullWidth
                 size="large"
                 sx={{ mt: 3 }}

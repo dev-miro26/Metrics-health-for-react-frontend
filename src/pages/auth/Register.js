@@ -33,8 +33,8 @@ const Register = ({ apiRegister, isAuthenticated }) => {
       name: Yup.string().max(255).required("Name is required"),
       password: Yup.string().max(255).required("Password is required"),
     }),
-    onSubmit: (values) => {
-      apiRegister({
+    onSubmit: async (values) => {
+      await apiRegister({
         name: values.name,
         email: values.email,
         password: values.password,
@@ -147,6 +147,7 @@ const Register = ({ apiRegister, isAuthenticated }) => {
                 </Typography>
               )}
               <Button
+                disabled={formik.isSubmitting}
                 fullWidth
                 size="large"
                 sx={{ mt: 3 }}
