@@ -3,11 +3,15 @@ import store from "../store";
 import { userLogOut } from "../store/authSlice";
 
 // const isDev = process.env.NODE_ENV === "development";
-export const MODEL_API_URL =
+const isLocal =
   window.location.hostname === "localhost" ||
-  window.location.hostname === "127.0.0.1"
+  window.location.hostname === "127.0.0.1";
+
+export const MODEL_API_URL =
+  process.env.REACT_APP_API_URL ||
+  (isLocal
     ? "http://127.0.0.1:8000/api/"
-    : "https://smart-metrics-logbook.herokuapp.com/api/";
+    : "https://smart-metrics-logbook.herokuapp.com/api/");
 
 // Create an instance of axios
 const api = axios.create({
