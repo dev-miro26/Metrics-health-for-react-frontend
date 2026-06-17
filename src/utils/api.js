@@ -27,7 +27,7 @@ const api = axios.create({
 api.interceptors.response.use(
   (res) => res,
   (err) => {
-    if (err.response.status === 401) {
+    if (err.response?.status === 401) {
       store.dispatch(userLogOut());
     }
     return Promise.reject(err);
