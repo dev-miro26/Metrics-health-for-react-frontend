@@ -41,10 +41,12 @@ export const metricsSlice = createSlice({
     },
 
     addMetricWage: (state, action) => {
-      state.wages = [...state.wages, action.payload];
-      state.todayWages = [...state.todayWages, action.payload];
+      if (!action.payload) return;
+      state.wages = [...(state.wages || []), action.payload];
+      state.todayWages = [...(state.todayWages || []), action.payload];
+      state.lastestWages = state.lastestWages || [];
       state.lastestWages.unshift(action.payload);
-      state.lastestWages.length > 3 && state.lastestWages.pop();
+      if (state.lastestWages.length > 3) state.lastestWages.pop();
     },
 
     getMetricsAllWages: (state, action) => {
