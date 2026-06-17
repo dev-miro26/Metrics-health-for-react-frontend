@@ -155,3 +155,8 @@ export const apiGetMetricsLastestWagesByUserId = () => async (dispatch) => {
     }
   }
 };
+
+// Correctly-spelled alias for the misspelled action above.
+// Full rename (incl. state keys and backend route) tracked in #41.
+export const apiGetMetricsLatestWagesByUserId =
+  apiGetMetricsLastestWagesByUserId;
