@@ -9,7 +9,7 @@ const initialState = {
 };
 
 export const metricsSlice = createSlice({
-  name: "auth",
+  name: "metrics",
   initialState: initialState,
   reducers: {
     addMetric: (state, action) => {
