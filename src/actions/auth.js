@@ -13,12 +13,12 @@ export const apiLoadUser = (navigate) => async (dispatch) => {
 
     await dispatch(userLogined(res.data.doc));
   } catch (err) {
-    navigate("/auth/login");
-    const errors = err?.response?.data?.errors;
-    if (errors) {
-      errors.forEach((error) => console.log(error.msg));
+    // Only force a logout/redirect on a genuine auth failure (401);
+    // transient/network errors should preserve the session.
+    if (err?.response?.status === 401) {
+      await dispatch(userAuthError());
+      navigate("/auth/login");
     }
-    await dispatch(userAuthError());
   }
 };
 
