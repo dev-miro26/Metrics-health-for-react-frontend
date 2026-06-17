@@ -23,7 +23,6 @@
     "date-fns": "^2.29.3",
     "dayjs": "^1.11.7",
     "formik": "^2.2.9",
-    "moment": "^2.29.4",
     "moment-timezone": "^0.5.43",
     "notistack": "^3.0.1",
     "nprogress": "^0.2.0",

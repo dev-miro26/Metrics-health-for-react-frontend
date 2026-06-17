@@ -1,7 +1,7 @@
 import React from "react";
 import Chart from "react-apexcharts";
 import { useSelector } from "react-redux";
-import moment from "moment";
+import moment from "moment-timezone";
 
 export default function GroupChart({
   filterStartDay,

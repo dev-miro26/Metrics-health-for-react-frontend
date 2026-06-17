@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import moment from "moment";
+import moment from "moment-timezone";
 import {
   Box,
   Container,
