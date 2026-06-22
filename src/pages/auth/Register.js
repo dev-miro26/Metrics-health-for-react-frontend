@@ -79,7 +79,7 @@ const Register = ({ apiRegister, isAuthenticated }) => {
                 </Link>
               </Typography>
             </Stack>
-            <form noValidate onSubmit={formik.handleSubmit}>
+            <form noValidate aria-label="Registration form" onSubmit={formik.handleSubmit}>
               <Stack spacing={3}>
                 <TextField
                   error={!!(formik.touched.name && formik.errors.name)}
