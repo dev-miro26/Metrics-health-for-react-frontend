@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   metrics: [],
   loading: true,
+  error: null,
   wages: [],
   todayWages: [],
   lastestWages: [],
@@ -79,8 +80,9 @@ export const metricsSlice = createSlice({
         wage._id === action.payload._id ? action.payload : wage
       );
     },
-    metricsError: (state) => {
+    metricsError: (state, action) => {
       state.loading = false;
+      state.error = action.payload || "Something went wrong";
     },
   },
 });
