@@ -5,6 +5,7 @@ import { createTheme } from "./theme";
 import { CssBaseline } from "@mui/material";
 
 import MainRoutes from "./components/routing/MainRoutes";
+import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "@mui/material/styles";
 import "react-toastify/dist/ReactToastify.css";
 import "simplebar-react/dist/simplebar.min.css";
@@ -18,7 +19,9 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Router>
-        <MainRoutes></MainRoutes>
+        <ErrorBoundary>
+          <MainRoutes></MainRoutes>
+        </ErrorBoundary>
       </Router>
       <ToastContainer></ToastContainer>
     </ThemeProvider>
