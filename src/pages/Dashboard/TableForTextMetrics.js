@@ -7,7 +7,7 @@ import {
   TableContainer,
   Box,
 } from "@mui/material";
-import moment from "moment";
+import moment from "moment-timezone";
 import React from "react";
 
 const TableForTextMetrics = ({

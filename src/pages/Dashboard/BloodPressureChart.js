@@ -2,7 +2,7 @@ import React from "react";
 
 import { useSelector } from "react-redux";
 import ReactApexChart from "react-apexcharts";
-import moment from "moment";
+import moment from "moment-timezone";
 const BloodChart = ({
   data,
   filterStartDay,
