@@ -58,4 +58,7 @@ export const apiLogin = (formData) => async (dispatch) => {
 };
 
 // Logout
-export const apiLogout = () => userLogOut();
+export const apiLogout = () => (dispatch) => {
+  setAuthToken(null);
+  dispatch(userLogOut());
+};
