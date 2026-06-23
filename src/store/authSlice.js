@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
-  token: localStorage.getItem("token"),
+  token: localStorage.getItem("smart-metrics-logbook"),
   isAuthenticated: null,
   loading: true,
   user: {},
