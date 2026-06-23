@@ -30,8 +30,11 @@ export const authReducer = createSlice({
       state.loading = false;
       state.user = null;
     },
-    userAuthError: (state, action) => {
+    userAuthError: (state) => {
       state.token = null;
+      state.isAuthenticated = false;
+      state.loading = false;
+      state.user = null;
     },
   },
 });
