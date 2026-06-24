@@ -9,10 +9,17 @@ export const STORAGE_KEY = "smart-metrics-logbook";
 const setAuthToken = (token) => {
   if (token) {
     api.defaults.headers.common["x-auth-token"] = token;
-    localStorage.setItem(STORAGE_KEY, token);
   } else {
+    // Clear from the same `.common` path the header was set on.
     delete api.defaults.headers.common["x-auth-token"];
-    localStorage.removeItem(STORAGE_KEY);
+  }
+  // Guard storage access: localStorage can throw in private mode or non-browser
+  // environments; the in-memory header is the source of truth.
+  try {
+    if (token) localStorage.setItem(STORAGE_KEY, token);
+    else localStorage.removeItem(STORAGE_KEY);
+  } catch (e) {
+    /* ignore storage failures */
   }
 };
 
