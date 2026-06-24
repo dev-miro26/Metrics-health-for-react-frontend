@@ -2,6 +2,7 @@
   "name": "smart-metrics-logbook",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:8000",
   "engines": { "node": ">=16" },
   "dependencies": {
     "@emotion/react": "^11.10.6",
