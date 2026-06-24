@@ -14,8 +14,6 @@ import {
 import { api, toast } from "../utils";
 
 export const apiAddMetric = (formData) => async (dispatch) => {
-  console.log("@@@", formData);
-
   try {
     const res = await api.post("metrics", formData);
 
@@ -30,7 +28,6 @@ export const apiAddMetric = (formData) => async (dispatch) => {
   }
 };
 export const apiUpdateMetric = (formData) => async (dispatch) => {
-  console.log(formData);
   try {
     const res = await api.put("metrics", formData);
 
@@ -106,7 +103,6 @@ export const apiUpdateMetricWage = (formData) => async (dispatch) => {
   try {
     const res = await api.put("metrics/wage", formData);
     await dispatch(apiGetMetricsLastestWagesByUserId());
-    console.log(res.data.doc);
     toast.success(" Metrics is updated!");
     return dispatch(updateMetricsWage(res.data.doc));
   } catch (err) {
